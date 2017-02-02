@@ -23,7 +23,7 @@ exports.run = function(msg) {
             .setTimestamp('')
             .setURL('')
             .addField('\nInvite', "[Invitation Link](https://discordapp.com/oauth2/authorize?client_id=254518325474885632&scope=bot&permissions=8/)", true)
-            .addField("\nGitHub", "soon™", true);
+            .addField("\nGitHub", "[GitHub Link](https://github.com/ShaderWave/Auroria)", true);
 
        msg.channel.sendEmbed(infoEmbed, '', { disableEveryone: true });
 }
