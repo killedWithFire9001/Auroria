@@ -7,6 +7,7 @@ var Discord = require("discord.js");
 exports.run = function(msg) {
   var config = main.config;
   var cmd = config["prefix_" + msg.guild.id];
+  var fs = main.fs;
 
 	let params = msg.content.replace(cmd + "ban ", "").split(" ");
     msg.delete();

@@ -7,6 +7,7 @@ var Discord = require("discord.js");
 exports.run = function(msg) {
   var config = main.config;
   var cmd = config["prefix_" + msg.guild.id];
+  var fs = main.fs;
 
 	let params = msg.content.replace(cmd + "kick ", "").split(" ");
     msg.delete();
@@ -28,7 +29,7 @@ exports.run = function(msg) {
           return;
     }
 
-    let reason = msg.content.replace(params[0] + " ", "").replace(cmd + "ban ", "");
+    let reason = msg.content.replace(params[0] + " ", "").replace(cmd + "kick ", "");
     if (reason == null || reason == "" || params[0] == null || params[1] == null) {
         msg.reply("Command syntax: ** " + cmd + "kick @User Reason**");
         return;
@@ -71,17 +72,17 @@ exports.run = function(msg) {
           const embed = new Discord.RichEmbed()
             .setTitle('')
             .setAuthor( kicker + "#" + msg.author.discriminator, msg.author.avatarURL )
-            .setColor([255, 10, 10])
-            .setDescription(`**Member:** ${kicked}#${user.discriminator}\n**Action:** Ban\n**Reason:** ${reason}`)
+            .setColor([255, 67, 10])
+            .setDescription(`**Member:** ${kicked}#${user.discriminator}\n**Action:** Kick\n**Reason:** ${reason}`)
             .setFooter('Case #' + num, '')
             .setImage('')
-          .setThumbnail( "" )
+          	.setThumbnail( "" )
             .setTimestamp()
             .setURL('')
 
           const embedErr = new Discord.RichEmbed()
             .setTitle('')
-            .setAuthor( banner + "#" + msg.author.discriminator, msg.author.avatarURL )
+            .setAuthor( kicker + "#" + msg.author.discriminator, msg.author.avatarURL )
             .setColor([255, 144, 18])
             .setDescription(`An error has occured while executing the command. Can not Kick-\n(User might have had a higher role)`)
             .setFooter('', '')
@@ -100,7 +101,7 @@ exports.run = function(msg) {
     config["last_case_" + msg.guild.id] = parseInt(config["last_case_" + msg.guild.id])+1;
       fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
 
-        msg.channel.guild.member(user).ban()
+        msg.channel.guild.member(user).kick()
         .catch(err => {
           msg.channel.sendEmbed(embedErr, '', { disableEveryone: true });
           return;
