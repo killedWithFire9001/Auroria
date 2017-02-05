@@ -41,7 +41,8 @@ var commands = new Array(
   "kick",
   "ban",
   "setprefix",
-  "restart"
+  "restart",
+  "die"
 )
 
 exports.commands = commands;
@@ -49,20 +50,21 @@ exports.commands = commands;
 const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 exports.config = config;
 
+var imgurv = require('imgur-search');
+var imgur = new imgurv("2816035836970a2");
 var cleverbot = require("cleverbot.io");
-var CBOT = new cleverbot("--snip--", "--snip--");
+var CBOT = new cleverbot("n3dJN5BLz6Nk87MR", "LvuK3c9MqmnVG8EeG4uX4YtRoUowC0tU");
 exports.CBOT = CBOT;
 var unirest = require('unirest');
 exports.unirest = unirest;
 var bot = new Discord.Client();
 exports.bot = bot;
-var botToken = "--snip--";
+var botToken = "MjU0NTE4MzI1NDc0ODg1NjMy.CyQOMA.eqw0FeAYpdhDbER-khs0lVbHQQA";
 var botId = "254518325474885632";
 
 var isRestartSure = false;
-
 // Makes my life 100x easier.
-var myServerId = "--snip--";
+var myServerId = "236748766835769344";
 
 // MUSIC PART APPLICATION LINK
 var musicApplyLink = "xrubyy.xyz/app";
@@ -71,6 +73,7 @@ var musQueue = {};
 // Dont touch pls
 var canPrune = true;
 
+// Bad words. Add more if you want, Bullet.
 var badWords = new Array(
   "fuck",
   "nigaa",
@@ -131,16 +134,27 @@ var magicEightBall = new Array(
 
 //-----------------------------------------------
 exports.globalAdmin = new Array(
-  "--snip--",
-  "--snip--"
+  "122636185901203456", // Thomas (me)
+  "199417447424458762"  // Bullet
+)
+
+// Add any guild ids (That you can get from !grabid) that are abusing the bot or just are dicks and don't deserve
+// to be allowed use it.
+// Also put the reason below on the other array (make sure they both are on the same line number in the Array)
+var blacklistedGuilds = new Array(
+  "258732399825911808" // RISEN SQUAD
+)
+
+var blacklistReason = new Array(
+  "Absusing the bot's commands/features" // RISEN SQUAD
 )
 
 // Music Bot - Whitelisted Guild IDs
 var musicBotGuilds = new Array(
   "236748766835769344",  // Auroria
-  "254493265988943872",  // MysteryES
-  "261314850213462016",  // Risen Squad
-  "194348087907450881",  // Providence
+  "254493265988943872",  // MysteryES (Andrew's Server for his CSGO team or whatever.)
+  "261314850213462016",  // Risen Squad, Another CS:GO team that Andrew is helping.
+  "194348087907450881",  // Providence (Tarkus' Friends server.)
   "262078744057872404",  // Friend's Server
   "149752455054360576",  // VHS7
   "275650408481947648"   // A Rainbow Dude's server
@@ -190,19 +204,55 @@ bot.on('ready', () => {
   }, 5000);
 
   setInterval(function() {
-      randGameNum = getRandomInt(0, 1);
+      randGameNum = getRandomInt(0, 4);
       randGame = "bug";
 
       if (randGameNum == 0) {
       	randGame = "on " + bot.guilds.size + " servers.";
       } else if (randGameNum == 1) {
       	randGame = "on VHS7";
+      } else if (randGameNum == 2) {
+        randGame = "with Gayna";
+      } else if (randGameNum == 3) {
+        randGame = "on my own";
+      } else if (randGameNum == 4) {
+        randGame = "with a knife";
       }
 
       console.log("Setting game to: " + randGame);
       bot.user.setGame("!help | " + randGame, '');
     }, 15000);
- });
+
+  for (i = 0; i < blacklistedGuilds.length; i++) {
+    let guild = bot.guilds.get(blacklistedGuilds[i]);
+    let reason = blacklistReason[i];
+
+    if (guild == null) {
+      return;
+    }
+
+    const blacklistedEmbed = new Discord.RichEmbed()
+  					.setTitle('-=-=-=-= Error -=-=-=-=')
+  					.setAuthor( bot.user.username, bot.user.avatarURL )
+  					.setColor([255, 28, 28])
+  					.setDescription(`This server (**${guild.name}**) is **blacklisted** from using this bot.`)
+  					.setFooter('', '')
+  					.setImage( "" )
+  					.setThumbnail( "https://s30.postimg.org/54ubfngfl/dc0a6320d907631d34e6655dff176295.png" )
+  					.setTimestamp( '' )
+  					.setURL('')
+  					.addField(`-> Reason`, `**${reason}**`);
+
+    console.log("I am on blacklisted server " + guild.name + "!");
+    guild.defaultChannel.sendEmbed(blacklistedEmbed, '', { disableEveryone: true });
+    guild.defaultChannel.sendMessage("Disconnecting...");
+
+    setTimeout(function(){
+      guild.leave();
+      console.log("I have left the blacklisted server: " + guild.name + "!\n");
+    }, 2000);
+  }
+});
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -236,6 +286,39 @@ bot.on("guildCreate", guild => {
       console.log("I am on an EXTRA LARGE guild (More than 100 members - " + guild.name + ").")
     }
 
+    //BLACKLIST START
+     for (i = 0; i < blacklistedGuilds.length; i++) {
+    let guild = bot.guilds.get(blacklistedGuilds[i]);
+    let reason = blacklistReason[i];
+
+    if (guild == null) {
+      return;
+    }
+
+    const blacklistedEmbed = new Discord.RichEmbed()
+  					.setTitle('-=-=-=-= Error -=-=-=-=')
+  					.setAuthor( bot.user.username, bot.user.avatarURL )
+  					.setColor([255, 28, 28])
+  					.setDescription(`This server (**${guild.name}**) is **blacklisted** from using this bot.`)
+  					.setFooter('', '')
+  					.setImage( "" )
+  					.setThumbnail( "https://s30.postimg.org/54ubfngfl/dc0a6320d907631d34e6655dff176295.png" )
+  					.setTimestamp( '' )
+  					.setURL('')
+  					.addField(`-> Reason`, `**${reason}**`);
+
+    console.log("I am on blacklisted server " + guild.name + "!");
+    guild.defaultChannel.sendEmbed(blacklistedEmbed, '', { disableEveryone: true });
+    guild.defaultChannel.sendMessage("Disconnecting...");
+
+    setTimeout(function(){
+      guild.leave();
+      console.log("I have left the blacklisted server: " + guild.name + "!\n");
+    }, 2000);
+    return;
+  }
+    //BLACKLIST END
+
     guild.defaultChannel.sendMessage("**Hello**! Thank you for adding me to your server.\nI am a Bot created by **Thomas#5368**! (*See !credits*).\nI have lots of features and commands to assist you! (*See !commands*).");
 
 
@@ -245,7 +328,18 @@ bot.on("guildCreate", guild => {
 
 bot.on("guildDelete", guild => {
     console.log("I have just left " + guild.name + "!");
-    guild.owner.sendMessage(`**Hello**,\nI just noticed that I was kicked from your server (${guild.name}).\nAll I want to know is why I was kicked. Was it something wrong with the bot? A bug? A feature was missing that you wanted? You didn't like a certain feature?\nI'd like you to tell me. If you can, please write (In this DM) why you didn't want me on your server. Thanks\n-Thomas.`);
+    let isBlacklisted = false;
+    for (i = 0; i < blacklistedGuilds.length; i++) {
+      if (blacklistedGuilds[i] == guild.id) {
+        isBlacklisted = true;
+      }
+    }
+
+    if (isBlacklisted) {
+      return;
+    } else {
+      guild.owner.sendMessage(`**Hello**,\nI just noticed that I was kicked from your server (${guild.name}).\nAll I want to know is why I was kicked. Was it something wrong with the bot? A bug? A feature was missing that you wanted? You didn't like a certain feature?\nI'd like you to tell me. If you can, please write (In this DM) why you didn't want me on your server. Thanks\n-Thomas.`);
+    }
 
     bot.guilds.get("236748766835769344").channels.get("259456623297298433").sendMessage("**[Server Leave]**\n**Name:** "+ guild.name + ".\n**Member Count:** " + guild.members.size + ".");
     return;
