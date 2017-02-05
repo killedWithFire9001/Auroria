@@ -27,7 +27,6 @@ exports.run = function(msg) {
         }
 
         var messagecount = parseInt(msg.content.replace(cmd + "prune ", ''));
-        msg.reply(messagecount);
         if (messagecount == 0 || msg.content.replace(cmd + "prune ", '') == null || msg.content.replace(cmd + "prune ", '') == " ") {
           msg.reply("```An error has occured:\nReason: You must insert a number more than 0!```");
           return;
