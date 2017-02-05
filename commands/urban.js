@@ -20,7 +20,7 @@ exports.run = function(msg) {
   }
 
   unirest.get("https://mashape-community-urban-dictionary.p.mashape.com/define?term=" + args)
-    .header("X-Mashape-Key", "--snip--")
+    .header("X-Mashape-Key", "-- snip --")
     .header("Accept", "text/plain")
     .end(function (result) {
       if (result.body.result_type == "no_results") {

@@ -42,6 +42,7 @@ var commands = new Array(
   "ban",
   "setprefix",
   "restart",
+  "reload",
   "die"
 )
 
@@ -50,16 +51,14 @@ exports.commands = commands;
 const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 exports.config = config;
 
-var imgurv = require('imgur-search');
-var imgur = new imgurv("2816035836970a2");
 var cleverbot = require("cleverbot.io");
-var CBOT = new cleverbot("n3dJN5BLz6Nk87MR", "LvuK3c9MqmnVG8EeG4uX4YtRoUowC0tU");
+var CBOT = new cleverbot("-- snip --", "-- snip --");
 exports.CBOT = CBOT;
 var unirest = require('unirest');
 exports.unirest = unirest;
 var bot = new Discord.Client();
 exports.bot = bot;
-var botToken = "MjU0NTE4MzI1NDc0ODg1NjMy.CyQOMA.eqw0FeAYpdhDbER-khs0lVbHQQA";
+var botToken = "-- snip --";
 var botId = "254518325474885632";
 
 var isRestartSure = false;
@@ -186,6 +185,17 @@ exports.rollADice = rollADice;
 var randGameNum = 0;
 var randGame = "";
 
+var randGames = new Array(
+  "on <servers> servers.",
+  "for <users> users!",
+  "on <channels> chans!",
+  "with <commands> cmds!",
+  "on VHS7",
+  "with Gayna",
+  "on my own",
+  "with a knife"
+);
+
 // Ready
 bot.on('ready', () => {
   console.log(`--=--=-- BOT ONLINE --=--=-- (${bot.guilds.size} servers)`);
@@ -205,19 +215,16 @@ bot.on('ready', () => {
 
   setInterval(function() {
       randGameNum = getRandomInt(0, 4);
-      randGame = "bug";
 
-      if (randGameNum == 0) {
-      	randGame = "on " + bot.guilds.size + " servers.";
-      } else if (randGameNum == 1) {
-      	randGame = "on VHS7";
-      } else if (randGameNum == 2) {
-        randGame = "with Gayna";
-      } else if (randGameNum == 3) {
-        randGame = "on my own";
-      } else if (randGameNum == 4) {
-        randGame = "with a knife";
+      if (randGame == randGame[randGameNum]) {
+        randGameNum = getRandomInt(0, 4);
       }
+
+      randGame = randGames[randGameNum]
+                  .replace("<servers>", bot.guilds.size)
+                  .replace("<users>", bot.users.size)
+                  .replace("<channels>", bot.channels.size)
+                  .replace("<commands>", commands.length);
 
       console.log("Setting game to: " + randGame);
       bot.user.setGame("!help | " + randGame, '');
@@ -261,18 +268,6 @@ function getRandomInt(min, max) {
 bot.on("guildMemberAdd", member => {
     member.sendMessage("Hello, I am Auroria, the/one of the Bot(s) on the server. I am created by Thomas! (More info in !credits). You can check out my commands by typing !commands. Enjoy your stay on the server!");
     member.guild.defaultChannel.sendMessage("Welcome, <@" + member.id + ">, to **" + member.guild.name + "**!");
-    return;
-});
-
-bot.on("guildBanAdd", (guild, user) => {
-    guild.defaultChannel.sendMessage("**Server Ban**: " + user.username + " was just banned.");
-    console.log(user.username + " was just banned from " + guild.name + "!");
-    return;
-});
-
-bot.on("guildBanRemove", (guild, user) => {
-    guild.defaultChannel.sendMessage("**Server Un-Ban**: " + user.username + " was just unbanned.");
-    console.log(user.username + " was just un-banned from " + guild.name + "!");
     return;
 });
 
@@ -351,7 +346,6 @@ bot.on("error", error => {
 
 // Message event
 bot.on("message", msg => {
-
   if (msg.channel.type == "dm" || msg.channel.type == "group") {
     if (msg.author.id == botId) {
       return;
@@ -413,6 +407,25 @@ bot.on("message", msg => {
        return;
      }
 
+    if (msg.mentions.users.first() != null || msg.mentions.users.first() != undefined) {
+      if (msg.mentions.users.first().id == bot.user.id) {
+        if (msg.content.replace("<@" + msg.mentions.users.first().id + "> ", "") == "prefix") {
+          msg.reply("This server's prefix: '" + cmd + "'.");
+        } else if (msg.content.replace("<@" + msg.mentions.users.first().id + "> ", "") == "globaladmins") {
+          let toSend = [];
+
+          for (i = 0; i < this.globalAdmin.length; i++) {
+            toSend.push("<@" + this.globalAdmin[i] + "> (" + this.globalAdmin[i] + ").");
+          }
+
+          msg.reply("Global Admins: " + toSend.join(", "));
+        } else if (msg.content.replace("<@" + msg.mentions.users.first().id + "> ", "") == "<@" + msg.mentions.users.first().id + ">"){
+          msg.reply("Mention commands: prefix, globaladmins");
+        }
+        return;
+      }
+    }
+
 //--------------------------------------------------------------------------------------------------------------------------
 
     // Commands
@@ -426,8 +439,9 @@ bot.on("message", msg => {
       var file = require("./commands/" + args[0] + ".js");
 
       file.run(msg);
+      console.log(msg.author.username + " ran the " + args[0] + " command on " + msg.guild.name + ".");
       return;
-    } else if(msg.content.startsWith(cmd) && commands.indexOf(args[0]) == -1) {
+    } else if (commands.indexOf(args[0]) == -1) {
       msg.reply('That command does not exist!');
       return;
     }

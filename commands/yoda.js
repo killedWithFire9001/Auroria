@@ -17,10 +17,10 @@ exports.run = function(msg) {
   }
 
   unirest.get("https://yoda.p.mashape.com/yoda?sentence=" + args.replace(" ", "+"))
-    .header("X-Mashape-Key", "--snip--")
+    .header("X-Mashape-Key", "-- snip --")
     .header("Accept", "text/plain")
     .end(function (result) {
-      if (result.body.title == "Application Error") {
+      if (result.code != 200) {
         const embedErr = new Discord.RichEmbed()
           .setTitle('-=-=-=-= Yoda Speak -=-=-=-=')
           .setAuthor( msg.author.username, msg.author.avatarURL )
@@ -31,7 +31,7 @@ exports.run = function(msg) {
           .setThumbnail( "" )
           .setTimestamp( '' )
           .setURL('')
-          .addField(`-> Error:`, `**Recieved weird response - API must be down ;-;**`);
+          .addField(`-> Error:`, `**API must be down ;-;**`);
 
         return msg.channel.sendEmbed(embedErr, '', { disableEveryone: true });
       }

@@ -43,7 +43,7 @@ exports.run = function(msg) {
   					.addField("-> Music", "connect, disconnect, queue, remqueue, playsong, pause, resume, skip, volume")
   					.addField("-> Moderation", "prune, kick, ban")
   					.addField("-> Bot Settings", "setprefix")
-  					.addField("-> Bot Owner", "restart");
+  					.addField("-> Bot Owner", "restart, reload, die");
 
   		msg.channel.sendEmbed(embed, '', { disableEveryone: true });
   }
