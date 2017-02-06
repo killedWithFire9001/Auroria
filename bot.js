@@ -9,6 +9,9 @@ exports.ytdl = ytdl;
 const fs = require("fs")
 exports.fs = fs;
 
+var talkedRecently = [];
+exports.talkedRecently = talkedRecently;
+
 var commands = new Array(
   "help",
   "info",
@@ -454,6 +457,17 @@ bot.on("message", msg => {
     if (!msg.content.startsWith(cmd)) return;
 
     if (commands.indexOf(args[0]) != -1) {
+      if (talkedRecently.includes(msg.author.id)) {
+        msg.reply("Slow down!")
+        return;
+      } else {
+        talkedRecently.push(msg.author.id);
+        setTimeout(() => {
+          const index = talkedRecently.indexOf(msg.author.id);
+          talkedRecently.splice(index, 1);
+        }, 2500);
+      }
+
       if (args[0] == "skip" || args[0] == "volume" || args[0] == "resume" || args[0] == "pause") return;
 
       var file = require("./commands/" + args[0] + ".js");
