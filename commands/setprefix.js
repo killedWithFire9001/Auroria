@@ -1,7 +1,7 @@
 exports.desc = "Owners can change the command prefix.";
 exports.syntax = "setprefix (pref)"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
@@ -10,8 +10,6 @@ exports.run = function(msg) {
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
   var fs = main.fs;	
-
- console.log(`${msg.author.username} has attempted to use the Set Prefix command on ${msg.channel.guild.name}`);
 
 		if (msg.guild.owner.id != msg.author.id) {
 			msg.reply("Only the Server Owner can run this command.");

@@ -1,7 +1,7 @@
 exports.desc = "Get the invite link to add this bot to your server.";
 exports.syntax = "invite"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
@@ -10,7 +10,6 @@ exports.run = function(msg) {
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
 
-  console.log(`${msg.author.username} has used the Invite command on ${msg.channel.guild.name}`);
        msg.delete();
        const infoEmbed = new Discord.RichEmbed()
             .setTitle('Auroria - Invite')

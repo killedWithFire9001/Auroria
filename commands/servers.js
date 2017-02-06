@@ -1,7 +1,7 @@
 exports.desc = "List all of the servers I am connected to.";
 exports.syntax = "servers"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
@@ -9,8 +9,7 @@ exports.run = function(msg) {
   var config = main.config;
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
-
-  console.log(`${msg.author.username} has used the Servers command on ${msg.channel.guild.name}`);
+  
        var serversActual = Array.from(bot.guilds.values());
 
        const embed = new Discord.RichEmbed()

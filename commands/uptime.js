@@ -1,7 +1,7 @@
 exports.desc = "See how long the bot has been up for.";
 exports.syntax = "uptime"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
@@ -10,7 +10,6 @@ exports.run = function(msg) {
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
 
-  console.log(`${msg.author.username} has used the Uptime command on ${msg.channel.guild.name}`);
        const embed = new Discord.RichEmbed()
             .setTitle('-=-=-=-= Bot Uptime -=-=-=-=')
             .setAuthor( msg.author.username, msg.author.avatarURL )

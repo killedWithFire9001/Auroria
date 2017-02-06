@@ -2,7 +2,7 @@ exports.desc = "Eval, what else to say?";
 exports.syntax = "eval (args)";
 
 exports.run = function(msg) {
-  var main = require("C:/BOT/bot.js");
+  var main = require("../bot.js");
   var Discord = main.Discord;
   var bot = main.bot;
   let config = main.config;

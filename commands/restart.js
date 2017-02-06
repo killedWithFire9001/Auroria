@@ -1,7 +1,7 @@
 exports.desc = "Restart the bot.";
 exports.syntax = "restart"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {

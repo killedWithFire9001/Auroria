@@ -1,7 +1,7 @@
 exports.desc = "Recieve information about this bot.";
 exports.syntax = "info"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
@@ -11,7 +11,6 @@ exports.run = function(msg) {
   var musQueue = main.musQueue;
 
   msg.delete();
-       console.log(`${msg.author.username} has used the Info command on ${msg.channel.guild.name}`);
        const infoEmbed = new Discord.RichEmbed()
             .setTitle('Auroria - Info')
             .setAuthor( "", "" )

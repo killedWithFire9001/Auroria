@@ -1,7 +1,7 @@
 exports.desc = "Take a look at all the commands or recieve help for a specific command.";
 exports.syntax = "help [command]"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {

@@ -1,7 +1,7 @@
 exports.desc = "Random Kitty Gif.";
 exports.syntax = "kittygf"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {

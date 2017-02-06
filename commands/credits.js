@@ -1,7 +1,7 @@
 exports.desc = "Take a look at the people who made this bot possible!";
 exports.syntax = "credits"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
@@ -9,8 +9,7 @@ exports.run = function(msg) {
   var config = main.config;
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
-
-  console.log(`${msg.author.username} has used the Credits command on ${msg.channel.guild.name}`);
+  
        msg.reply('```Check your DMs for the credits list```');
        const creditsEmbed = new Discord.RichEmbed()
             .setTitle('Credits List')

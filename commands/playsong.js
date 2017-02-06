@@ -1,7 +1,7 @@
 exports.desc = "Begin playing a song (provide a link) OR search for a song to play (query)";
 exports.syntax = "playsong (link OR query)"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
@@ -14,7 +14,6 @@ exports.run = function(msg) {
   var musQueue = main.musQueue;
   var musicApplyLink = "xrubyy.xyz/app";
 
-  console.log(`${msg.author.username} has used the Play Song command on ${msg.channel.guild.name}`);
        var canPlay = false;
 
        for (var i = 0; i < musicBotGuilds.length && !canPlay; i++) {

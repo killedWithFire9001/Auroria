@@ -2,10 +2,8 @@ exports.desc = "Talk to Cleverbot!";
 exports.syntax = "cleverbot (talking stuff)"
 
 exports.run = function(msg) {
-  var main = require("C:/BOT/bot.js");
+  var main = require("../bot.js");
   var CBOT = main.CBOT;
-
-  console.log(`${msg.author.username} has attempted to use the Cleverbot command on ${msg.channel.guild.name}`);
 
   let args = msg.content.replace(main.cmd + "cleverbot ", "");
 

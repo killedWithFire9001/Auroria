@@ -2,9 +2,8 @@ exports.desc = "Look up information about an IP address.";
 exports.syntax = "iplookup (ip)"
 
 exports.run = function(msg) {
-  console.log(`${msg.author.username} has used the IP Lookup command on ${msg.channel.guild.name}`);
 
-  let main = require('C:/BOT/bot.js');
+  let main = require('../bot.js');
   var unirest = main.unirest;
   let config = main.config;
   var Discord = main.Discord;

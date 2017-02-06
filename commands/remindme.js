@@ -1,7 +1,7 @@
 exports.desc = "The bot will remind you after a certain amount of time.";
 exports.syntax = "remindme (time) (message)"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {

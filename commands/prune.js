@@ -1,7 +1,7 @@
 exports.desc = "Prune (delete) a specific amount of messages in the current channel.";
 exports.syntax = "prune (amount)"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {

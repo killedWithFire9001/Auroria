@@ -2,9 +2,7 @@ exports.desc = "Search the Urban Dictionary.";
 exports.syntax = "urban (word)"
 
 exports.run = function(msg) {
-  console.log(`${msg.author.username} has used the Urban command on ${msg.channel.guild.name}`);
-  
-  let main = require('C:/BOT/bot.js');
+  let main = require('../bot.js');
   var unirest = main.unirest;
   let config = main.config;
   var Discord = main.Discord;

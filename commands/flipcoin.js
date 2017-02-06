@@ -1,7 +1,7 @@
 exports.desc = "Flip a coin.";
 exports.syntax = "flipcoin"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
@@ -10,9 +10,7 @@ exports.run = function(msg) {
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
   var flipACoin = main.flipACoin;
-
- console.log(`${msg.author.username} has used the Flip Coin command on ${msg.channel.guild.name}`);
-
+  
      var flipCoinResult = Math.floor(Math.random()*flipACoin.length);
        const embed = new Discord.RichEmbed()
             .setTitle('')

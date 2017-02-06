@@ -1,7 +1,7 @@
 exports.desc = "Get the time it takes for the bot to respond after you send a command!";
 exports.syntax = "ping"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
@@ -16,7 +16,6 @@ exports.run = function(msg) {
           sender = msg.channel.guild.member(msg.author).nickname;
        }
        msg.delete();
-       console.log(`${msg.author.username} has used the Ping command on ${msg.channel.guild.name}`);
        let ping = Date.now()-msg.createdTimestamp;
        let time = ping/1000;
          // SEXC EMBEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD

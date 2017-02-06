@@ -1,7 +1,7 @@
 exports.desc = "Get the bot to disconnect from your voice channel.";
 exports.syntax = "disconnect"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
@@ -9,8 +9,7 @@ exports.run = function(msg) {
   var config = main.config;
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
-
-  console.log(`${msg.author.username} has used the Disconnect command on ${msg.channel.guild.name}`);
+  
       var canPlay = false;
 
       for (var i = 0; i < musicBotGuilds.length && !canPlay; i++) {

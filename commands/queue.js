@@ -1,7 +1,7 @@
 exports.desc = "View the song queue";
 exports.syntax = "queue"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {

@@ -1,7 +1,7 @@
 exports.desc = "Kills the bot.";
 exports.syntax = "die"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 const exec = require('child_process').exec;
 

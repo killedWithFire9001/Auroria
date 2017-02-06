@@ -1,7 +1,7 @@
 exports.desc = "Ban someone from the server.";
 exports.syntax = "ban (@person) (reason)"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {

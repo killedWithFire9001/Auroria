@@ -1,7 +1,7 @@
 exports.desc = "Take a look at some information about the current server.";
 exports.syntax = "serverinfo"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
@@ -9,7 +9,6 @@ exports.run = function(msg) {
   var config = main.config;
   var cmd = config["prefix_" + msg.guild.id];
 
-  console.log(`${msg.author.username} has used the Server Info command on ${msg.channel.guild.name}`);
        var sender = "";
        if (msg.channel.guild.member(msg.author).nickname == null) {
           sender = msg.author.username;

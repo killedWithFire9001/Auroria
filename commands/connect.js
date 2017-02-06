@@ -1,7 +1,7 @@
 exports.desc = "Get the bot to connect to your voice channel.";
 exports.syntax = "connect"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {

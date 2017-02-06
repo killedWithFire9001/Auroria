@@ -1,7 +1,7 @@
 exports.desc = "Roll a dice!";
 exports.syntax = "rolldice"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
@@ -10,8 +10,6 @@ exports.run = function(msg) {
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
   var rollADice = main.rollADice;
-
-   console.log(`${msg.author.username} has used the Roll Dice command on ${msg.channel.guild.name}`);
 
        var rollDiceResult = Math.floor(Math.random()*rollADice.length);
        const embed = new Discord.RichEmbed()

@@ -1,7 +1,7 @@
 exports.desc = "Remove a specific song from the queue.";
 exports.syntax = "remqueue (song_num)"
 
-var main = require("C:/BOT/bot.js");
+var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
@@ -9,8 +9,6 @@ exports.run = function(msg) {
   var config = main.config;
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
-
-  console.log(`${msg.author.username} has used the Remove Queue command on ${msg.channel.guild.name}.`);
 
       if (msg.guild.roles.find("name", "Staff") == null) {
         msg.reply('```An error has occured\nReason: Role: Staff does not exist. Contact the server owner and get him/her to create it.```')

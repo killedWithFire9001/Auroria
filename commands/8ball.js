@@ -2,12 +2,10 @@ exports.desc = "Ask the 8ball a question, it will give you an answer!";
 exports.syntax = "8ball (question)"
 
 exports.run = function(msg) {
-	var main = require("C:/BOT/bot.js");
+	var main = require("../bot.js");
 	var magicEightBall = main.magicEightBall;
   	var rollADice = main.rollADice;
   	var Discord = main.Discord;
-
-    console.log(`${msg.author.username} has used the 8ball command on ${msg.channel.guild.name}`);
 
        var magicEightBallResult = Math.floor(Math.random()*magicEightBall.length);
        const embed = new Discord.RichEmbed()
