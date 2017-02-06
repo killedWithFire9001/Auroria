@@ -430,22 +430,24 @@ bot.on("message", msg => {
      }
 
     if (msg.mentions.users.first() != null || msg.mentions.users.first() != undefined) {
-      if (msg.mentions.users.first().id == bot.user.id) {
-        if (msg.content.replace("<@" + msg.mentions.users.first().id + "> ", "") == "prefix") {
-          msg.reply("This server's prefix: '" + cmd + "'.");
-        } else if (msg.content.replace("<@" + msg.mentions.users.first().id + "> ", "") == "globaladmins") {
-          let toSend = [];
+      if (!msg.content.startsWith(cmd)) {
+        if (msg.mentions.users.first().id == bot.user.id) {
+          if (msg.content.replace("<@" + msg.mentions.users.first().id + "> ", "") == "prefix") {
+            msg.reply("This server's prefix: '" + cmd + "'.");
+          } else if (msg.content.replace("<@" + msg.mentions.users.first().id + "> ", "") == "globaladmins") {
+            let toSend = [];
 
-          for (i = 0; i < this.globalAdmin.length; i++) {
-            let user = bot.users.get(this.globalAdmin[i]);
-            toSend.push(user.username + "#" + user.discriminator);
+            for (i = 0; i < this.globalAdmin.length; i++) {
+              let user = bot.users.get(this.globalAdmin[i]);
+              toSend.push(user.username + "#" + user.discriminator);
+            }
+
+            msg.reply("Global Admins: " + toSend.join(", "));
+          } else if (msg.content.replace("<@" + msg.mentions.users.first().id + "> ", "") == "<@" + msg.mentions.users.first().id + ">"){
+            msg.reply("Mention commands: prefix, globaladmins");
           }
-
-          msg.reply("Global Admins: " + toSend.join(", "));
-        } else if (msg.content.replace("<@" + msg.mentions.users.first().id + "> ", "") == "<@" + msg.mentions.users.first().id + ">"){
-          msg.reply("Mention commands: prefix, globaladmins");
+          return;
         }
-        return;
       }
     }
 
