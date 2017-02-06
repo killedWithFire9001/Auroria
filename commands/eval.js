@@ -34,7 +34,27 @@ exports.run = function(msg) {
     });
 
     if (evalRes.includes(main.bot.token)) {
-      evalRes = evalRes.replace(main.bot.token, "--snipped token--");
+      evalRes = evalRes.replace(main.bot.token, "--snipped token--");           // Same thing
+    }                                                                           // <-- Whatever - more security? :p.
+
+    if (evalRes.includes(main.auth["bot-token"])) {
+      evalRes = evalRes.replace(main.auth["bot-token"], "--snipped token--");
+    }
+
+    if (evalRes.includes(main.auth["mashape-key"])) {
+      evalRes = evalRes.replace(main.auth["mashape-key"], "--snipped token--");
+    }
+
+    if (evalRes.includes(main.auth["cleverbot-token"])) {
+      evalRes = evalRes.replace(main.auth["cleverbot-token"], "--snipped token--");
+    }
+
+    if (evalRes.includes(main.auth["cleverbot-password"])) {
+      evalRes = evalRes.replace(main.auth["cleverbot-password"], "--snipped token--");
+    }
+
+    if (evalRes.includes(main.auth["giphy-key"])) {
+      evalRes = evalRes.replace(main.auth["giphy-key"], "--snipped token--");
     }
 
     const embed = new Discord.RichEmbed()
