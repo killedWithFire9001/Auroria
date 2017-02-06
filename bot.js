@@ -459,7 +459,7 @@ bot.on("message", msg => {
     if (commands.indexOf(args[0]) != -1) {
       if (talkedRecently.includes(msg.author.id)) {
         msg.reply("Slow down!")
-        return;
+        return; 
       } else {
         talkedRecently.push(msg.author.id);
         setTimeout(() => {
@@ -468,9 +468,11 @@ bot.on("message", msg => {
         }, 2500);
       }
 
+      let index = commands.indexOf(args[0]);
+
       if (args[0] == "skip" || args[0] == "volume" || args[0] == "resume" || args[0] == "pause") return;
 
-      var file = require("./commands/" + args[0] + ".js");
+      var file = require("./commands/" + commands[index] + ".js");
 
       file.run(msg);
       console.log(msg.author.username + " ran the " + args[0] + " command on " + msg.guild.name + ".");
