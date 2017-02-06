@@ -42,26 +42,6 @@ exports.run = function(msg) {
       msg.channel.sendEmbed(embed, '' , { disableEveryone: true });
       return;
     } else {
-      if (args[0] == "main") {
-        delete require.cache[require.resolve(`C:/BOT/bot.js`)];
-        console.log("Commands> Main file reloaded by " + msg.author.username + "#" + msg.author.discriminator);
-
-        const embedMain = new Discord.RichEmbed()
-            .setTitle('-=-=-=-=-= Bot Reload =-=-=-=-=-')
-            .setAuthor( msg.author.username + "#" + msg.author.discriminator, msg.author.avatarURL )
-            .setColor([121, 212, 242])
-            .setDescription(``)
-            .setFooter('', '')
-            .setImage('')
-            .setThumbnail( "" )
-            .setTimestamp( '' )
-            .setURL('')
-            .addField("-> Reload", `**Main file** was reloaded!`);
-
-        msg.channel.sendEmbed(embedMain, '', { disableEveryone: true });
-        return;
-      }
-
       msg.channel.sendMessage("That command does not exist, please specify one to reload!");
       return;
     }

@@ -17,7 +17,7 @@ exports.run = function(msg) {
   }
 
   unirest.get("https://yoda.p.mashape.com/yoda?sentence=" + args.replace(" ", "+"))
-    .header("X-Mashape-Key", "-- snip --")
+    .header("X-Mashape-Key", main.auth["mashape-key"])
     .header("Accept", "text/plain")
     .end(function (result) {
       if (result.code != 200) {

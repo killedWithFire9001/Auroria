@@ -33,17 +33,17 @@ exports.run = function(msg) {
   					.setAuthor( "", "" )
   					.setColor([121, 212, 242])
   					.setDescription(``)
-  					.setFooter('', '')
+  					.setFooter(msg.author.username + "#" + msg.author.discriminator, msg.author.avatarURL)
   					.setImage('')
  					  .setThumbnail( "" )
   					.setTimestamp( '' )
   					.setURL('')
-  					.addField("-> General", 'help, info, invite, credits, serverinfo, servers, ping, uptime, avatar')
-  					.addField("-> Fun", 'rps, rolldice, flipcoin, cleverbot, 8ball, urban, yoda, lovecalc, iplookup')
+  					.addField("-> General", 'help, info, invite, credits, serverinfo, servers, ping, uptime, avatar, remindme')
+  					.addField("-> Fun", 'rps, rolldice, flipcoin, cleverbot, 8ball, urban, yoda, lovecalc, iplookup, kittygif')
   					.addField("-> Music", "connect, disconnect, queue, remqueue, playsong, pause, resume, skip, volume")
   					.addField("-> Moderation", "prune, kick, ban")
   					.addField("-> Bot Settings", "setprefix")
-  					.addField("-> Bot Owner", "restart, reload, die");
+  					.addField("-> Bot Owner", "restart, reload, die, eval");
 
   		msg.channel.sendEmbed(embed, '', { disableEveryone: true });
   }

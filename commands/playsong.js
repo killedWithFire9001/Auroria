@@ -12,6 +12,7 @@ exports.run = function(msg) {
   var ytdl = main.ytdl;
   var musicBotGuilds = main.musicBotGuilds;
   var musQueue = main.musQueue;
+  var musicApplyLink = "xrubyy.xyz/app";
 
   console.log(`${msg.author.username} has used the Play Song command on ${msg.channel.guild.name}`);
        var canPlay = false;

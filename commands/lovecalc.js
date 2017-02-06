@@ -17,7 +17,7 @@ exports.run = function(msg) {
   }
 
   unirest.get("https://love-calculator.p.mashape.com/getPercentage?fname=" + args[0] + "&sname=" + args[1])
-    .header("X-Mashape-Key", "-- snip --")
+    .header("X-Mashape-Key", main.auth["mashape-key"])
     .header("Accept", "application/json")
     .end(function (result) {
         const embed = new Discord.RichEmbed()

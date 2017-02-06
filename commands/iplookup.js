@@ -17,7 +17,7 @@ exports.run = function(msg) {
   }
 
   unirest.post("https://community-neutrino-ip-info.p.mashape.com/ip-info")
-    .header("X-Mashape-Key", "-- snip --")
+    .header("X-Mashape-Key", main.auth["mashape-key"])
     .header("Content-Type", "application/x-www-form-urlencoded")
     .header("Accept", "application/json")
     .send("ip=" + args)

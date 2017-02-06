@@ -7,7 +7,8 @@ var Discord = require("discord.js");
 exports.run = function(msg) {
        var config = main.config;
        var cmd = config["prefix_" + msg.guild.id];
-
+       var isRestartSure = main.isRestartSure;
+       
        var isGlobalAdmin = false;
 
        length = main.globalAdmin.length;

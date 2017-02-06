@@ -43,7 +43,10 @@ var commands = new Array(
   "setprefix",
   "restart",
   "reload",
-  "die"
+  "eval",
+  "die",
+  "kittygif",
+  "remindme"
 )
 
 exports.commands = commands;
@@ -51,22 +54,25 @@ exports.commands = commands;
 const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 exports.config = config;
 
+const auth = JSON.parse(fs.readFileSync('./auth.json', 'utf8'));
+exports.auth = auth;
+
 var cleverbot = require("cleverbot.io");
-var CBOT = new cleverbot("-- snip --", "-- snip --");
+var CBOT = new cleverbot(auth["cleverbot-token"], auth["cleverbot-password"]);
 exports.CBOT = CBOT;
 var unirest = require('unirest');
 exports.unirest = unirest;
 var bot = new Discord.Client();
 exports.bot = bot;
-var botToken = "-- snip --";
+var botToken = auth["bot-token"];
 var botId = "254518325474885632";
 
 var isRestartSure = false;
+exports.isRestartSure = isRestartSure;
 // Makes my life 100x easier.
 var myServerId = "236748766835769344";
 
 // MUSIC PART APPLICATION LINK
-var musicApplyLink = "xrubyy.xyz/app";
 var musQueue = {};
 
 // Dont touch pls
@@ -156,7 +162,8 @@ var musicBotGuilds = new Array(
   "194348087907450881",  // Providence (Tarkus' Friends server.)
   "262078744057872404",  // Friend's Server
   "149752455054360576",  // VHS7
-  "275650408481947648"   // A Rainbow Dude's server
+  "275650408481947648",  // A Rainbow Dude's server
+  "272886070427779073"   // Cosmic Dev Server
 )
 
 exports.musicBotGuilds = musicBotGuilds;
@@ -268,6 +275,18 @@ function getRandomInt(min, max) {
 bot.on("guildMemberAdd", member => {
     member.sendMessage("Hello, I am Auroria, the/one of the Bot(s) on the server. I am created by Thomas! (More info in !credits). You can check out my commands by typing !commands. Enjoy your stay on the server!");
     member.guild.defaultChannel.sendMessage("Welcome, <@" + member.id + ">, to **" + member.guild.name + "**!");
+    return;
+});
+
+bot.on("guildBanAdd", (guild, user) => {
+    guild.defaultChannel.sendMessage("**Server Ban**: " + user.username + " was just banned.");
+    console.log(user.username + " was just banned from " + guild.name + "!");
+    return;
+});
+
+bot.on("guildBanRemove", (guild, user) => {
+    guild.defaultChannel.sendMessage("**Server Un-Ban**: " + user.username + " was just unbanned.");
+    console.log(user.username + " was just un-banned from " + guild.name + "!");
     return;
 });
 
@@ -415,7 +434,8 @@ bot.on("message", msg => {
           let toSend = [];
 
           for (i = 0; i < this.globalAdmin.length; i++) {
-            toSend.push("<@" + this.globalAdmin[i] + "> (" + this.globalAdmin[i] + ").");
+            let user = bot.users.get(this.globalAdmin[i]);
+            toSend.push(user.username + "#" + user.discriminator);
           }
 
           msg.reply("Global Admins: " + toSend.join(", "));
