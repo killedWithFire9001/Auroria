@@ -477,9 +477,6 @@ bot.on("message", msg => {
       file.run(msg);
       console.log(msg.author.username + " ran the " + args[0] + " command on " + msg.guild.name + ".");
       return;
-    } else if (commands.indexOf(args[0]) == -1) {
-      msg.reply('That command does not exist!');
-      return;
     }
 });
 
