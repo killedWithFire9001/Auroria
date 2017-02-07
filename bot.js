@@ -58,7 +58,8 @@ var commands = new Array(
   "die",
   "kittygif",
   "remindme",
-  "speakerphone"
+  "speakerphone",
+  "clean"
 )
 
 exports.commands = commands;
@@ -498,7 +499,7 @@ bot.on("message", msg => {
 
     if (commands.indexOf(args[0]) != -1) {
       if (talkedRecently.includes(msg.author.id)) {
-        msg.reply("Slow down!")
+        msg.channel.sendMessage(msg.author.username + "- Please don't run commands so quickly.");
         return; 
       } else {
         talkedRecently.push(msg.author.id);

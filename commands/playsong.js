@@ -127,29 +127,29 @@ exports.run = function(msg) {
                  ];
                }
                  const songAdded = new Discord.RichEmbed()
-            .setTitle('-=-=-=-= Queue Update -=-=-=-=')
-            .setAuthor( sender, msg.author.avatarURL )
-            .setColor(0x00AE86)
-            .setDescription('\n')
-            .setFooter('', '')
-            .setImage( "" )
-            .setThumbnail( info.thumbnail_url )
-            .setTimestamp()
-            .setURL('')
-            .addField('-> New Song Added:', info.title, false)
-            .addField('-> URL:', url, false)
-            .addField('-> Requested By:', sender, false);
+                  .setTitle('-=-=-=-= Queue Update -=-=-=-=')
+                  .setAuthor( sender, msg.author.avatarURL )
+                  .setColor(0x00AE86)
+                  .setDescription('\n')
+                  .setFooter('', '')
+                  .setImage( "" )
+                  .setThumbnail( info.thumbnail_url )
+                  .setTimestamp()
+                  .setURL('')
+                  .addField('-> New Song Added:', info.title, false)
+                  .addField('-> URL:', url, false)
+                  .addField('-> Requested By:', sender, false);
 
-           const queueCompleted = new Discord.RichEmbed()
-            .setTitle('Queue Complete')
-            .setAuthor( bot.user.username, bot.user.avatarURL )
-            .setColor(0x00AE86)
-            .setDescription('\nQueue Complete. **Disconnecting from Voice Channel**')
-            .setFooter('', '')
-            .setImage( "" )
-            .setThumbnail( "" )
-            .setTimestamp()
-            .setURL('');
+                 const queueCompleted = new Discord.RichEmbed()
+                  .setTitle('Queue Complete')
+                  .setAuthor( bot.user.username, bot.user.avatarURL )
+                  .setColor(0x00AE86)
+                  .setDescription('\nQueue Complete. **Disconnecting from Voice Channel**')
+                  .setFooter('', '')
+                  .setImage( "" )
+                  .setThumbnail( "" )
+                  .setTimestamp()
+                  .setURL('');
 
                  msg.channel.sendEmbed(
                   songAdded,
