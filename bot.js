@@ -9,6 +9,8 @@ exports.ytdl = ytdl;
 const fs = require("fs")
 exports.fs = fs;
 
+const chalk = require('chalk');
+
 var talkedRecently = [];
 exports.talkedRecently = talkedRecently;
 
@@ -483,8 +485,10 @@ bot.on("message", msg => {
     }
 
 //--------------------------------------------------------------------------------------------------------------------------
-      if (speakerPhoneConnections[msg.guild.id] != undefined) {
-        bot.guilds.get(speakerPhoneConnections[msg.guild.id]).channels.get(speakerPhoneConnections[msg.guild.id + "-channel"]).sendMessage(":telephone_receiver: **" + msg.author.username + "#" + msg.author.discriminator + "**: " + msg.content);
+      if (typeof speakerPhoneConnections[msg.guild.id] != undefined && typeof speakerPhoneConnections[msg.guild.id + "-channel"] != undefined) {
+        if (bot.guilds.get(speakerPhoneConnections[msg.guild.id]) != undefined) {
+          bot.guilds.get(speakerPhoneConnections[msg.guild.id]).channels.get(speakerPhoneConnections[msg.guild.id + "-channel"]).sendMessage(":telephone_receiver: **" + msg.author.username + "#" + msg.author.discriminator + "**: " + msg.content);
+        }
       }
 
     // Commands
@@ -511,7 +515,7 @@ bot.on("message", msg => {
       var file = require("./commands/" + commands[index] + ".js");
 
       file.run(msg);
-      console.log(msg.author.username + " ran the " + args[0] + " command on " + msg.guild.name + ".");
+      console.log("[" + new Date(msg.createdTimestamp).toLocaleTimeString() + "] Commands> " + msg.author.username + " ran the " + args[0] + " command on " + msg.guild.name + ".");
       return;
     }
 });
