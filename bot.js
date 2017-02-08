@@ -43,7 +43,7 @@ var commands = new Array(
   "disconnect",
   "queue",
   "remqueue",
-  "playsong",
+  "play",
   "pause",
   "resume",
   "skip",
@@ -401,7 +401,7 @@ bot.on("message", msg => {
       var canSwear = false;
       while(length--) {
         if (msg.content.toLowerCase().indexOf(badWords[length])!=-1) {
-          if (!msg.content.toLowerCase().includes(cmd + "playsong")) {
+          if (!msg.content.toLowerCase().includes(cmd + "play")) {
           if (msg.channel.guild.id == "110373943822540800" || msg.channel.guild.id == "254493265988943872" || msg.channel.guild.id == "149752455054360576" || msg.author.id == botId || msg.channel.guild.id == "194348087907450881") { // Disable on Discord Bots and misc. servers that don't want it
             canSwear = true;
           } else {
