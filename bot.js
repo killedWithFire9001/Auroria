@@ -239,10 +239,8 @@ bot.on('ready', () => {
       let guildOne = Object.keys(speakerPhoneSearching)[0];
       let guildTwo = Object.keys(speakerPhoneSearching)[1];
 
-
-      let chanOne = speakerPhoneSearching[guildOne];
-      let chanTwo = speakerPhoneSearching[guildTwo];
-
+      let chanOne = speakerPhoneSearching[Object.keys(speakerPhoneSearching)[0]];
+      let chanTwo = speakerPhoneSearching[Object.keys(speakerPhoneSearching)[1]];
 
       bot.guilds.get(guildOne).channels.get(chanOne).sendMessage(":telephone_receiver: The other party picked up! Say hi!");
       bot.guilds.get(guildTwo).channels.get(chanTwo).sendMessage(":telephone_receiver: The other party picked up! Say hi!");
@@ -251,6 +249,7 @@ bot.on('ready', () => {
       speakerPhoneConnections[guildOne + "-channel"] = chanTwo;
       speakerPhoneConnections[guildTwo] = chanOne;
       speakerPhoneConnections[guildTwo + "-channel"] = chanOne;
+
 
       speakerPhoneSearching = speakerPhoneSearching.splice(Object.keys(speakerPhoneSearching)[0], 1);
       speakerPhoneSearching = speakerPhoneSearching.splice(Object.keys(speakerPhoneSearching)[1], 1);
@@ -462,7 +461,7 @@ bot.on("message", msg => {
     }
 
 //--------------------------------------------------------------------------------------------------------------------------
-      if (typeof speakerPhoneConnections[msg.guild.id] != undefined && typeof speakerPhoneConnections[msg.guild.id + "-channel"] != undefined) {
+      if (speakerPhoneConnections[msg.guild.id] != undefined && speakerPhoneConnections[msg.guild.id + "-channel"] != undefined) {
         if (bot.guilds.get(speakerPhoneConnections[msg.guild.id]) != undefined) {
           bot.guilds.get(speakerPhoneConnections[msg.guild.id]).channels.get(speakerPhoneConnections[msg.guild.id + "-channel"]).sendMessage(":telephone_receiver: **" + msg.author.username + "#" + msg.author.discriminator + "**: " + msg.content);
         }
