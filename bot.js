@@ -274,36 +274,6 @@ bot.on('ready', () => {
       console.log("Setting game to: " + randGame);
       bot.user.setGame("!help | " + randGame, '');
     }, 15000);
-
-  for (i = 0; i < blacklistedGuilds.length; i++) {
-    let guild = bot.guilds.get(blacklistedGuilds[i]);
-    let reason = blacklistReason[i];
-
-    if (guild == null) {
-      return;
-    }
-
-    const blacklistedEmbed = new Discord.RichEmbed()
-  					.setTitle('-=-=-=-= Error -=-=-=-=')
-  					.setAuthor( bot.user.username, bot.user.avatarURL )
-  					.setColor([255, 28, 28])
-  					.setDescription(`This server (**${guild.name}**) is **blacklisted** from using this bot.`)
-  					.setFooter('', '')
-  					.setImage( "" )
-  					.setThumbnail( "https://s30.postimg.org/54ubfngfl/dc0a6320d907631d34e6655dff176295.png" )
-  					.setTimestamp( '' )
-  					.setURL('')
-  					.addField(`-> Reason`, `**${reason}**`);
-
-    console.log("I am on blacklisted server " + guild.name + "!");
-    guild.defaultChannel.sendEmbed(blacklistedEmbed, '', { disableEveryone: true });
-    guild.defaultChannel.sendMessage("Disconnecting...");
-
-    setTimeout(function(){
-      guild.leave();
-      console.log("I have left the blacklisted server: " + guild.name + "!\n");
-    }, 2000);
-  }
 });
 
 function getRandomInt(min, max) {
@@ -456,6 +426,12 @@ bot.on("message", msg => {
           }
          }
        }
+      }
+
+      if (msg.content.toLowerCase().indexOf("discord.gg") != -1) {
+        msg.delete();
+        msg.channel.sendMessage('Advertising other discord servers is not allowed! (DM your friends if you need to send an invite link, **' + msg.author.username + "#" + msg.author.discriminator + "**)");
+        return;
       }
 
      // Lenny
