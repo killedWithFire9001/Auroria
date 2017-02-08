@@ -247,7 +247,7 @@ bot.on('ready', () => {
 
       speakerPhoneConnections[guildOne] = guildTwo;
       speakerPhoneConnections[guildOne + "-channel"] = chanTwo;
-      speakerPhoneConnections[guildTwo] = chanOne;
+      speakerPhoneConnections[guildTwo] = guildOne;
       speakerPhoneConnections[guildTwo + "-channel"] = chanOne;
 
 
