@@ -13,11 +13,15 @@ exports.run = function(msg) {
 
   if (speakerPhoneConnections[msg.guild.id] != undefined) {
     msg.channel.sendMessage(":telephone_receiver: Hanging up...");
+    
     bot.guilds.get(speakerPhoneConnections[msg.guild.id]).channels.get(speakerPhoneConnections[msg.guild.id + "-channel"]).sendMessage(":telephone_receiver: The other party hung up on you!");
+    
     speakerPhoneConnections[speakerPhoneConnections[msg.guild.id]] = null;
     speakerPhoneConnections[speakerPhoneConnections[msg.guild.id + "-channel"]] = null;
+    
     speakerPhoneConnections[msg.guild.id] = null;
     speakerPhoneConnections[msg.guild.id + "-channel"] = null;
+    
     msg.channel.sendMessage(":telephone_receiver: Hung up!");
     return;
   }
