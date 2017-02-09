@@ -213,7 +213,10 @@ var randGames = new Array(
   "on VHS7",
   "with Gayna",
   "on my own",
-  "with a knife"
+  "with a knife",
+  "some game",
+  "Bomb Simulator",
+  "Meme Maker"
 );
 
 // Ready
@@ -435,7 +438,7 @@ bot.on("message", msg => {
 
      // Lenny
      if (msg.content.toLowerCase().indexOf("(lenny)")!=-1) {
-       msg.channel.sendMessage("( ͡° ͜ʖ ͡° )");
+       msg.channel.sendMessage("**( ͡° ͜ʖ ͡° )**");
        return;
      }
 
