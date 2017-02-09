@@ -283,24 +283,39 @@ function getRandomInt(min, max) {
 }
 
 bot.on("guildMemberAdd", member => {
+    if (msg.guild.id == "110373943822540800") {
+      return
+    }
+
     member.sendMessage("Hello, I am Auroria, the/one of the Bot(s) on the server. I am created by Thomas! (More info in !credits). You can check out my commands by typing !commands. Enjoy your stay on the server!");
     member.guild.defaultChannel.sendMessage("Welcome, <@" + member.id + ">, to **" + member.guild.name + "**!");
     return;
 });
 
 bot.on("guildBanAdd", (guild, user) => {
+    if (msg.guild.id == "110373943822540800") {
+      return
+    }
     guild.defaultChannel.sendMessage("**Server Ban**: " + user.username + " was just banned.");
     console.log(user.username + " was just banned from " + guild.name + "!");
     return;
 });
 
 bot.on("guildBanRemove", (guild, user) => {
+    if (msg.guild.id == "110373943822540800") {
+      return
+    }
     guild.defaultChannel.sendMessage("**Server Un-Ban**: " + user.username + " was just unbanned.");
     console.log(user.username + " was just un-banned from " + guild.name + "!");
     return;
 });
 
 bot.on("guildCreate", guild => {
+    if (msg.guild.id == "110373943822540800") {
+      return
+    }
+
+
     console.log("I have just joined " + guild.name + "!");
     if (guild.members.size >= 50 && guild.members.size < 100) {
       console.log("We are on a LARGE guild (More than 50 members - " + guild.name + ").");
@@ -362,7 +377,7 @@ bot.on("guildDelete", guild => {
     if (isBlacklisted) {
       return;
     } else {
-      guild.owner.sendMessage(`**Hello**,\nI just noticed that I was kicked from your server (${guild.name}).\nAll I want to know is why I was kicked. Was it something wrong with the bot? A bug? A feature was missing that you wanted? You didn't like a certain feature?\nI'd like you to tell me. If you can, please write (In this DM) why you didn't want me on your server. Thanks\n-Thomas.`);
+      guild.owner.sendMessage(`**Hello**,\nI just noticed that I was kicked/left from your server (${guild.name}).\nWas there something wrong with the bot? A bug? A feature was missing that you wanted? You didn't like a certain feature?\nI'd like you to tell me. If you can, please write (In this DM) why you didn't want me on your server. Thanks\n-Thomas.`);
     }
 
     bot.guilds.get("236748766835769344").channels.get("259456623297298433").sendMessage("**[Server Leave]**\n**Name:** "+ guild.name + ".\n**Member Count:** " + guild.members.size + ".");
