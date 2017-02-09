@@ -9,6 +9,7 @@ exports.run = function(msg) {
   var config = main.config;
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
+  var musicBotGuilds = main.musicBotGuilds;
   
       var canPlay = false;
 
