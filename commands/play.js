@@ -261,9 +261,9 @@ exports.run = function(msg) {
 
             const pauseEm = new Discord.RichEmbed()
             .setTitle('-=-=-=-= Music Pause -=-=-=-=')
-            .setAuthor( msg.author.username, msg.author.avatarURL )
+            .setAuthor( m.author.username, m.author.avatarURL )
             .setColor([255, 28, 28])
-            .setDescription(`\nCurrently playing music was paused by **${msg.author.username}**`)
+            .setDescription(`\nCurrently playing music was paused by **${m.author.username}**`)
             .setFooter('', '')
             .setImage( "" )
             .setThumbnail( "" )
@@ -273,9 +273,9 @@ exports.run = function(msg) {
 
             const resumeEm = new Discord.RichEmbed()
             .setTitle('-=-=-=-= Music Resume -=-=-=-=')
-            .setAuthor( msg.author.username, msg.author.avatarURL )
+            .setAuthor( m.author.username, m.author.avatarURL )
             .setColor([255, 28, 28])
-            .setDescription(`\nMusic queue was resumed by **${msg.author.username}**`)
+            .setDescription(`\nMusic queue was resumed by **${m.author.username}**`)
             .setFooter('', '')
             .setImage( "" )
             .setThumbnail( "" )
@@ -285,9 +285,9 @@ exports.run = function(msg) {
 
             const skipEm = new Discord.RichEmbed()
             .setTitle('-=-=-=-= Music Skip -=-=-=-=')
-            .setAuthor( msg.author.username, msg.author.avatarURL )
+            .setAuthor( m.author.username, m.author.avatarURL )
             .setColor([255, 28, 28])
-            .setDescription(`\nCurrently playing music was skipped by **${msg.author.username}**`)
+            .setDescription(`\nCurrently playing music was skipped by **${m.author.username}**`)
             .setFooter('', '')
             .setImage( "" )
             .setThumbnail( "" )
@@ -377,17 +377,16 @@ exports.run = function(msg) {
                     let volPerc = Math.round(dispatcher.volume*50);
 
                     const volumeEm = new Discord.RichEmbed()
-            .setTitle('-=-=-=-= Music Volume Change -=-=-=-=')
-            .setAuthor( msg.author.username, msg.author.avatarURL )
-            .setColor([255, 28, 28])
-            .setDescription(`\nCurrently playing music's volume was changed by **${msg.author.username}**`)
-            .setFooter('', '')
-            .setImage( "" )
-            .setThumbnail( "" )
-            .setTimestamp( '' )
-            .setURL('')
-            .addField("-> Old Volume:", `**${dispatcher.volume}** (**${Math.round(dispatcher.volume*50)}**)`)
-            .addField("-> New Volume:", `**${volume}** (**${volPerc}**)`);
+                      .setTitle('-=-=-=-= Music Volume Change -=-=-=-=')
+                      .setAuthor( msg.author.username, msg.author.avatarURL )
+                      .setColor([255, 28, 28])
+                      .setDescription(`\nCurrently playing music's volume was changed by **${msg.author.username}**`)
+                      .setFooter('', '')
+                      .setImage( "" )
+                      .setThumbnail( "" )
+                      .setTimestamp( '' )
+                      .setURL('')
+                      .addField("-> New Volume:", `**${volume}** (**${volPerc}**)`);
 
                     msg.channel.sendEmbed(volumeEm, '', { disableEveryone: true })
                     .then(mesg => {
