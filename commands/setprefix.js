@@ -10,8 +10,21 @@ exports.run = function(msg) {
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
   var fs = main.fs;	
+  var canChange = false;
 
-		if (msg.guild.owner.id != msg.author.id) {
+  		for (i = 0; i < main.globalAdmin.length; i++) {
+        	let user = bot.users.get(main.globalAdmin[i]);
+            
+            if (user.id == msg.author.id) {
+            	canChange == true;
+            }
+        }
+
+        if (msg.author.id == msg.guild.owner.id) {
+        	canChange = true;
+        }
+
+		if (!canChange) {
 			msg.reply("Only the Server Owner can run this command.");
 			return;
 		} else {

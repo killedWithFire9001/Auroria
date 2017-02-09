@@ -39,7 +39,7 @@ exports.run = function(msg) {
   					.setTimestamp( '' )
   					.setURL('')
   					.addField("-> General", 'help, info, invite, credits, serverinfo, servers, ping, uptime, avatar, remindme')
-  					.addField("-> Fun", 'rps, rolldice, flipcoin, cleverbot, 8ball, urban, yoda, lovecalc, iplookup, kittygif, speakerphone')
+  					.addField("-> Fun", 'rps, rolldice, flipcoin, cleverbot, 8ball, urban, yoda, lovecalc, iplookup, kittygif, puppygif, speakerphone')
   					.addField("-> Music", "connect, disconnect, queue, remqueue, play, pause, resume, skip, volume")
   					.addField("-> Moderation", "prune, kick, ban, clean")
   					.addField("-> Bot Settings", "setprefix")

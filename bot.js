@@ -57,6 +57,7 @@ var commands = new Array(
   "eval",
   "die",
   "kittygif",
+  "puppygif",
   "remindme",
   "speakerphone",
   "clean"
@@ -215,8 +216,7 @@ var randGames = new Array(
   "on my own",
   "with a knife",
   "some game",
-  "Bomb Simulator",
-  "Meme Maker"
+  "Bomb Simulator"
 );
 
 // Ready
@@ -431,15 +431,19 @@ bot.on("message", msg => {
       }
 
       if (msg.content.toLowerCase().indexOf("discord.gg") != -1) {
-        msg.delete();
-        msg.channel.sendMessage('Advertising other discord servers is not allowed! (DM your friends if you need to send an invite link, **' + msg.author.username + "#" + msg.author.discriminator + "**)");
-        return;
+        if (msg.guild.id != "110373943822540800") {
+          msg.delete();
+          msg.channel.sendMessage('Advertising other discord servers is not allowed! (DM your friends if you need to send an invite link, **' + msg.author.username + "#" + msg.author.discriminator + "**)");
+          return;
+        }
       }
 
      // Lenny
      if (msg.content.toLowerCase().indexOf("(lenny)")!=-1) {
-       msg.channel.sendMessage("**( ͡° ͜ʖ ͡° )**");
-       return;
+      if (msg.guild.id != "110373943822540800") {
+        msg.channel.sendMessage("**( ͡° ͜ʖ ͡° )**");
+        return;
+      }
      }
 
     if (msg.mentions.users.first() != null || msg.mentions.users.first() != undefined) {
