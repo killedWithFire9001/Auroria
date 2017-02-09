@@ -215,7 +215,12 @@ var randGames = new Array(
   "on my own",
   "with a knife",
   "some game",
+<<<<<<< HEAD
   "Bomb Simulator"
+=======
+  "Bomb Simulator",
+  "Meme Maker"
+>>>>>>> 170c5eed23bd0ebdaa6ef5522d8cd671eecd3a48
 );
 
 // Ready

@@ -1,0 +1,24 @@
+Todo list. Move Along.
+
+---------
+BUG FIXES:
+No reported bugs. Yay.
+---------
+
+---------
+ADDITIONS:
+None. :( Request some stuff to be added by creating an issue.
+---------
+
+CHANGES:
+Music:
+1. Improve search (YT) for !play.
+2. Remove search results and just play the top result (After #1 is complete).
+
+General:
+1. None :(
+
+-----------------------------------------------------------------------------------------------
+
+:(
+Your PC can't even
