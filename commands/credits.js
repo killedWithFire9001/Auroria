@@ -8,7 +8,7 @@ exports.run = function(msg) {
   var bot = main.bot;
   var config = main.config;
   var cmd = config["prefix_" + msg.guild.id];
-  var musQueue = main.musQueue;
+  var info = main.info;
   
        msg.reply('```Check your DMs for the credits list```');
        const creditsEmbed = new Discord.RichEmbed()
@@ -16,7 +16,7 @@ exports.run = function(msg) {
             .setAuthor( bot.user.username, bot.user.avatarURL )
             .setColor(0x00AE86)
             .setDescription('This is a list of the people that have made/help made the bot + shape it to what it is today! These people are amazing. <3')
-            .setFooter('', '')
+            .setFooter('Bot Version: ${info["bot-version"]}', '')
             .setImage('https://s-media-cache-ak0.pinimg.com/originals/4f/b0/43/4fb043c5eb0f173f7da4f4ed75c1e2f9.png')
             .setThumbnail( "https://images-ext-2.discordapp.net/.eJwFwW0OwiAMANC7cABoy5csMZ6lKVVn1BFAf2h29733N5_-NIu5z9nG4pzUt63rkK1Xbs3K9nL85cl9OCRKPuEpFkACH2JykVgxl6sknzOAUkIIhYU9KmpB-2i3y1h_ekagYPYDdTAgtQ.xm6BqHMx7Aeuz7p5Ddou09wzUhk" )
             .setTimestamp()

@@ -8,6 +8,7 @@ exports.run = function(msg) {
   let config = main.config;
   var cmd = config["prefix_" + msg.guild.id];
   let args = msg.content.split(" ");
+  var unirest = main.unirest;
 
   if (main.commands.indexOf(args[1]) != -1) {
       var file = require("./" + args[1] + ".js");
@@ -40,6 +41,7 @@ exports.run = function(msg) {
   					.setURL('')
   					.addField("-> General", 'help, info, invite, credits, serverinfo, servers, ping, uptime, avatar, remindme')
   					.addField("-> Fun", 'rps, rolldice, flipcoin, cleverbot, 8ball, urban, yoda, lovecalc, iplookup, kittygif, puppygif, speakerphone')
+            .addField("-> News", "buzzfeed, cnn, dailymail")
   					.addField("-> Music", "connect, disconnect, queue, remqueue, play, pause, resume, skip, volume")
   					.addField("-> Moderation", "prune, kick, ban, clean")
   					.addField("-> Bot Settings", "setprefix")

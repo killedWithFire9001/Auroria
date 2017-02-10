@@ -58,9 +58,11 @@ var commands = new Array(
   "die",
   "kittygif",
   "puppygif",
-  "remindme",
   "speakerphone",
-  "clean"
+  "clean",
+  "buzzfeed",
+  "cnn",
+  "dailymail"
 )
 
 exports.commands = commands;
@@ -70,6 +72,9 @@ exports.config = config;
 
 const auth = JSON.parse(fs.readFileSync('./auth.json', 'utf8'));
 exports.auth = auth;
+
+const info = JSON.parse(fs.readFileSync('./info.json', 'utf8'));
+exports.info = info;
 
 var cleverbot = require("cleverbot.io");
 var CBOT = new cleverbot(auth["cleverbot-token"], auth["cleverbot-password"]);
@@ -222,6 +227,7 @@ var randGames = new Array(
 // Ready
 bot.on('ready', () => {
   console.log(`--=--=-- BOT ONLINE --=--=-- (${bot.guilds.size} servers)`);
+  console.log(`Bot Version: ${info["bot-version"]}`);
   var serversActual = Array.from(bot.guilds.values());
   console.log(`List of servers:\n${serversActual}\n\nGlobal Admins (${this.globalAdmin.length}):\n${this.globalAdmin}\n\nBlacklisted Servers (${blacklistedGuilds.length}):\n${blacklistedGuilds}\n\nLog Start:\n\n`);
 
@@ -283,7 +289,7 @@ function getRandomInt(min, max) {
 }
 
 bot.on("guildMemberAdd", member => {
-    if (msg.guild.id == "110373943822540800") {
+    if (member.guild.id == "110373943822540800") {
       return
     }
 
@@ -293,7 +299,7 @@ bot.on("guildMemberAdd", member => {
 });
 
 bot.on("guildBanAdd", (guild, user) => {
-    if (msg.guild.id == "110373943822540800") {
+    if (guild.id == "110373943822540800") {
       return
     }
     guild.defaultChannel.sendMessage("**Server Ban**: " + user.username + " was just banned.");
@@ -302,7 +308,7 @@ bot.on("guildBanAdd", (guild, user) => {
 });
 
 bot.on("guildBanRemove", (guild, user) => {
-    if (msg.guild.id == "110373943822540800") {
+    if (guild.id == "110373943822540800") {
       return
     }
     guild.defaultChannel.sendMessage("**Server Un-Ban**: " + user.username + " was just unbanned.");
@@ -311,10 +317,9 @@ bot.on("guildBanRemove", (guild, user) => {
 });
 
 bot.on("guildCreate", guild => {
-    if (msg.guild.id == "110373943822540800") {
+    if (guild.id == "110373943822540800") {
       return
     }
-
 
     console.log("I have just joined " + guild.name + "!");
     if (guild.members.size >= 50 && guild.members.size < 100) {
@@ -366,6 +371,10 @@ bot.on("guildCreate", guild => {
 });
 
 bot.on("guildDelete", guild => {
+    if (msg.guild.id == "110373943822540800") {
+      return
+    }
+
     console.log("I have just left " + guild.name + "!");
     let isBlacklisted = false;
     for (i = 0; i < blacklistedGuilds.length; i++) {

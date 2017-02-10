@@ -9,6 +9,7 @@ exports.run = function(msg) {
   var config = main.config;
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
+  var info = main.info;
 
   msg.delete();
        const infoEmbed = new Discord.RichEmbed()
@@ -16,7 +17,7 @@ exports.run = function(msg) {
             .setAuthor( "", "" )
             .setColor([121, 212, 242])
             .setDescription( '**Auroria is a multi-purpose bot that was created by Thomas.**' )
-            .setFooter('', '')
+            .setFooter(`Version ${info["bot-version"]}`, '')
             .setImage('')
             .setThumbnail( "https://s28.postimg.org/44gmrivxp/Converted_file_e4fe5707.png" )
             .setTimestamp('')

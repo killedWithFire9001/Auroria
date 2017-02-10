@@ -15,11 +15,11 @@ exports.run = function(msg) {
   		for (i = 0; i < main.globalAdmin.length; i++) {
         	let user = bot.users.get(main.globalAdmin[i]);
             
-            if (user.id == msg.author.id) {
+            if (main.globalAdmin[i] == msg.author.id) {
             	canChange == true;
             }
         }
-
+        
         if (msg.author.id == msg.guild.owner.id) {
         	canChange = true;
         }
@@ -56,7 +56,7 @@ exports.run = function(msg) {
   					.setTitle('-=-=-=-= Server Prefix Update -=-=-=-=')
   					.setAuthor( msg.author.username, msg.author.avatarURL )
   					.setColor([41, 255, 13])
-  					.setDescription(`The Command prefix has been updated by the server owner (**${msg.author.username}**)`)
+  					.setDescription(`The Command prefix has been updated by **${msg.author.username}**`)
   					.setFooter('', '')
   					.setImage( "" )
   					.setThumbnail( "" )
