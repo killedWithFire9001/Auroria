@@ -2,7 +2,12 @@ Todo list. Move Along.
 
 ---------
 BUG FIXES:
-If someone requests a song, and someone else changes the volume. The person who requested the song "changes" the volume.
+
+---------
+
+---------
+FIXED BUGS:
+1. If someone requests a song, and someone else changes the volume. The person who requested the song "changes" the volume.
 ---------
 
 ---------
