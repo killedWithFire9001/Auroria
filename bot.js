@@ -44,6 +44,7 @@ var commands = new Array(
   "queue",
   "remqueue",
   "play",
+  "yt",
   "pause",
   "resume",
   "skip",

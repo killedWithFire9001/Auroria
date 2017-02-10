@@ -26,10 +26,11 @@ exports.run = function(msg) {
             .addField("-> Syntax", cmd + "**" + file.syntax + "**")
             .addField("-> Description", file.desc);
 
-      msg.channel.sendEmbed(embedHelp, '', { disableEveryone: true });
+      msg.author.sendEmbed(embedHelp, '', { disableEveryone: true })
+      .then(() => {msg.channel.sendMessage("<@" + msg.author.id + "> > Check your DMs!")})
       return;
   } else {
-	const embed = new Discord.RichEmbed()
+	     const embed = new Discord.RichEmbed()
   					.setTitle('-=-=-=-=-= Help =-=-=-=-=-')
   					.setAuthor( "", "" )
   					.setColor([121, 212, 242])
@@ -42,11 +43,12 @@ exports.run = function(msg) {
   					.addField("-> General", 'help, info, invite, credits, serverinfo, servers, ping, uptime, avatar, remindme')
   					.addField("-> Fun", 'rps, rolldice, flipcoin, cleverbot, 8ball, urban, yoda, lovecalc, iplookup, kittygif, puppygif, speakerphone')
             .addField("-> News", "buzzfeed, cnn, dailymail")
-  					.addField("-> Music", "connect, disconnect, queue, remqueue, play, pause, resume, skip, volume")
+  					.addField("-> Music", "yt, connect, disconnect, queue, remqueue, play, pause, resume, skip, volume")
   					.addField("-> Moderation", "prune, kick, ban, clean")
   					.addField("-> Bot Settings", "setprefix")
   					.addField("-> Bot Owner", "restart, reload, die, eval");
 
-  		msg.channel.sendEmbed(embed, '', { disableEveryone: true });
+  		msg.author.sendEmbed(embed, '', { disableEveryone: true })
+      .then(() => {msg.channel.sendMessage("<@" + msg.author.id + "> > Check your DMs!")})
   }
 }
