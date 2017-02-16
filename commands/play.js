@@ -14,21 +14,7 @@ var musicApplyLink = "xrubyy.xyz/app";
 exports.run = function(msg) {
   msg.delete();
   var cmd = config["prefix_" + msg.channel.guild.id];
-       var canPlay = false;
-
-       for (var i = 0; i < musicBotGuilds.length && !canPlay; i++) {
-         if (musicBotGuilds[i] === msg.guild.id) {
-           canPlay = true;
-         }
-       }
-
-
-       if (!canPlay) {
-         msg.delete();
-         msg.reply(":musical_note: :no_entry_sign: Error. This server has not been whitelisted to use the music part of this bot. (Apply for access here: ** " + musicApplyLink + "**) :musical_note:");
-         return;
-       }
-
+  
        if (bot.voiceConnections.get(msg.guild.id) == null || bot.voiceConnections.get(msg.guild.id) == undefined) {
           let sender = "";
           if (msg.channel.guild.member(msg.author).nickname == null) {
@@ -118,6 +104,14 @@ exports.run = function(msg) {
                   }
                  ];
                }
+
+                 let sender = "";
+                 if (msg.channel.guild.member(msg.author).nickname == null) {
+                  sender = msg.author.username;
+                 } else {
+                  sender = msg.channel.guild.member(msg.author).nickname;
+                 }
+                 
                  const songAdded = new Discord.RichEmbed()
                   .setTitle('-=-=-=-= Queue Update -=-=-=-=')
                   .setAuthor( sender, msg.author.avatarURL )
@@ -240,6 +234,15 @@ exports.run = function(msg) {
 
     function play(song, msg) {
       var cmd = config["prefix_" + msg.channel.guild.id];
+      
+      let sender = "";
+
+      if (msg.channel.guild.member(msg.author).nickname == null) {
+        sender = msg.author.username;
+      } else {
+        sender = msg.channel.guild.member(msg.author).nickname;
+      }
+
       const queueCompleted = new Discord.RichEmbed()
         .setTitle('Queue Complete')
         .setAuthor( bot.user.username, bot.user.avatarURL )

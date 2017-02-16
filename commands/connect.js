@@ -8,11 +8,8 @@ exports.run = function(msg) {
   var bot = main.bot;
   var config = main.config;
   var cmd = config["prefix_" + msg.guild.id];
-  var musicBotGuilds = main.musicBotGuilds;
   var musQueue = main.musQueue;
 
-  console.log(`${msg.author.username} has used the Connect command on ${msg.channel.guild.name}`);
-      var canPlay = false;
       var sender = "";
        if (msg.channel.guild.member(msg.author).nickname == null) {
           sender = msg.author.username;
@@ -20,24 +17,10 @@ exports.run = function(msg) {
           sender = msg.channel.guild.member(msg.author).nickname;
        }
 
-      for (var i = 0; i < musicBotGuilds.length && !canPlay; i++) {
-        if (musicBotGuilds[i] === msg.guild.id) {
-          canPlay = true;
-        }
-      }
-
-      if (!canPlay) {
-        msg.delete();
-        msg.reply(":musical_note: :no_entry_sign: Error. This server has not been whitelisted to use the music part of this bot. (Apply for access here: ** " + musicApplyLink + "**) :musical_note:");
-        return;
-      }
-      
       if (bot.voiceConnections.size >= 5) {
-
-
-    msg.delete();
-    msg.reply(":musical_note: :no_entry_sign: Error. The bot has reached the maximum amount of Voice Connections (across all connected guilds). Please try again later when a slot might be available!");
-    return;
+    	msg.delete();
+    	msg.reply(":musical_note: :no_entry_sign: Error. The bot has reached the maximum amount of Voice Connections (across all connected guilds). Please try again later when a slot might be available!");
+    	return;
       }
 
       msg.delete();
@@ -80,7 +63,7 @@ exports.run = function(msg) {
             .setTimestamp()
             .setURL('')
             .addField('\nStatus:', "Connected to your voice channel! ✅")
-            .addField('\nNotification:', "The queue is empty! Add something to the queue with " + cmd + "playsong");
+            .addField('\nNotification:', "The queue is empty! Add something to the queue with " + cmd + "play");
 
 
 

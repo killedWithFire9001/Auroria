@@ -15,9 +15,9 @@ exports.run = function(msg) {
   		for (i = 0; i < main.globalAdmin.length; i++) {
         	let user = bot.users.get(main.globalAdmin[i]);
             
-            if (main.globalAdmin[i] == msg.author.id) {
-            	canChange == true;
-            }
+          if (user.id == msg.author.id) {
+            canChange = true;
+          }
         }
         
         if (msg.author.id == msg.guild.owner.id) {
@@ -40,7 +40,7 @@ exports.run = function(msg) {
 				return;
 			}
 
-			var prefix = args;
+			var prefix = args.toLowerCase();
 
 			if (cmd == prefix) {
 				msg.reply("That is already the current prefix!");

@@ -11,22 +11,7 @@ exports.run = function(msg) {
   var musicBotGuilds = main.musicBotGuilds;
   var musQueue = main.musQueue;
 
-  var canPlay = false;
-
-  for (var i = 0; i < musicBotGuilds.length && !canPlay; i++) {
-    if (musicBotGuilds[i] === msg.guild.id) {
-    	canPlay = true;
-    }
-  }
-
-
-  if (!canPlay) {
-    msg.delete();
-    msg.reply(":musical_note: :no_entry_sign: Error. This server has not been whitelisted to use the music part of this bot. (Apply for access here: ** " + musicApplyLink + "**) :musical_note:");
-    return;
-   }
-
-   toSend = [];
+   let toSend = [];
 
    if (musQueue[msg.channel.guild.id] == undefined || musQueue[msg.channel.guild.id][1] == undefined) {
    	msg.channel.sendMessage("Queue is empty!");

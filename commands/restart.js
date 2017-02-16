@@ -5,10 +5,22 @@ var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
+  const embed = new Discord.RichEmbed()
+        .setTitle('Command Executed')
+        .setAuthor( msg.author.username, msg.author.avatarURL )
+        .setColor(0x00AE86)
+        .setDescription('\nRestarting Bot, please wait a few seconds.')
+        .setFooter('', '')
+        .setImage('')
+        .setThumbnail( "https://s30.postimg.org/e932dtw5d/c6b26ba81f44b0c43697852e1e1d1420.png" )
+        .setTimestamp()
+        .setURL('');
+
        var config = main.config;
        var cmd = config["prefix_" + msg.guild.id];
        var isRestartSure = main.isRestartSure;
-       
+       var bot = main.bot;
+              
        var isGlobalAdmin = false;
 
        length = main.globalAdmin.length;
@@ -19,6 +31,7 @@ exports.run = function(msg) {
        }
 
        if (isGlobalAdmin) {
+
         if (main.bot.voiceConnections.size > 0) {
           if (!isRestartSure) {
             msg.channel.sendEmbed(
@@ -37,29 +50,33 @@ exports.run = function(msg) {
             { disableEveryone: true }
             );
 
-            isRestartSure = true;
+            main.isRestartSure = true;
 
             setTimeout(function() {
               if (isRestartSure) {
-                isRestartSure = false;
+                main.isRestartSure = false;
                 msg.channel.sendMessage("You did not confirm in the 10 second window - I am not going to restart.");
               }
             }, 10000);
+            return;
+          } else {
+            bot.guilds.map(g => {
+              if (bot.voiceConnections.get(g.id) != undefined) {
+                g.defaultChannel.sendMessage("The bot is about to restart, sorry! The music will stop and I will have to disconnect. I will be back up and ready to use again in a few seconds.");
+                bot.voiceConnections.get(g.id).channel.leave();
+              }
+            })
 
+            msg.channel.sendEmbed(embed, '', { disableEveryone: true });
+            setTimeout(function() {
+              console.error("RESTART AT REQUEST OF " + msg.author.username + "#" + msg.author.discriminator);
+              process.exit(1);
+            }, 1500);
             return;
           }
         }
 
-        const embed = new Discord.RichEmbed()
-        .setTitle('Command Executed')
-        .setAuthor( msg.author.username, msg.author.avatarURL )
-        .setColor(0x00AE86)
-        .setDescription('\nRestarting Bot, please wait a few seconds.')
-        .setFooter('', '')
-        .setImage('')
-        .setThumbnail( "https://s30.postimg.org/e932dtw5d/c6b26ba81f44b0c43697852e1e1d1420.png" )
-        .setTimestamp()
-        .setURL('');
+        
 
         msg.channel.sendEmbed(
          embed,
@@ -69,7 +86,7 @@ exports.run = function(msg) {
 
         setTimeout(function() {
           console.error("RESTART AT REQUEST OF " + msg.author.username + "#" + msg.author.discriminator);
-      process.exit(1);
+          process.exit(1);
         }, 1000);
        } else {
         msg.reply("You are not a Global Admin.");

@@ -19,11 +19,12 @@ exports.run = function(msg) {
             .setDescription( '**Auroria is a multi-purpose bot that was created by Thomas.**' )
             .setFooter(`Version ${info["bot-version"]}`, '')
             .setImage('')
-            .setThumbnail( "https://s28.postimg.org/44gmrivxp/Converted_file_e4fe5707.png" )
+            .setThumbnail( bot.user.avatarURL )
             .setTimestamp('')
             .setURL('')
             .addField('\nInvite', "[Invitation Link](https://discordapp.com/oauth2/authorize?client_id=254518325474885632&scope=bot&permissions=8/)", true)
-            .addField("\nGitHub", "[GitHub Link](https://github.com/ShaderWave/Auroria)", true);
+            .addField("\nGitHub", "[GitHub Link](https://github.com/ShaderWave/Auroria)", true)
+            .addField('\nSupport Server', "[Join](https://discord.gg/mcVYrPz)", true)
 
        msg.channel.sendEmbed(infoEmbed, '', { disableEveryone: true });
 }

@@ -41,7 +41,7 @@ exports.run = function(msg) {
   					.setTimestamp( '' )
   					.setURL('')
   					.addField("-> General", 'help, info, invite, credits, serverinfo, servers, ping, uptime, avatar, remindme')
-  					.addField("-> Fun", 'rps, rolldice, flipcoin, cleverbot, 8ball, urban, yoda, lovecalc, iplookup, kittygif, puppygif, speakerphone')
+  					.addField("-> Fun", 'rps, rolldice, flipcoin, cleverbot, 8ball, urban, yoda, lovecalc, iplookup, kittygif, puppygif, speakerphone, zone')
             .addField("-> News", "buzzfeed, cnn, dailymail")
   					.addField("-> Music", "yt, connect, disconnect, queue, remqueue, play, pause, resume, skip, volume")
   					.addField("-> Moderation", "prune, kick, ban, clean")

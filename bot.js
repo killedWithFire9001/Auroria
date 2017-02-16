@@ -9,8 +9,6 @@ exports.ytdl = ytdl;
 const fs = require("fs")
 exports.fs = fs;
 
-const chalk = require('chalk');
-
 var talkedRecently = [];
 exports.talkedRecently = talkedRecently;
 
@@ -41,6 +39,7 @@ var commands = new Array(
   "iplookup",
   "connect",
   "disconnect",
+  "changestatus",
   "queue",
   "remqueue",
   "play",
@@ -63,7 +62,8 @@ var commands = new Array(
   "clean",
   "buzzfeed",
   "cnn",
-  "dailymail"
+  "dailymail",
+  "zone"
 )
 
 exports.commands = commands;
@@ -76,6 +76,9 @@ exports.auth = auth;
 
 const info = JSON.parse(fs.readFileSync('./info.json', 'utf8'));
 exports.info = info;
+
+const dBotsAPI = require('discord-bots-api');
+const dBots = new dBotsAPI(auth["discord-bots-token"]);
 
 var cleverbot = require("cleverbot.io");
 var CBOT = new cleverbot(auth["cleverbot-token"], auth["cleverbot-password"]);
@@ -97,44 +100,6 @@ var musQueue = {};
 
 // Dont touch pls
 var canPrune = true;
-
-// Bad words. Add more if you want, Bullet.
-var badWords = new Array(
-  "fuck",
-  "nigaa",
-  "fk",
-  "fuk",
-  "fuked",
-  "shit",
-  "sh1t",
-  "shite",
-  "shiit",
-  "sht",
-  "cunt",
-  "bitch",
-  "b1tch",
-  "btch",
-  "asshole",
-  "dik",
-  "dick",
-  "d1k",
-  "d1ck",
-  "penis",
-  "pen1s",
-  "fak",
-  "shet",
-  "dildo",
-  "pussy",
-  "porn",
-  "pornhub",
-  "xvideos",
-  "pornmd",
-  "nigger",
-  "nigga",
-  "n1gger",
-  "n1gga",
-  "c|_|nt"
-)
 
 var magicEightBall = new Array(
   'As I see it, yes',
@@ -174,19 +139,6 @@ var blacklistReason = new Array(
   "Absusing the bot's commands/features" // RISEN SQUAD
 )
 
-// Music Bot - Whitelisted Guild IDs
-var musicBotGuilds = new Array(
-  "236748766835769344",  // Auroria
-  "254493265988943872",  // MysteryES (Andrew's Server for his CSGO team or whatever.)
-  "261314850213462016",  // Risen Squad, Another CS:GO team that Andrew is helping.
-  "194348087907450881",  // Providence (Tarkus' Friends server.)
-  "262078744057872404",  // Friend's Server
-  "149752455054360576",  // VHS7
-  "275650408481947648",  // A Rainbow Dude's server
-  "272886070427779073"   // Cosmic Dev Server
-)
-
-exports.musicBotGuilds = musicBotGuilds;
 exports.musQueue = musQueue;
 exports.magicEightBall = magicEightBall;
 //-----------------------------------------------
@@ -209,22 +161,6 @@ var rollADice = new Array(
 
 exports.rollADice = rollADice;
 
-var randGameNum = 0;
-var randGame = "";
-
-var randGames = new Array(
-  "on <servers> servers.",
-  "for <users> users!",
-  "on <channels> chans!",
-  "with <commands> cmds!",
-  "on VHS7",
-  "with Gayna",
-  "on my own",
-  "with a knife",
-  "some game",
-  "Bomb Simulator"
-);
-
 // Ready
 bot.on('ready', () => {
   console.log(`--=--=-- BOT ONLINE --=--=-- (${bot.guilds.size} servers)`);
@@ -237,10 +173,13 @@ bot.on('ready', () => {
   	console.log("Cleverbot, initialized");
   });
 
+  dBots.postStats(bot.user.id, bot.guilds.size)
+  .then(() => {console.log("Discord Bots> Set server_count to " + bot.guilds.size + ".")});
+
   setTimeout(function(){
     console.log("Setting game.");
-    bot.user.setGame('!help | on ' + bot.guilds.size + ' servers.', '');
-    console.log("Set game.");
+    bot.user.setGame("discord.gg/mcVYrPz", "")
+    .then(console.log("Set game to discord.gg/mcVYrPz"));
   }, 5000);
 
   setInterval(function(){
@@ -266,23 +205,6 @@ bot.on('ready', () => {
       exports.speakerPhoneSearching = speakerPhoneSearching;
     }
   }, 3000);
-
-  setInterval(function() {
-      randGameNum = getRandomInt(0, 4);
-
-      if (randGame == randGame[randGameNum]) {
-        randGameNum = getRandomInt(0, 4);
-      }
-
-      randGame = randGames[randGameNum]
-                  .replace("<servers>", bot.guilds.size)
-                  .replace("<users>", bot.users.size)
-                  .replace("<channels>", bot.channels.size)
-                  .replace("<commands>", commands.length);
-
-      console.log("Setting game to: " + randGame);
-      bot.user.setGame("!help | " + randGame, '');
-    }, 15000);
 });
 
 function getRandomInt(min, max) {
@@ -299,28 +221,14 @@ bot.on("guildMemberAdd", member => {
     return;
 });
 
-bot.on("guildBanAdd", (guild, user) => {
-    if (guild.id == "110373943822540800") {
-      return
-    }
-    guild.defaultChannel.sendMessage("**Server Ban**: " + user.username + " was just banned.");
-    console.log(user.username + " was just banned from " + guild.name + "!");
-    return;
-});
-
-bot.on("guildBanRemove", (guild, user) => {
-    if (guild.id == "110373943822540800") {
-      return
-    }
-    guild.defaultChannel.sendMessage("**Server Un-Ban**: " + user.username + " was just unbanned.");
-    console.log(user.username + " was just un-banned from " + guild.name + "!");
-    return;
-});
-
 bot.on("guildCreate", guild => {
-    if (guild.id == "110373943822540800") {
-      return
+    if (!guild.member(bot.user).hasPermission("ADMINISTRATOR") && guild.id != "110373943822540800") {
+      guild.defaultChannel.sendMessage("I require administrator permissions to run properly. I do not have those, please re-invite me using the following url if you wish to use me. I will disconnect now- http://xrubyy.xyz/bot");
+      return;
     }
+
+    dBots.postStats(bot.user.id, bot.guilds.size)
+    .then(() => {console.log("Discord Bots> Set server_count to " + bot.guilds.size + ".")});
 
     console.log("I have just joined " + guild.name + "!");
     if (guild.members.size >= 50 && guild.members.size < 100) {
@@ -331,16 +239,17 @@ bot.on("guildCreate", guild => {
       console.log("I am on an EXTRA LARGE guild (More than 100 members - " + guild.name + ").")
     }
 
-    //BLACKLIST START
-     for (i = 0; i < blacklistedGuilds.length; i++) {
-    let guild = bot.guilds.get(blacklistedGuilds[i]);
-    let reason = blacklistReason[i];
-
-    if (guild == null) {
-      return;
+    if (guild.id == "110373943822540800") {
+      return
     }
 
-    const blacklistedEmbed = new Discord.RichEmbed()
+    //BLACKLIST START
+    for (i = 0; i < blacklistedGuilds.length; i++) {
+      let guild = bot.guilds.get(blacklistedGuilds[i]);
+      let reason = blacklistReason[i];
+
+      if (guild != null) {
+        const blacklistedEmbed = new Discord.RichEmbed()
   					.setTitle('-=-=-=-= Error -=-=-=-=')
   					.setAuthor( bot.user.username, bot.user.avatarURL )
   					.setColor([255, 28, 28])
@@ -352,27 +261,27 @@ bot.on("guildCreate", guild => {
   					.setURL('')
   					.addField(`-> Reason`, `**${reason}**`);
 
-    console.log("I am on blacklisted server " + guild.name + "!");
-    guild.defaultChannel.sendEmbed(blacklistedEmbed, '', { disableEveryone: true });
-    guild.defaultChannel.sendMessage("Disconnecting...");
+        console.log("I am on blacklisted server " + guild.name + "!");
+        guild.defaultChannel.sendEmbed(blacklistedEmbed, '', { disableEveryone: true });
+        guild.defaultChannel.sendMessage("Disconnecting...");
 
-    setTimeout(function(){
-      guild.leave();
-      console.log("I have left the blacklisted server: " + guild.name + "!\n");
-    }, 2000);
-    return;
-  }
+        setTimeout(function(){
+          guild.leave();
+          console.log("I have left the blacklisted server: " + guild.name + "!\n");
+        }, 2000);
+      }
+    }
     //BLACKLIST END
-
+    bot.guilds.get("280307031016079361").channels.get("280311592070021120").sendMessage("**[Server Join]**\n**Name:** "+ guild.name + ".\n**Member Count:** " + guild.members.size + ".");
     guild.defaultChannel.sendMessage("**Hello**! Thank you for adding me to your server.\nI am a Bot created by **Thomas#5368**! (*See !credits*).\nI have lots of features and commands to assist you! (*See !commands*).");
-
-
-    bot.guilds.get("236748766835769344").channels.get("259456623297298433").sendMessage("**[Server Join]**\n**Name:** "+ guild.name + ".\n**Member Count:** " + guild.members.size + ".");
     return;
 });
 
 bot.on("guildDelete", guild => {
-    if (msg.guild.id == "110373943822540800") {
+    dBots.postStats(bot.user.id, bot.guilds.size)
+    .then(() => {console.log("Discord Bots> Set server_count to " + bot.guilds.size + ".")});
+
+    if (guild.id == "110373943822540800") {
       return
     }
 
@@ -390,7 +299,7 @@ bot.on("guildDelete", guild => {
       guild.owner.sendMessage(`**Hello**,\nI just noticed that I was kicked/left from your server (${guild.name}).\nWas there something wrong with the bot? A bug? A feature was missing that you wanted? You didn't like a certain feature?\nI'd like you to tell me. If you can, please write (In this DM) why you didn't want me on your server. Thanks\n-Thomas.`);
     }
 
-    bot.guilds.get("236748766835769344").channels.get("259456623297298433").sendMessage("**[Server Leave]**\n**Name:** "+ guild.name + ".\n**Member Count:** " + guild.members.size + ".");
+    bot.guilds.get("280307031016079361").channels.get("280311592070021120").sendMessage("**[Server Leave]**\n**Name:** "+ guild.name + ".\n**Member Count:** " + guild.members.size + ".");
     return;
 });
 
@@ -409,54 +318,21 @@ bot.on("message", msg => {
     return;
   }
 
-  if (msg.author.bot) {
-  	return;
-  }
+  if (msg.author.bot) return;
 
   var cmd = "";
   if (config["prefix_" + msg.channel.guild.id] == null || config["prefix_" + msg.channel.guild.id] == undefined) {
     config["prefix_" + msg.channel.guild.id] = "!";
     fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
-    cmd = "!";
+    cmd = ";-";
   } else {
     cmd = config["prefix_" + msg.channel.guild.id];
   }
 
 //--------------------------------------------------------------------------------------------------------------------------
 
-      // Swear Words
-      let length = badWords.length;
-      var canSwear = false;
-      while(length--) {
-        if (msg.content.toLowerCase().indexOf(badWords[length])!=-1) {
-          if (!msg.content.toLowerCase().includes(cmd + "play")) {
-          if (msg.channel.guild.id == "110373943822540800" || msg.channel.guild.id == "254493265988943872" || msg.channel.guild.id == "149752455054360576" || msg.author.id == botId || msg.channel.guild.id == "194348087907450881") { // Disable on Discord Bots and misc. servers that don't want it
-            canSwear = true;
-          } else {
-          	canSwear = false;
-          }
-
-          if (msg.content.toLowerCase().indexOf("afk") || !msg.content.startsWith(cmd)) {
-          		if (!canSwear) {
-          		 console.log(`${msg.author.username} has just swore on ${msg.channel.guild.name}`);
-
-          		 msg.reply(":rage: **Swearing is NOT allowed!** :rage:")
-          		 .then(mesg => {
-          			setTimeout(function() {
-          				mesg.delete();
-          			}, 5000);
-          		});
-
-         		 msg.delete().catch(console.error);
-          		return;
-          	}
-          }
-         }
-       }
-      }
-
       if (msg.content.toLowerCase().indexOf("discord.gg") != -1) {
-        if (msg.guild.id != "110373943822540800") {
+        if (msg.guild.id != "110373943822540800" && msg.guild.member(msg.author).roles.find("name", "Staff") == undefined) {
           msg.delete();
           msg.channel.sendMessage('Advertising other discord servers is not allowed! (DM your friends if you need to send an invite link, **' + msg.author.username + "#" + msg.author.discriminator + "**)");
           return;
@@ -495,6 +371,17 @@ bot.on("message", msg => {
 //--------------------------------------------------------------------------------------------------------------------------
       if (speakerPhoneConnections[msg.guild.id] != undefined && speakerPhoneConnections[msg.guild.id + "-channel"] != undefined) {
         if (bot.guilds.get(speakerPhoneConnections[msg.guild.id]) != undefined) {
+
+          if (!bot.guilds.get(speakerPhoneConnections[msg.guild.id]).available) {
+            msg.reply("Oops! There must be a server outage, their server isn't responding! Hanging up.");
+            speakerPhoneConnections[speakerPhoneConnections[msg.guild.id]] = null;
+            speakerPhoneConnections[speakerPhoneConnections[msg.guild.id + "-channel"]] = null;
+    
+            speakerPhoneConnections[msg.guild.id] = null;
+            speakerPhoneConnections[msg.guild.id + "-channel"] = null;
+            return;
+          }
+
           bot.guilds.get(speakerPhoneConnections[msg.guild.id]).channels.get(speakerPhoneConnections[msg.guild.id + "-channel"]).sendMessage(":telephone_receiver: **" + msg.author.username + "#" + msg.author.discriminator + "**: " + msg.content);
         }
       }

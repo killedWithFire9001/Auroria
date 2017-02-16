@@ -11,7 +11,6 @@ exports.run = function(msg) {
   var musQueue = main.musQueue;
   var canPrune = main.canPrune;
 
-  console.log(`${msg.author.username} has attempted to use the Prune command on ${msg.channel.guild.name}`);
       let sender = null;
       if (msg.channel.guild.member(msg.author).nickname == null) {
           sender = msg.author.username;
@@ -41,43 +40,32 @@ exports.run = function(msg) {
 
         setTimeout(function() {
           canPrune = true;
-        }, 2000);
+        }, 500);
 
         msg.channel.fetchMessages({limit: messagecount})
         .then(messages => {
-          const msg_array = messages.array();
+          const msg_array = messages.filter(m => m.deletable).array();
 
           if (msg_array.length < messagecount) {
             messagecount = msg_array.length;
           }
 
+          if (msg_array.length == 0) {
+            msg.reply("No deletable messages! (Must not be older than 2 weeks. Sorry, Discord being stupid)");
+            return;
+          }
+
           msg.channel.bulkDelete(msg_array)
           .catch(err => { 
-            msg.reply("\`" + console.error + "\`");
+            msg.reply("\`Can not delete messages (No permissions OR messages are older than 2 weeks)\`");
             return;
           });
-          const embed = new Discord.RichEmbed()
-            .setTitle('')
-            .setAuthor( sender + "#" + msg.author.discriminator, msg.author.avatarURL )
-            .setColor([31, 255, 34])
-            .setDescription(`**Channel:** #${msg.channel.name}\n**Action:** Prune\n**Amount:** ${messagecount}`)
-            .setFooter('', '')
-            .setImage('')
-          .setThumbnail( "" )
-            .setTimestamp()
-            .setURL('')
 
-          var chan = msg.guild.channels.find("name", "mod-log");
-      if (chan == null || chan == undefined) {
-        msg.reply("Please get the server owner to create a channel by the name of 'mod-log' in order to properly log Mod actions (such as kicking, etc). If you do make a channel, please be sure to disable 'send messages' for everyone.");
-        msg.channel.sendMessage(embed, '', { disableEveryone: true });
-      } else {
-      chan.sendEmbed(embed, '', { disableEveryone: true });
-      }
-        });
+          msg.channel.sendMessage(":ok_hand:");
+
+        }).catch(err => msg.reply('Error fetching messages!'));
         return;
       }
 
       msg.reply("```You cannot run this command!\nReason: You do not have the MANAGE_MESSAGES permission```");
-
 }

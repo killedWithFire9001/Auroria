@@ -9,21 +9,6 @@ exports.run = function(msg) {
   var config = main.config;
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
-  var musicBotGuilds = main.musicBotGuilds;
-  
-      var canPlay = false;
-
-      for (var i = 0; i < musicBotGuilds.length && !canPlay; i++) {
-        if (musicBotGuilds[i] === msg.guild.id) {
-          canPlay = true;
-        }
-      }
-
-      if (!canPlay) {
-        msg.delete();
-        msg.reply(":musical_note: :no_entry_sign: Error. This server has not been whitelisted to use the music part of this bot. (Apply for access here: ** " + musicApplyLink + "**) :musical_note:");
-        return;
-      }
 
       msg.delete();
 

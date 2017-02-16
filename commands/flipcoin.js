@@ -11,7 +11,7 @@ exports.run = function(msg) {
   var musQueue = main.musQueue;
   var flipACoin = main.flipACoin;
   
-     var flipCoinResult = Math.floor(Math.random()*flipACoin.length);
+       var flipCoinResult = Math.floor(Math.random()*flipACoin.length);
        const embed = new Discord.RichEmbed()
             .setTitle('')
             .setAuthor( msg.author.username, msg.author.avatarURL )
