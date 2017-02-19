@@ -51,7 +51,6 @@ var commands = new Array(
   "prune",
   "kick",
   "ban",
-  "setprefix",
   "restart",
   "reload",
   "eval",
@@ -63,6 +62,7 @@ var commands = new Array(
   "buzzfeed",
   "cnn",
   "dailymail",
+  "settings",
   "zone"
 )
 
@@ -212,20 +212,86 @@ function getRandomInt(min, max) {
 }
 
 bot.on("guildMemberAdd", member => {
-    if (member.guild.id == "110373943822540800") {
-      return
+    if (member.guild.id == "110373943822540800" || member.guild.id == "281930461461348353") {
+      return;
     }
 
-    member.sendMessage("Hello, I am Auroria, the/one of the Bot(s) on the server. I am created by Thomas! (More info in !credits). You can check out my commands by typing !commands. Enjoy your stay on the server!");
-    member.guild.defaultChannel.sendMessage("Welcome, <@" + member.id + ">, to **" + member.guild.name + "**!");
-    return;
+    var enabled = config["joinleave_" + member.guild.id];
+    var chan = config["joinleavechannel_" + member.guild.id];
+
+    if (typeof enabled == "undefined" || enabled == undefined) {
+      config["joinleave_" + guild.id] = "on";
+      enabled = "on";
+      fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
+    }
+
+    if (typeof chan == "undefined" || chan == undefined) {
+      config["joinleavechannel_" + member.guild.id] = member.guild.defaultChannel.id;
+      chan = member.guild.defaultChannel.id;
+      fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
+    }
+
+    if (member.guild.channels.get(chan) == undefined || typeof member.guild.channels.get(chan) == "undefined") {
+      config["joinleavechannel_" + member.guild.id] = member.guild.defaultChannel.id;
+      chan = member.guild.defaultChannel.id;
+      fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
+    }
+
+    if (enabled == "on") {
+      member.sendMessage("Hello, I am Auroria, the/one of the Bot(s) on the server. I am created by Thomas! (More info in !credits). You can check out my commands by typing !commands. Enjoy your stay on the server!");
+      member.guild.channels.get(chan).sendMessage("Welcome, <@" + member.id + ">, to **" + member.guild.name + "**!");
+      return;
+    } else {
+      return;
+    }
+});
+
+bot.on("guildMemberRemove", member => {
+    if (member.guild.id == "110373943822540800" || member.guild.id == "281930461461348353") {
+      return;
+    }
+
+    var enabled = config["joinleave_" + member.guild.id];
+    var chan = config["joinleavechannel_" + member.guild.id];
+
+    if (typeof enabled == "undefined" || enabled == undefined) {
+      config["joinleave_" + guild.id] = "on";
+      enabled = "on";
+      fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
+    }
+
+    if (typeof chan == "undefined" || chan == undefined) {
+      config["joinleavechannel_" + member.guild.id] = member.guild.defaultChannel.id;
+      chan = member.guild.defaultChannel.id;
+      fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
+    }
+
+    if (member.guild.channels.get(chan) == undefined || typeof member.guild.channels.get(chan) == "undefined") {
+      config["joinleavechannel_" + member.guild.id] = member.guild.defaultChannel.id;
+      chan = member.guild.defaultChannel.id;
+      fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
+    }
+
+    if (enabled == "on") {
+      member.guild.channels.get(chan).sendMessage(member.user.username + "#" + member.user.discriminator + ", has left the guild! :( Bye, bye!");
+      return;
+    } else {
+      return;
+    }
 });
 
 bot.on("guildCreate", guild => {
-    if (!guild.member(bot.user).hasPermission("ADMINISTRATOR") && guild.id != "110373943822540800") {
-      guild.defaultChannel.sendMessage("I require administrator permissions to run properly. I do not have those, please re-invite me using the following url if you wish to use me. I will disconnect now- http://xrubyy.xyz/bot");
-      return;
+    if (guild.id == "110373943822540800") {
+      return
     }
+
+    setTimeout(function() {
+      if (!guild.member(bot.user.id).hasPermission("ADMINISTRATOR")) {
+        guild.defaultChannel.sendMessage("I require administrator permissions to run properly. I do not have those, please re-invite me using the following url if you wish to use me. I will disconnect now- http://xrubyy.xyz/bot")
+        .then(() => guild.leave());
+        return;
+      }
+    }, 2500);
 
     dBots.postStats(bot.user.id, bot.guilds.size)
     .then(() => {console.log("Discord Bots> Set server_count to " + bot.guilds.size + ".")});
@@ -237,10 +303,6 @@ bot.on("guildCreate", guild => {
 
     if (guild.members.size >= 100) {
       console.log("I am on an EXTRA LARGE guild (More than 100 members - " + guild.name + ").")
-    }
-
-    if (guild.id == "110373943822540800") {
-      return
     }
 
     //BLACKLIST START
@@ -322,7 +384,7 @@ bot.on("message", msg => {
 
   var cmd = "";
   if (config["prefix_" + msg.channel.guild.id] == null || config["prefix_" + msg.channel.guild.id] == undefined) {
-    config["prefix_" + msg.channel.guild.id] = "!";
+    config["prefix_" + msg.channel.guild.id] = ";-";
     fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
     cmd = ";-";
   } else {

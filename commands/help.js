@@ -45,7 +45,7 @@ exports.run = function(msg) {
             .addField("-> News", "buzzfeed, cnn, dailymail")
   					.addField("-> Music", "yt, connect, disconnect, queue, remqueue, play, pause, resume, skip, volume")
   					.addField("-> Moderation", "prune, kick, ban, clean")
-  					.addField("-> Bot Settings", "setprefix")
+  					.addField("-> Bot Settings", "settings")
   					.addField("-> Bot Owner", "restart, reload, die, eval");
 
   		msg.author.sendEmbed(embed, '', { disableEveryone: true })
