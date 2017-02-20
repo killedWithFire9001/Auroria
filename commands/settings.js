@@ -32,13 +32,15 @@ exports.run = function(msg) {
         		canChange = true;
       		}
     	}
+
+    	if (msg.guild.member(msg.author))
         
     	if (msg.author.id == msg.guild.owner.id) {
      		canChange = true;
    		}
 
 		if (!canChange) {
-			msg.reply("Only the Server Owner can run this command.");
+			msg.reply("Only the Server Owner can run this command!");
 			return;
 		} else {
 			if (typeof args[2] == "undefined" || args[2] == undefined) {

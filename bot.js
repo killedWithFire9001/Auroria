@@ -63,6 +63,7 @@ var commands = new Array(
   "cnn",
   "dailymail",
   "settings",
+  "stats",
   "zone"
 )
 
@@ -220,7 +221,7 @@ bot.on("guildMemberAdd", member => {
     var chan = config["joinleavechannel_" + member.guild.id];
 
     if (typeof enabled == "undefined" || enabled == undefined) {
-      config["joinleave_" + guild.id] = "on";
+      config["joinleave_" + member.guild.id] = "on";
       enabled = "on";
       fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
     }
@@ -255,7 +256,7 @@ bot.on("guildMemberRemove", member => {
     var chan = config["joinleavechannel_" + member.guild.id];
 
     if (typeof enabled == "undefined" || enabled == undefined) {
-      config["joinleave_" + guild.id] = "on";
+      config["joinleave_" + member.guild.id] = "on";
       enabled = "on";
       fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
     }
@@ -273,7 +274,7 @@ bot.on("guildMemberRemove", member => {
     }
 
     if (enabled == "on") {
-      member.guild.channels.get(chan).sendMessage(member.user.username + "#" + member.user.discriminator + ", has left the guild! :( Bye, bye!");
+      member.guild.channels.get(chan).sendMessage(member.user.username + "#" + member.user.discriminator + ", has left the guild! ;( Bye, bye!");
       return;
     } else {
       return;
