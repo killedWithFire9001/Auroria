@@ -9,6 +9,10 @@ exports.ytdl = ytdl;
 const fs = require("fs")
 exports.fs = fs;
 
+const sql = require('sqlite');
+sql.open('./db.sqlite');
+exports.sql = sql;
+
 var talkedRecently = [];
 exports.talkedRecently = talkedRecently;
 
@@ -133,11 +137,11 @@ exports.globalAdmin = new Array(
 // to be allowed use it.
 // Also put the reason below on the other array (make sure they both are on the same line number in the Array)
 var blacklistedGuilds = new Array(
-  "258732399825911808" // RISEN SQUAD
+  ""
 )
 
 var blacklistReason = new Array(
-  "Absusing the bot's commands/features" // RISEN SQUAD
+  ""
 )
 
 exports.musQueue = musQueue;
@@ -171,7 +175,11 @@ bot.on('ready', () => {
 
   CBOT.setNick("Auroria-DBOTSession");
   CBOT.create(function (err, session) {
-  	console.log("Cleverbot, initialized");
+  	console.log("Cleverbot> initialized");
+  });
+
+  sql.run('CREATE TABLE IF NOT EXISTS db (guildID TEXT, prefix TEXT, joinleave TEXT, joinleaveid TEXT, invites TEXT)').then(() => {
+    console.log("SQL> DB Table created!");
   });
 
   dBots.postStats(bot.user.id, bot.guilds.size)
@@ -217,25 +225,22 @@ bot.on("guildMemberAdd", member => {
       return;
     }
 
-    var enabled = config["joinleave_" + member.guild.id];
-    var chan = config["joinleavechannel_" + member.guild.id];
+    var enabled;
+    var chan;
 
-    if (typeof enabled == "undefined" || enabled == undefined) {
-      config["joinleave_" + member.guild.id] = "on";
-      enabled = "on";
-      fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
-    }
-
-    if (typeof chan == "undefined" || chan == undefined) {
-      config["joinleavechannel_" + member.guild.id] = member.guild.defaultChannel.id;
-      chan = member.guild.defaultChannel.id;
-      fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
-    }
+    sql.get(`SELECT * FROM db WHERE guildID ='${member.guild.id}'`).then(row => {
+      if (!row) {
+        enabled = "on";
+        chan = member.guild.defaultChannel.id;
+      } else {
+        enabled = row.joinleave;
+        chan = row.joinleaveid;
+      }
+    });
 
     if (member.guild.channels.get(chan) == undefined || typeof member.guild.channels.get(chan) == "undefined") {
-      config["joinleavechannel_" + member.guild.id] = member.guild.defaultChannel.id;
       chan = member.guild.defaultChannel.id;
-      fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
+      sql.run(`UPDATE db SET joinleaveid = ${member.guild.defaultChannel.id} WHERE guildID = ${member.guild.id}`);
     }
 
     if (enabled == "on") {
@@ -252,25 +257,22 @@ bot.on("guildMemberRemove", member => {
       return;
     }
 
-    var enabled = config["joinleave_" + member.guild.id];
-    var chan = config["joinleavechannel_" + member.guild.id];
+    var enabled;
+    var chan;
 
-    if (typeof enabled == "undefined" || enabled == undefined) {
-      config["joinleave_" + member.guild.id] = "on";
-      enabled = "on";
-      fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
-    }
-
-    if (typeof chan == "undefined" || chan == undefined) {
-      config["joinleavechannel_" + member.guild.id] = member.guild.defaultChannel.id;
-      chan = member.guild.defaultChannel.id;
-      fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
-    }
+    sql.get(`SELECT * FROM db WHERE guildID ='${member.guild.id}'`).then(row => {
+      if (!row) {
+        enabled = "on";
+        chan = member.guild.defaultChannel.id;
+      } else {
+        enabled = row.joinleave;
+        chan = row.joinleaveid;
+      }
+    });
 
     if (member.guild.channels.get(chan) == undefined || typeof member.guild.channels.get(chan) == "undefined") {
-      config["joinleavechannel_" + member.guild.id] = member.guild.defaultChannel.id;
       chan = member.guild.defaultChannel.id;
-      fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
+      sql.run(`UPDATE db SET joinleaveid = ${member.guild.defaultChannel.id} WHERE guildID = ${member.guild.id}`);
     }
 
     if (enabled == "on") {
@@ -311,30 +313,30 @@ bot.on("guildCreate", guild => {
       let guild = bot.guilds.get(blacklistedGuilds[i]);
       let reason = blacklistReason[i];
 
-      if (guild != null) {
+      if (guild !== null) {
         const blacklistedEmbed = new Discord.RichEmbed()
-  					.setTitle('-=-=-=-= Error -=-=-=-=')
+  					.setTitle('')
   					.setAuthor( bot.user.username, bot.user.avatarURL )
   					.setColor([255, 28, 28])
-  					.setDescription(`This server (**${guild.name}**) is **blacklisted** from using this bot.`)
+  					.setDescription(`This server (**${guild.name}**) is **blacklisted** from using this bot.\n**Reason:**${reason}`)
   					.setFooter('', '')
   					.setImage( "" )
-  					.setThumbnail( "https://s30.postimg.org/54ubfngfl/dc0a6320d907631d34e6655dff176295.png" )
+  					.setThumbnail( "" )
   					.setTimestamp( '' )
-  					.setURL('')
-  					.addField(`-> Reason`, `**${reason}**`);
+  					.setURL('');
 
         console.log("I am on blacklisted server " + guild.name + "!");
         guild.defaultChannel.sendEmbed(blacklistedEmbed, '', { disableEveryone: true });
-        guild.defaultChannel.sendMessage("Disconnecting...");
 
         setTimeout(function(){
           guild.leave();
           console.log("I have left the blacklisted server: " + guild.name + "!\n");
         }, 2000);
+        return;
       }
     }
     //BLACKLIST END
+
     bot.guilds.get("280307031016079361").channels.get("280311592070021120").sendMessage("**[Server Join]**\n**Name:** "+ guild.name + ".\n**Member Count:** " + guild.members.size + ".");
     guild.defaultChannel.sendMessage("**Hello**! Thank you for adding me to your server.\nI am a Bot created by **Thomas#5368**! (*See !credits*).\nI have lots of features and commands to assist you! (*See !commands*).");
     return;
@@ -383,22 +385,32 @@ bot.on("message", msg => {
 
   if (msg.author.bot) return;
 
-  var cmd = "";
-  if (config["prefix_" + msg.channel.guild.id] == null || config["prefix_" + msg.channel.guild.id] == undefined) {
-    config["prefix_" + msg.channel.guild.id] = ";-";
-    fs.writeFile('./config.json', JSON.stringify(config), (err) => {if(err) console.error(err)});
-    cmd = ";-";
-  } else {
-    cmd = config["prefix_" + msg.channel.guild.id];
-  }
+  sql.get(`SELECT * FROM db WHERE guildID ='${msg.guild.id}'`).then(row => {
+    var cmd = "";
+    var invites;
+
+    if (!row) {
+      sql.run('INSERT INTO db (guildID, prefix, joinleave, joinleaveid, invites) VALUES (?, ?, ?, ?, ?)', [msg.guild.id, ";-", "on", undefined, "on"]);
+      cmd = ";-";
+    } else {
+      if (row.prefix == null || row.prefix == undefined) {
+        cmd = ";-";
+      } else {
+        cmd = row.prefix;
+      }
+    }
+
+    invites = row.invites;
 
 //--------------------------------------------------------------------------------------------------------------------------
 
       if (msg.content.toLowerCase().indexOf("discord.gg") != -1) {
-        if (msg.guild.id != "110373943822540800" && msg.guild.member(msg.author).roles.find("name", "Staff") == undefined) {
-          msg.delete();
-          msg.channel.sendMessage('Advertising other discord servers is not allowed! (DM your friends if you need to send an invite link, **' + msg.author.username + "#" + msg.author.discriminator + "**)");
-          return;
+        if (invites !== "off" || invites == undefined || typeof invites == "undefined") {
+          if (msg.guild.id != "110373943822540800" && msg.guild.member(msg.author).roles.find("name", "Staff") == undefined) {
+            msg.delete();
+            msg.channel.sendMessage('Advertising other discord servers is not allowed! (DM your friends if you need to send an invite link, **' + msg.author.username + "#" + msg.author.discriminator + "**)");
+            return;
+          }
         }
       }
 
@@ -432,22 +444,22 @@ bot.on("message", msg => {
     }
 
 //--------------------------------------------------------------------------------------------------------------------------
-      if (speakerPhoneConnections[msg.guild.id] != undefined && speakerPhoneConnections[msg.guild.id + "-channel"] != undefined) {
-        if (bot.guilds.get(speakerPhoneConnections[msg.guild.id]) != undefined) {
+    if (speakerPhoneConnections[msg.guild.id] != undefined && speakerPhoneConnections[msg.guild.id + "-channel"] != undefined) {
+      if (bot.guilds.get(speakerPhoneConnections[msg.guild.id]) != undefined) {
 
-          if (!bot.guilds.get(speakerPhoneConnections[msg.guild.id]).available) {
-            msg.reply("Oops! There must be a server outage, their server isn't responding! Hanging up.");
-            speakerPhoneConnections[speakerPhoneConnections[msg.guild.id]] = null;
-            speakerPhoneConnections[speakerPhoneConnections[msg.guild.id + "-channel"]] = null;
+        if (!bot.guilds.get(speakerPhoneConnections[msg.guild.id]).available) {
+          msg.reply("Oops! There must be a server outage, their server isn't responding! Hanging up.");
+          speakerPhoneConnections[speakerPhoneConnections[msg.guild.id]] = null;
+          speakerPhoneConnections[speakerPhoneConnections[msg.guild.id + "-channel"]] = null;
     
-            speakerPhoneConnections[msg.guild.id] = null;
-            speakerPhoneConnections[msg.guild.id + "-channel"] = null;
-            return;
-          }
-
-          bot.guilds.get(speakerPhoneConnections[msg.guild.id]).channels.get(speakerPhoneConnections[msg.guild.id + "-channel"]).sendMessage(":telephone_receiver: **" + msg.author.username + "#" + msg.author.discriminator + "**: " + msg.content);
+          speakerPhoneConnections[msg.guild.id] = null;
+          speakerPhoneConnections[msg.guild.id + "-channel"] = null;
+          return;
         }
+
+        bot.guilds.get(speakerPhoneConnections[msg.guild.id]).channels.get(speakerPhoneConnections[msg.guild.id + "-channel"]).sendMessage(":telephone_receiver: **" + msg.author.username + "#" + msg.author.discriminator + "**: " + msg.content);
       }
+    }
 
     // Commands
     var args = msg.content.slice(cmd.length).split(" ");
@@ -476,6 +488,7 @@ bot.on("message", msg => {
       console.log("[" + new Date(msg.createdTimestamp).toLocaleTimeString() + "] Commands> " + msg.author.username + " ran the " + args[0] + " command on " + msg.guild.name + ".");
       return;
     }
+  });
 });
 
 // And finally, login.
