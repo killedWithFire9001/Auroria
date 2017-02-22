@@ -240,7 +240,7 @@ bot.on("guildMemberAdd", member => {
 
     if (member.guild.channels.get(chan) == undefined || typeof member.guild.channels.get(chan) == "undefined") {
       chan = member.guild.defaultChannel.id;
-      sql.run(`UPDATE db SET joinleaveid = ${member.guild.defaultChannel.id} WHERE guildID = ${member.guild.id}`);
+      sql.run(`UPDATE db SET joinleaveid = '${member.guild.defaultChannel.id}' WHERE guildID = '${member.guild.id}'`);
     }
 
     if (enabled == "on") {
@@ -272,7 +272,7 @@ bot.on("guildMemberRemove", member => {
 
     if (member.guild.channels.get(chan) == undefined || typeof member.guild.channels.get(chan) == "undefined") {
       chan = member.guild.defaultChannel.id;
-      sql.run(`UPDATE db SET joinleaveid = ${member.guild.defaultChannel.id} WHERE guildID = ${member.guild.id}`);
+      sql.run(`UPDATE db SET joinleaveid = '${member.guild.defaultChannel.id}' WHERE guildID = '${member.guild.id}'`);
     }
 
     if (enabled == "on") {
