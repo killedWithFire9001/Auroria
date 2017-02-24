@@ -22,8 +22,7 @@ exports.run = function(msg) {
             .setThumbnail( "" )
             .setTimestamp( '' )
             .setURL('')
-            .addField(`\n-> Server Count`, `**${bot.guilds.size}** servers.`)
-            .addField(`\n-> Server List`, `**${serversActual}**.`);
+            .addField(`\n-> Server Count`, `**${bot.guilds.size}** servers.`);
 
        msg.delete();
        msg.channel.sendEmbed(embed, '', { disableEveryone: true });

@@ -17,7 +17,6 @@ exports.run = function(msg) {
         .setURL('');
 
        var config = main.config;
-       var cmd = config["prefix_" + msg.guild.id];
        var isRestartSure = main.isRestartSure;
        var bot = main.bot;
               
@@ -65,7 +64,7 @@ exports.run = function(msg) {
                 g.defaultChannel.sendMessage("The bot is about to restart, sorry! The music will stop and I will have to disconnect. I will be back up and ready to use again in a few seconds.");
                 bot.voiceConnections.get(g.id).channel.leave();
               }
-            })
+            });
 
             msg.channel.sendEmbed(embed, '', { disableEveryone: true });
             setTimeout(function() {

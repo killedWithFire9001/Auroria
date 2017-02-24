@@ -182,6 +182,13 @@ exports.run = function(msg) {
                  ];
                }
 
+               let sender = "";
+                 if (msg.channel.guild.member(msg.author).nickname == null) {
+                  sender = msg.author.username;
+                 } else {
+                  sender = msg.channel.guild.member(msg.author).nickname;
+                 }
+
                const songAdded = new Discord.RichEmbed()
                   .setTitle('-=-=-=-= Queue Update -=-=-=-=')
                   .setAuthor( sender, msg.author.avatarURL )
