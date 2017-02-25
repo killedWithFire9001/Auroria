@@ -192,7 +192,7 @@ exports.run = function (msg) {
               .setTitle('-=-=-=-= Song Added -=-=-=-=')
               .setAuthor(sender, msg.author.avatarURL)
               .setColor(0x00AE86)
-              .setDescription(`\nQueued **[${info.title}](${url})** requested by **${sender}**`)
+              .setDescription(`\nQueued **[${info.title}](${url})**.\nRequested by **${sender}**`)
               .setFooter('', '')
               .setImage("")
               .setThumbnail(info.thumbnail_url)
@@ -203,7 +203,7 @@ exports.run = function (msg) {
               .setTitle('Queue Complete')
               .setAuthor(bot.user.username, bot.user.avatarURL)
               .setColor(0x00AE86)
-              .setDescription('\nQueue Complete. **Disconnecting from Voice Channel**')
+              .setDescription('\n**Disconnecting from Voice Channel**')
               .setFooter('', '')
               .setImage("")
               .setThumbnail("")
@@ -214,11 +214,7 @@ exports.run = function (msg) {
               songAdded,
               '',
               { disableEveryone: true }
-            ).then(mesg => {
-              setTimeout(function () {
-                mesg.delete();
-              }, 15000);
-            });
+            );
 
             musQueue[msg.channel.guild.id].push({
               url: url,
@@ -284,7 +280,7 @@ function play(song, msg, cmd) {
       .setTitle('Now playing in ' + bot.voiceConnections.get(msg.guild.id).channel.name)
       .setAuthor(bot.user.username, bot.user.avatarURL)
       .setColor(0x00AE86)
-      .setDescription(`**Now Playing: (${song.title})[${song.url}]** | ${minutes}:${seconds}\nRequested by **${song.requester}**`)
+      .setDescription(`**Now Playing: [${song.title}](${song.url})** | ${minutes}:${seconds}\nRequested by **${song.requester}**`)
       .setFooter('', '')
       .setImage("")
       .setThumbnail("")
@@ -292,12 +288,7 @@ function play(song, msg, cmd) {
       .setURL('');
 
     dispatcher.on('start', () => {
-      msg.channel.sendEmbed(songPlaying, '', { disableEveryone: true })
-        .then(mesg => {
-          setTimeout(function () {
-            mesg.delete();
-          }, 15000);
-        });
+      msg.channel.sendEmbed(songPlaying, '', { disableEveryone: true });
 
       console.log("Music> Playing: " + song.title + " on " + msg.channel.guild.name + ". Requested by " + song.requester + ".");
       musQueue[msg.channel.guild.id].playing = true;
@@ -345,7 +336,7 @@ function play(song, msg, cmd) {
         .setThumbnail("")
         .setTimestamp('')
         .setURL('')
-        .addField(`\n-> Playing`, `**${musQueue[msg.guild.id].current}`);
+        .addField(`\n-> Playing`, `**${musQueue[msg.guild.id].current}**`);
 
       const resumeEm = new Discord.RichEmbed()
         .setTitle('-=-=-=-= Music Resume -=-=-=-=')
@@ -357,7 +348,7 @@ function play(song, msg, cmd) {
         .setThumbnail("")
         .setTimestamp('')
         .setURL('')
-        .addField(`\n-> Playing`, `**${musQueue[msg.guild.id].current}`);
+        .addField(`\n-> Playing`, `**${musQueue[msg.guild.id].current}**`);
 
       const skipEm = new Discord.RichEmbed()
         .setTitle('-=-=-=-= Music Skip -=-=-=-=')
@@ -369,7 +360,7 @@ function play(song, msg, cmd) {
         .setThumbnail("")
         .setTimestamp('')
         .setURL('')
-        .addField(`\n-> Previously Playing`, `**${musQueue[msg.guild.id].current}`);
+        .addField(`\n-> Previously Playing`, `**${musQueue[msg.guild.id].current}**`);
 
       if (m.content.startsWith(cmd + 'pause')) {
         if (m.guild.roles.find("name", "Staff") == null) {
