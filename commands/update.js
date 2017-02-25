@@ -7,7 +7,7 @@ var Discord = require("discord.js");
 exports.run = function (msg) {
     if (main.globalAdmin.indexOf(msg.author.id) != -1) {
         msg.channel.sendMessage("Updating!");
-        run_cmd("git pull origin master", "", function(resp) {
+        run_cmd("git pull origin master", [], function(resp) {
             msg.reply("Done! `" + resp + "`");
         });
         return;
