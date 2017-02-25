@@ -154,7 +154,6 @@ var rollADice = new Array(
 )
 
 exports.rollADice = rollADice;
-var api = require('./api.js');
 
 // Ready
 bot.on('ready', () => {
@@ -189,6 +188,9 @@ bot.on('ready', () => {
   }, 5000);
 
   setInterval(function(){
+    // This will need to change when sharding is introduced
+    // ;-;
+    
     if (Object.keys(speakerPhoneSearching).length >= 2) {
 
       let guildOne = Object.keys(speakerPhoneSearching)[0];
