@@ -16,20 +16,17 @@ exports.run = function (msg) {
         var file = require("./" + args[1] + ".js");
 
         const embedHelp = new Discord.RichEmbed()
-          .setTitle('-=-=-=-=-= Help =-=-=-=-=-')
+          .setTitle(args[1])
           .setAuthor("", "")
           .setColor([121, 212, 242])
-          .setDescription(`Help for: **${args[1]}**`)
+          .setDescription(`**Description:** ${file.desc}\nSyntax: ${cmd}${file.syntax} `)
           .setFooter('', '')
           .setImage('')
           .setThumbnail("")
           .setTimestamp('')
-          .setURL('')
-          .addField("-> Syntax", cmd + "**" + file.syntax + "**")
-          .addField("-> Description", file.desc);
+          .setURL('');
 
-        msg.author.sendEmbed(embedHelp, '', { disableEveryone: true })
-          .then(() => { msg.channel.sendMessage("<@" + msg.author.id + "> > Check your DMs!") })
+        msg.channel.sendEmbed(embedHelp, '', { disableEveryone: true });
         return;
       } else {
         const embed = new Discord.RichEmbed()
