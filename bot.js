@@ -125,7 +125,8 @@ var magicEightBall = new Array(
   'Without a doubt',
   'Yes, definitely',
   'You can\'t handle the truth',
-  'Sadly, we say no.'
+  'Sadly, we say no.',
+  'I don\'t approve'
 )
 
 //-----------------------------------------------
