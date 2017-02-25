@@ -190,7 +190,7 @@ bot.on('ready', () => {
   setInterval(function(){
     // This will need to change when sharding is introduced
     // ;-;
-    
+
     if (Object.keys(speakerPhoneSearching).length >= 2) {
 
       let guildOne = Object.keys(speakerPhoneSearching)[0];
@@ -242,7 +242,6 @@ bot.on("guildMemberAdd", member => {
       }
 
       if (enabled == "on") {
-        member.sendMessage("Hello, I am Auroria, the/one of the Bot(s) on the server. I am created by Thomas! (More info in !credits). You can check out my commands by typing !commands. Enjoy your stay on the server!");
         member.guild.channels.get(chan).sendMessage("Welcome, <@" + member.id + ">, to **" + member.guild.name + "**!");
         return;
       } else {
@@ -317,7 +316,7 @@ bot.on("guildCreate", guild => {
     sql.get(`SELECT * FROM blacklist WHERE guildID ='${guild.id}'`).then(row => {
       if (!row) {
         bot.guilds.get("280307031016079361").channels.get("280311592070021120").sendMessage("**[Server Join]**\n**Name:** `"+ guild.name + "`.\n**Member Count:** " + guild.members.size + ".");
-        guild.defaultChannel.sendMessage("**Hello**! Thank you for adding me to your server.\nI am a Bot created by **Thomas#5368**! (*See !credits*).\nI have lots of features and commands to assist you! (*See !commands*).");
+        guild.defaultChannel.sendMessage("**Hello**! Thank you for adding me to your server.\nI am a Bot created by **Thomas#5368**! (*See ;-credits*).\nI have lots of features and commands to assist you! (*See ;-commands*).");
         return;
       } else {
         let guild = bot.guilds.get(row.guildID);
