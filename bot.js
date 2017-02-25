@@ -129,7 +129,8 @@ var magicEightBall = new Array(
   'I don\'t approve',
   'I don\t agree.',
   'null result.',
-  'Question = true'
+  'Question = true',
+  'Question = false'
 )
 
 //-----------------------------------------------
