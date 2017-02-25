@@ -20,13 +20,14 @@ exports.run = function (msg) {
                     if (!stdout.includes("Already up-to-date.")) {
                         console.log(msg.author.username + "#" + msg.author.discriminator + " has installed an update from GitHub directly to the Bot!");
                         m.edit("Done. *(You will need to run the restart command now)* - Response:\n```" + stdout + "```");
-                    } else if (stdout.includes("Already up-to-date.") {
+                    } else if (stdout.includes("Already up-to-date.")) {
                         m.edit("Oops! Bot is already up-to-date! Response:\n```" + stdout + "```");
                     } else {
                         m.edit('? - Response:\n````' + stdout + '````');
                     }
+                    return;
                 });
-            })
+            });
         return;
     } else {
         msg.reply("You are not a Global Admin!");
