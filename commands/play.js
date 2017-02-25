@@ -303,40 +303,37 @@ function play(song, msg, cmd) {
       }
 
       const pauseEm = new Discord.RichEmbed()
-        .setTitle('-=-=-=-= Music Pause -=-=-=-=')
-        .setAuthor(m.author.username, m.author.avatarURL)
-        .setColor([255, 28, 28])
-        .setDescription(`\nCurrently playing music was paused by **${m.author.username}**`)
+        .setTitle('')
+        .setAuthor("", "")
+        .setColor([83, 210, 252])
+        .setDescription(`\nMusic was paused by **${m.author.username}**`)
         .setFooter('', '')
         .setImage("")
         .setThumbnail("")
         .setTimestamp('')
-        .setURL('')
-        .addField(`\n-> Playing`, `**${musQueue[msg.guild.id].current}**`);
+        .setURL('');
 
       const resumeEm = new Discord.RichEmbed()
-        .setTitle('-=-=-=-= Music Resume -=-=-=-=')
-        .setAuthor(m.author.username, m.author.avatarURL)
-        .setColor([255, 28, 28])
+        .setTitle('')
+        .setAuthor("", "")
+        .setColor([83, 210, 252])
         .setDescription(`\nMusic queue was resumed by **${m.author.username}**`)
         .setFooter('', '')
         .setImage("")
         .setThumbnail("")
         .setTimestamp('')
-        .setURL('')
-        .addField(`\n-> Playing`, `**${musQueue[msg.guild.id].current}**`);
+        .setURL('');
 
       const skipEm = new Discord.RichEmbed()
-        .setTitle('-=-=-=-= Music Skip -=-=-=-=')
-        .setAuthor(m.author.username, m.author.avatarURL)
-        .setColor([255, 28, 28])
-        .setDescription(`\nCurrently playing music was skipped by **${m.author.username}**`)
+        .setTitle('')
+        .setAuthor("", "")
+        .setColor([83, 210, 252])
+        .setDescription(`\nMusic was skipped by **${m.author.username}**`)
         .setFooter('', '')
         .setImage("")
         .setThumbnail("")
         .setTimestamp('')
-        .setURL('')
-        .addField(`\n-> Previously Playing`, `**${musQueue[msg.guild.id].current}**`);
+        .setURL('');
 
       if (m.content.startsWith(cmd + 'pause')) {
         if (m.guild.roles.find("name", "Staff") == null) {
@@ -350,12 +347,7 @@ function play(song, msg, cmd) {
         }
 
         m.delete();
-        msg.channel.sendEmbed(pauseEm, '', { disableEveryone: true })
-          .then(mesg => {
-            setTimeout(function () {
-              mesg.delete();
-            }, 5000);
-          });
+        msg.channel.sendEmbed(pauseEm, '', { disableEveryone: true });
         dispatcher.pause();
       } else if (m.content.startsWith(cmd + 'resume')) {
         if (m.guild.roles.find("name", "Staff") == null) {
@@ -369,12 +361,7 @@ function play(song, msg, cmd) {
         }
 
         m.delete();
-        msg.channel.sendEmbed(resumeEm, '', { disableEveryone: true })
-          .then(mesg => {
-            setTimeout(function () {
-              mesg.delete();
-            }, 5000);
-          });
+        msg.channel.sendEmbed(resumeEm, '', { disableEveryone: true });
         dispatcher.resume();
       } else if (m.content.startsWith(cmd + 'skip')) {
         if (m.guild.roles.find("name", "Staff") == null) {
@@ -387,12 +374,7 @@ function play(song, msg, cmd) {
           return;
         }
         m.delete();
-        msg.channel.sendEmbed(skipEm, '', { disableEveryone: true })
-          .then(mesg => {
-            setTimeout(function () {
-              mesg.delete();
-            }, 5000);
-          });
+        msg.channel.sendEmbed(skipEm, '', { disableEveryone: true });
         dispatcher.end();
       } else if (m.content.startsWith(cmd + 'volume')) {
         if (m.guild.roles.find("name", "Staff") == null) {
@@ -420,23 +402,17 @@ function play(song, msg, cmd) {
         let volPerc = Math.round(dispatcher.volume * 50);
 
         const volumeEm = new Discord.RichEmbed()
-          .setTitle('-=-=-=-= Music Volume Change -=-=-=-=')
-          .setAuthor(m.author.username, m.author.avatarURL)
-          .setColor([255, 28, 28])
-          .setDescription(`\nCurrently playing music's volume was changed by **${m.author.username}**`)
+          .setTitle('')
+          .setAuthor("", "")
+          .setColor([83, 210, 252])
+          .setDescription(`\nMusic volume was changed to **${volume} || ${volPerc}** by **${m.author.username}**`)
           .setFooter('', '')
           .setImage("")
           .setThumbnail("")
           .setTimestamp('')
-          .setURL('')
-          .addField("-> New Volume:", `**${volume}** (**${volPerc}**)`);
+          .setURL('');
 
-        msg.channel.sendEmbed(volumeEm, '', { disableEveryone: true })
-          .then(mesg => {
-            setTimeout(function () {
-              mesg.delete();
-            }, 5000);
-          });
+        msg.channel.sendEmbed(volumeEm, '', { disableEveryone: true });
         musQueue[msg.guild.id].volume = volume;
       }
     });
