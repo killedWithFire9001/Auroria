@@ -6,8 +6,6 @@ var Discord = require("discord.js");
 
 exports.run = function(msg) {
   var bot = main.bot;
-  var config = main.config;
-  var cmd = config["prefix_" + msg.guild.id];
   var unirest = main.unirest;
 
   unirest.get('https://newsapi.org/v1/articles?source=cnn&sortBy=top&apiKey=' + main.auth["news-token"])

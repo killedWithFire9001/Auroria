@@ -6,8 +6,6 @@ var Discord = require("discord.js");
 
 exports.run = function(msg) {
   var bot = main.bot;
-  var config = main.config;
-  var cmd = config["prefix_" + msg.guild.id];
 
   var sender = "";
        if (msg.channel.guild.member(msg.author).nickname == null) {

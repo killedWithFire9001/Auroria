@@ -4,11 +4,13 @@ exports.syntax = "remqueue (song_num)"
 var main = require("../bot.js");
 var Discord = require("discord.js");
 
-exports.run = function(msg) {
+exports.run = function (msg) {
   var bot = main.bot;
-  var config = main.config;
-  var cmd = config["prefix_" + msg.guild.id];
-  var musQueue = main.musQueue;
+
+  main.sql.get("SELECT * FROM db WHERE guildID ='" + msg.guild.id + "'")
+    .then(row => {
+      var cmd = row.prefix;
+      var musQueue = main.musQueue;
 
       if (msg.guild.roles.find("name", "Staff") == null) {
         msg.reply('```An error has occured\nReason: Role: Staff does not exist. Contact the server owner and get him/her to create it.```')
@@ -21,7 +23,7 @@ exports.run = function(msg) {
       }
 
       let params = msg.content.replace(cmd + "remqueue ", "").split(" ");
-      let index = parseInt(params[0])+1;
+      let index = parseInt(params[0]) + 1;
 
       if (params.length < 1 || params.length > 1) {
         msg.reply(cmd + "remqueue [Music-Queue-#]");
@@ -42,11 +44,12 @@ exports.run = function(msg) {
 
       if (msg.channel.guild.member(msg.author).nickname == null) {
         sender = msg.author.username;
-       } else {
+      } else {
         sender = msg.channel.guild.member(msg.author).nickname;
-       }
+      }
 
       msg.delete();
       msg.reply("**" + sender + "** removed **" + musQueue[msg.guild.id][index].title + "** from the Music Queue. Orginially requested by **" + musQueue[msg.guild.id][index].requester + "**.");
       musQueue[msg.guild.id].splice(index, 1);
+    })
 }

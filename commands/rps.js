@@ -4,31 +4,34 @@ exports.syntax = "rps (item)"
 var main = require("../bot.js");
 var Discord = require("discord.js");
 
-exports.run = function(msg) {
+exports.run = function (msg) {
   var bot = main.bot;
-  var config = main.config;
-  var cmd = config["prefix_" + msg.guild.id];
-  var musQueue = main.musQueue;
+
+  main.sql.get("SELECT * FROM db WHERE guildID ='" + msg.guild.id + "'")
+    .then(row => {
+      var cmd = row.prefix;
+
+      var musQueue = main.musQueue;
 
       var errorMessage = "";
 
       const errorEmbed = new Discord.RichEmbed()
-            .setTitle('-=-=-=-= Error -=-=-=-=')
-            .setAuthor( msg.author.username, msg.author.avatarURL )
-            .setColor([255, 28, 28])
-            .setDescription(`An error has occured while trying to run this command.`)
-            .setFooter('', '')
-            .setImage( "" )
-            .setThumbnail( "" )
-            .setTimestamp( '' )
-            .setURL('')
-            .addField(`-> Error`, `You need to specify an item! (rock, paper or scissors)`);
+        .setTitle('-=-=-=-= Error -=-=-=-=')
+        .setAuthor(msg.author.username, msg.author.avatarURL)
+        .setColor([255, 28, 28])
+        .setDescription(`An error has occured while trying to run this command.`)
+        .setFooter('', '')
+        .setImage("")
+        .setThumbnail("")
+        .setTimestamp('')
+        .setURL('')
+        .addField(`-> Error`, `You need to specify an item! (rock, paper or scissors)`);
 
       var rpsAnswers = new Array("rock", "paper", "scissors");
       var args = msg.content.replace(cmd + 'rps ', '');
 
       if (args == "rock") {
-        var rpsResult = rpsAnswers[Math.floor(Math.random()*rpsAnswers.length)];
+        var rpsResult = rpsAnswers[Math.floor(Math.random() * rpsAnswers.length)];
 
         if (rpsResult == "rock") {
           msg.reply("Rock. Damn!");
@@ -43,7 +46,7 @@ exports.run = function(msg) {
       }
 
       if (args == "paper") {
-        var rpsResult = rpsAnswers[Math.floor(Math.random()*rpsAnswers.length)];
+        var rpsResult = rpsAnswers[Math.floor(Math.random() * rpsAnswers.length)];
 
         if (rpsResult == "rock") {
           msg.reply("Rock. Aww!");
@@ -58,7 +61,7 @@ exports.run = function(msg) {
       }
 
       if (args == "scissors") {
-        var rpsResult = rpsAnswers[Math.floor(Math.random()*rpsAnswers.length)];
+        var rpsResult = rpsAnswers[Math.floor(Math.random() * rpsAnswers.length)];
 
         if (rpsResult == "rock") {
           msg.reply("Rock. Haha, gotcha!");
@@ -72,5 +75,6 @@ exports.run = function(msg) {
         }
       }
 
-        msg.channel.sendEmbed(errorEmbed, '', { disableEveryone: true });
+      msg.channel.sendEmbed(errorEmbed, '', { disableEveryone: true });
+    });
 }

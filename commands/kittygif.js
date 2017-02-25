@@ -5,8 +5,6 @@ var main = require("../bot.js");
 var Discord = require("discord.js");
 
 exports.run = function(msg) {
-  let config = main.config;
-  var cmd = config["prefix_" + msg.guild.id];
   var unirest = main.unirest;
 
   unirest.get("http://api.giphy.com/v1/gifs/random?api_key=" + main.auth["giphy-key"] + "&tag=cute+cat")

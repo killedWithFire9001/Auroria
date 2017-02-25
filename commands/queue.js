@@ -6,8 +6,6 @@ var Discord = require("discord.js");
 
 exports.run = function(msg) {
   var bot = main.bot;
-  var config = main.config;
-  var cmd = config["prefix_" + msg.channel.guild.id];
   var musicBotGuilds = main.musicBotGuilds;
   var musQueue = main.musQueue;
 

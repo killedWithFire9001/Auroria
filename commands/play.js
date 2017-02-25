@@ -4,7 +4,6 @@ exports.syntax = "play (link OR query)"
 var main = require("../bot.js");
 var Discord = require("discord.js");
 var bot = main.bot;
-var config = main.config;
 var searchYT = main.searchYT;
 var ytdl = main.ytdl;
 var musQueue = main.musQueue;

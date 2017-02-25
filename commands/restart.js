@@ -15,8 +15,7 @@ exports.run = function(msg) {
         .setThumbnail( "https://s30.postimg.org/e932dtw5d/c6b26ba81f44b0c43697852e1e1d1420.png" )
         .setTimestamp()
         .setURL('');
-
-       var config = main.config;
+        
        var isRestartSure = main.isRestartSure;
        var bot = main.bot;
               

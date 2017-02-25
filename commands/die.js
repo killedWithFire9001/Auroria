@@ -6,9 +6,6 @@ var Discord = require("discord.js");
 const exec = require('child_process').exec;
 
 exports.run = function(msg) {
-       var config = main.config;
-       var cmd = config["prefix_" + msg.guild.id];
-
        var isGlobalAdmin = false;
 
        length = main.globalAdmin.length;

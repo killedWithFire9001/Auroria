@@ -6,8 +6,6 @@ var Discord = require("discord.js");
 
 exports.run = function(msg) {
   var bot = main.bot;
-  var config = main.config;
-  var cmd = config["prefix_" + msg.channel.guild.id];
 
   if (!msg.guild.member(msg.author).hasPermission("MANAGE_MESSAGES")) {
   	msg.channel.sendMessage("You can not use this command: You lack the Manage Messages permission.");

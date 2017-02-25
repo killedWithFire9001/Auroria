@@ -34,33 +34,37 @@ var zoneAdmins = new Array(
 	"88352514558164992"
 );
 
-exports.run = function(msg) {
-  var bot = main.bot;
-  var config = main.config;
-  var cmd = config["prefix_" + msg.guild.id];
-  var args = msg.content.replace(cmd + "zone ", '').split(' ');
+exports.run = function (msg) {
+	var bot = main.bot;
 
-  if (zoneAdmins.indexOf(msg.author.id) < 0) {
-  	msg.reply("Error: You are not a Zone Staff Member!");
-  	return;
-  }
+	main.sql.get("SELECT * FROM db WHERE guildID ='" + msg.guild.id + "'")
+		.then(row => {
+			var cmd = row.prefix;
 
-  if (args[0].toLowerCase() == "pickevent") {
-  	var eventResult = Math.floor(Math.random()*events.length);
+			var args = msg.content.replace(cmd + "zone ", '').split(' ');
 
-  	msg.reply("I have made a decision... Event: **" + events[eventResult] + "**!");
-  	return;
-  } else if (args[0].toLowerCase() == "discordlist") {
-  	let tosend = [];
+			if (zoneAdmins.indexOf(msg.author.id) < 0) {
+				msg.reply("Error: You are not a Zone Staff Member!");
+				return;
+			}
 
-  	for (i = 0; i < zoneAdmins.length; i++) {
-  		tosend.push(bot.users.get(zoneAdmins[i]).username + "#" + bot.users.get(zoneAdmins[i]).discriminator);
-  	}
+			if (args[0].toLowerCase() == "pickevent") {
+				var eventResult = Math.floor(Math.random() * events.length);
 
-  	msg.reply("Staff (That have access to this command)\n" + tosend.join(", "));
-  	return;
-  } else {
-  	msg.reply("Syntax: " + this.syntax + ".\nCommands: ```pickevent, discordlist```");
-  	return;
-  }
+				msg.reply("I have made a decision... Event: **" + events[eventResult] + "**!");
+				return;
+			} else if (args[0].toLowerCase() == "discordlist") {
+				let tosend = [];
+
+				for (i = 0; i < zoneAdmins.length; i++) {
+					tosend.push(bot.users.get(zoneAdmins[i]).username + "#" + bot.users.get(zoneAdmins[i]).discriminator);
+				}
+
+				msg.reply("Staff (That have access to this command)\n" + tosend.join(", "));
+				return;
+			} else {
+				msg.reply("Syntax: " + this.syntax + ".\nCommands: ```pickevent, discordlist```");
+				return;
+			}
+		});
 }

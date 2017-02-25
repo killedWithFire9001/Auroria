@@ -4,40 +4,43 @@ exports.syntax = "kick (@person) (reason)"
 var main = require("../bot.js");
 var Discord = require("discord.js");
 
-exports.run = function(msg) {
-  var config = main.config;
-  var cmd = config["prefix_" + msg.guild.id];
-  var fs = main.fs;
+exports.run = function (msg) {
 
-	  let params = msg.content.replace(cmd + "kick ", "").split(" ");
+  main.sql.get("SELECT * FROM db WHERE guildID ='" + msg.guild.id + "'")
+    .then(row => {
+      var cmd = row.prefix;
 
-        if (!msg.guild.member(msg.author).hasPermission("KICK_MEMBERS")) {
-            msg.reply('```An error has occured\nReason: You do not have the BAN_MEMBERS permission```')
-            return;
-        }
-  
-        let user = msg.mentions.users.first();
+      var fs = main.fs;
 
-        if (user == null) {
-          msg.reply("User does not exist. (Make sure you mention the user)");
-          return;
-        }
+      let params = msg.content.replace(cmd + "kick ", "").split(" ");
 
-        let reason = msg.content.replace(params[0] + " ", "").replace(cmd + "kick ", "");
-        if (reason == null || reason == "" || params[0] == null || params[1] == null) {
-          msg.reply("Command syntax: ** " + cmd + "kick @User Reason**");
-          return;
-        }
+      if (!msg.guild.member(msg.author).hasPermission("KICK_MEMBERS")) {
+        msg.reply('```An error has occured\nReason: You do not have the BAN_MEMBERS permission```')
+        return;
+      }
 
-        if (!msg.channel.guild.member(user).bannable) {
-          msg.reply("I can not kick them!");
-          return;
-        }
+      let user = msg.mentions.users.first();
 
-        user.sendMessage(msg.author.username + "#" + msg.author.discriminator + " has kicked you from " + msg.guild.name + "! Reason: **" + reason + "**.");
+      if (user == null) {
+        msg.reply("User does not exist. (Make sure you mention the user)");
+        return;
+      }
 
-        setTimeout(function() {
-          msg.channel.guild.member(user).kick()
+      let reason = msg.content.replace(params[0] + " ", "").replace(cmd + "kick ", "");
+      if (reason == null || reason == "" || params[0] == null || params[1] == null) {
+        msg.reply("Command syntax: ** " + cmd + "kick @User Reason**");
+        return;
+      }
+
+      if (!msg.channel.guild.member(user).bannable) {
+        msg.reply("I can not kick them!");
+        return;
+      }
+
+      user.sendMessage(msg.author.username + "#" + msg.author.discriminator + " has kicked you from " + msg.guild.name + "! Reason: **" + reason + "**.");
+
+      setTimeout(function () {
+        msg.channel.guild.member(user).kick()
           .then(() => {
             msg.channel.sendMessage(":ok_hand:");
           })
@@ -45,5 +48,6 @@ exports.run = function(msg) {
             msg.reply(`\`${err}\``);
             return;
           });
-        }, 1000);
+      }, 1000);
+    });
 }
