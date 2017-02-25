@@ -12,6 +12,7 @@ exports.run = function (msg) {
     .then(row => {
       var cmd = row.prefix;
       var sender = "";
+
       if (msg.channel.guild.member(msg.author).nickname == null) {
         sender = msg.author.username;
       } else {
@@ -50,6 +51,5 @@ exports.run = function (msg) {
         ));
 
       console.log("Music> Connected to: " + voiceChannel.name + " on " + msg.channel.guild.name + ".");
-
     });
 }
