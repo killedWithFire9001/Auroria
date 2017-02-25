@@ -20,7 +20,7 @@ exports.run = function(msg) {
 
   	sql.get(`SELECT * FROM blacklist WHERE guildID ='${guildID}'`).then(row => {
 		  if (row) {
-			  msg.channel.sendMessage("Blacklist >> Guild = **blacklisted**. Unblacklist command: `blacklist " + guildID + "`");
+			  msg.channel.sendMessage(`Blacklist >> Guild = **blacklisted**. Reason: **${row.reason}**. Blacklisted by: **${row.blacklister}**.\nUnblacklist command: \`blacklist ${guildID}\``);
   		  return;
 		  } else {
 			  msg.channel.sendMessage("Blacklist >> Guild **not blacklisted**. Blacklist command: `blacklist " + guildID + " Reason`");

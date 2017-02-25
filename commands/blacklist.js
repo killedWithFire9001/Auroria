@@ -11,8 +11,8 @@ exports.run = function(msg) {
 
   if (main.globalAdmin.indexOf(msg.author.id) != -1) {
   	if (args.length < 2) {
-  		msg.reply("Syntax: " + this.syntax +".");
-  		return;
+      msg.reply("Syntax: " + this.syntax + ".");
+      return;
   	}
 
   	let guildID = args[1];
@@ -29,7 +29,7 @@ exports.run = function(msg) {
 		} else {
 			msg.channel.sendMessage("Blacklist >> Guild **not blacklisted** - Attempting blacklist.");
 
-  			let reason = msg.content.replace(args[0], "").replace(args[1], "");
+  			let reason = msg.content.replace(args[0], "").replace(args[1] + " ", "");
 
   			if (typeof reason == "undefined" || reason == "" || reason == " ") {
   				return msg.channel.sendMessage("Blacklist >> Error whilst blacklisting: **Reason was not provided.**");

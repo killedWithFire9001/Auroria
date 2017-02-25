@@ -160,10 +160,13 @@ var api = require('./api.js');
 
 // Ready
 bot.on('ready', () => {
-  console.log(`--=--=-- BOT ONLINE --=--=-- (${bot.guilds.size} servers)`);
-  console.log(`Bot Version: ${info["bot-version"]}`);
-  var serversActual = Array.from(bot.guilds.values());
-  console.log(`List of servers:\n${serversActual}\n\nGlobal Admins (${this.globalAdmin.length}):\n${this.globalAdmin}\n\nLog Start:\n\n`);
+  if (bot.shard == null) {
+    console.log(`\n\nNo Shard ||| ${bot.guilds.size} servers`);
+  } else {
+    console.log(`\n\nShard #${bot.shard.id+1}/${bot.shard.count}  ||| (${bot.guilds.size} servers)`);
+  }
+
+  console.log('\n\n');
 
   CBOT.setNick("Auroria-DBOTSession");
   CBOT.create(function (err, session) {
@@ -177,8 +180,6 @@ bot.on('ready', () => {
   sql.run('CREATE TABLE IF NOT EXISTS blacklist (guildID TEXT, reason TEXT, blacklister TEXT)').then(() => {
     console.log("SQL> Blacklist Table created!");
   });
-
-  api.run();
 
   dBots.postStats(bot.user.id, bot.guilds.size)
   .then(() => {console.log("Discord Bots> Set server_count to " + bot.guilds.size + ".")});
@@ -282,6 +283,12 @@ bot.on("guildMemberRemove", member => {
 });
 
 bot.on("guildCreate", guild => {
+    if (guild.name.includes("@everyone")) {
+      console.log("\n\nAnother @everyone guild.\n\n"); // just because
+      guild.leave();
+      return;
+    }
+
     if (guild.id == "110373943822540800") {
       return
     }
@@ -343,6 +350,10 @@ bot.on("guildCreate", guild => {
 });
 
 bot.on("guildDelete", guild => {
+    if (guild.name.includes("@everyone")) {
+      return;
+    }
+
     dBots.postStats(bot.user.id, bot.guilds.size)
     .then(() => {console.log("Discord Bots> Set server_count to " + bot.guilds.size + ".")});
 
@@ -440,6 +451,10 @@ bot.on("message", msg => {
     }
 
 //--------------------------------------------------------------------------------------------------------------------------
+
+
+    // WILL NO LONGER WORK IF SHARDED
+    // MOVE TO SQL
     if (speakerPhoneConnections[msg.guild.id] != undefined && speakerPhoneConnections[msg.guild.id + "-channel"] != undefined) {
       if (bot.guilds.get(speakerPhoneConnections[msg.guild.id]) != undefined) {
 
@@ -487,7 +502,12 @@ bot.on("message", msg => {
       var file = require("./commands/" + commands[index] + ".js");
 
       file.run(msg);
-      console.log("[" + new Date(msg.createdTimestamp).toLocaleTimeString() + "] Commands> " + msg.author.username + " ran the " + args[0] + " command on " + msg.guild.name + ".");
+      if (bot.shard == null) {
+        console.log("[" + new Date(msg.createdTimestamp).toLocaleTimeString() + "] Commands> " + msg.author.username + " ran the " + args[0] + " command on " + msg.guild.name + ".");
+      } else {
+        var id = bot.shard.id+1;
+        console.log("\x1b[32m" + id + "\x1b[37m ||| [" + new Date(msg.createdTimestamp).toLocaleTimeString() + "] Commands> " + msg.author.username + " ran the " + args[0] + " command on " + msg.guild.name + ".");
+      }
       return;
     }
   });

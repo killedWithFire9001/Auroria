@@ -10,9 +10,16 @@ exports.run = function(msg) {
   var cmd = config["prefix_" + msg.guild.id];
   var musQueue = main.musQueue;
   
-       var serversActual = Array.from(bot.guilds.values());
+       var shardID;
+       var shardMax;
+       var globalServers;
 
-       const embed = new Discord.RichEmbed()
+       if (bot.shard == null) {
+	   	shardID = "None";
+	   	shardMax = "None";
+	   	globalServers = bot.guilds.size;
+
+	   	const embed = new Discord.RichEmbed()
             .setTitle('-=-=-=-= Server List -=-=-=-=')
             .setAuthor( msg.author.username, msg.author.avatarURL )
             .setColor([255, 28, 28])
@@ -22,9 +29,31 @@ exports.run = function(msg) {
             .setThumbnail( "" )
             .setTimestamp( '' )
             .setURL('')
-            .addField(`\n-> Server Count`, `**${bot.guilds.size}** servers.`);
+            .addField(`\n-> Shard`, `**${shardID}/${shardMax}**.`)
+            .addField(`\n-> Server Count`, `**${bot.guilds.size}** servers on Shard **${shardID}**. On **${globalServers}** servers **Globally**`)
 
-       msg.delete();
-       msg.channel.sendEmbed(embed, '', { disableEveryone: true });
+       	msg.channel.sendEmbed(embed, '', { disableEveryone: true });
+	   } else {
+    	shardID = bot.shard.id+1;
+    	shardMax = bot.shard.count;
 
+    	bot.shard.fetchClientValues('guilds.size').then(results => {
+  			globalServers = results.reduce((prev, val) => prev + val, 0);
+
+  			const embed = new Discord.RichEmbed()
+            .setTitle('-=-=-=-= Server List -=-=-=-=')
+            .setAuthor( msg.author.username, msg.author.avatarURL )
+            .setColor([255, 28, 28])
+            .setDescription(`\nList of servers that I am connected to.`)
+            .setFooter('', '')
+            .setImage( "" )
+            .setThumbnail( "" )
+            .setTimestamp( '' )
+            .setURL('')
+            .addField(`\n-> Shard`, `**${shardID}/${shardMax}**.`)
+            .addField(`\n-> Server Count`, `**${bot.guilds.size}** servers on Shard **${shardID}**. On **${globalServers}** servers **Globally**`)
+
+       		msg.channel.sendEmbed(embed, '', { disableEveryone: true });
+		}).catch(console.error);
+  	   }
 }
