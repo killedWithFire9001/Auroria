@@ -7,6 +7,11 @@ var Discord = require("discord.js");
 exports.run = function (msg) {
   var bot = main.bot;
 
+  if (bot.shard != null) {
+    msg.reply('Uh-oh! Sharding is enabled on the bot and speakerphone doesn\'t work with it yet- Sorry!');
+    return;
+  }
+
   main.sql.get("SELECT * FROM db WHERE guildID ='" + msg.guild.id + "'")
     .then(row => {
       var cmd = row.prefix;

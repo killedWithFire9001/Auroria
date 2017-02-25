@@ -173,15 +173,15 @@ bot.on('ready', () => {
 
   CBOT.setNick("Auroria-DBOTSession");
   CBOT.create(function (err, session) {
-    console.log("Cleverbot> initialized");
+    console.log("Cleverbot> Initialized");
   });
 
   sql.run('CREATE TABLE IF NOT EXISTS db (guildID TEXT, prefix TEXT, joinleave TEXT, joinleaveid TEXT, invites TEXT)').then(() => {
-    console.log("SQL> DB Table created!");
+    console.log("SQL> DB Table ready!");
   });
 
   sql.run('CREATE TABLE IF NOT EXISTS blacklist (guildID TEXT, reason TEXT, blacklister TEXT)').then(() => {
-    console.log("SQL> Blacklist Table created!");
+    console.log("SQL> Blacklist Table ready!");
   });
 
   dBots.postStats(bot.user.id, bot.guilds.size)
@@ -220,10 +220,6 @@ bot.on('ready', () => {
     }
   }, 3000);
 });
-
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 bot.on("guildMemberAdd", member => {
   if (member.guild.id == "110373943822540800" || member.guild.id == "281930461461348353") {
@@ -373,7 +369,7 @@ bot.on("guildDelete", guild => {
     if (row) {
       return;
     } else {
-      guild.owner.sendMessage(`**Hello**,\nI just noticed that I was kicked/left from your server (${guild.name}).\nWas there something wrong with the bot? A bug? A feature was missing that you wanted? You didn't like a certain feature?\nI'd like you to tell me. If you can, please write (In this DM) why you didn't want me on your server. Thanks\n-Thomas.`);
+      guild.owner.sendMessage(`**Hello**,\nI just noticed that I was kicked/left from your server (**${guild.name}**).\nWas there something wrong with the bot? A bug? A feature was missing that you wanted? You didn't like a certain feature?\nI'd like you to tell me. If you can, please write (In this DM) why you didn't want me on your server. Thanks\n-Thomas.`);
       bot.guilds.get("280307031016079361").channels.get("280311592070021120").sendMessage("**[Server Leave]**\n**Name:** `" + guild.name + "`.\n**Member Count:** " + guild.members.size + ".");
       return;
     }
