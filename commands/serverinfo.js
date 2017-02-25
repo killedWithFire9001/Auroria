@@ -25,10 +25,11 @@ exports.run = function (msg) {
     .setThumbnail("")
     .setTimestamp()
     .setURL('')
-    .addField('\nName:', msg.channel.guild.name)
-    .addField('\nID:', msg.channel.guild.id)
-    .addField('\nMember Count:', msg.channel.guild.memberCount)
-    .addField('\nRegion:', msg.channel.guild.region)
+    .addField('\nName:', msg.guild.name, true)
+    .addField('\nID:', msg.guild.id, true)
+    .addField('\nMember Count:', msg.guild.memberCount, true)
+    .addField('\nVoice Region:', msg.guild.region, true)
+    .addField('\nCreated At', msg.guild.createdAt.toString(), true);
 
   msg.channel.sendEmbed(
     embed,
