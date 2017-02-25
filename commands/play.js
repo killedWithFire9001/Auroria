@@ -33,7 +33,7 @@ exports.run = function (msg) {
           .setFooter('', '')
           .setImage('')
           .setThumbnail("")
-          .setTimestamp()
+          .setTimestamp('')
           .setURL('')
           .addField('\nError:', "I am not in a voice channel. Initialize me first with " + cmd + "connect")
 
@@ -63,7 +63,7 @@ exports.run = function (msg) {
           .setFooter('', '')
           .setImage("")
           .setThumbnail()
-          .setTimestamp()
+          .setTimestamp('')
           .setURL('')
           .addField("-> Invalid URL", `**${url}** is not a valid YouTube URL.`);
 
@@ -122,18 +122,14 @@ exports.run = function (msg) {
             .setFooter('', '')
             .setImage("")
             .setThumbnail(info.thumbnail_url)
-            .setTimestamp()
+            .setTimestamp('')
             .setURL('');
 
           msg.channel.sendEmbed(
             songAdded,
             '',
             { disableEveryone: true }
-          ).then(mesg => {
-            setTimeout(function () {
-              mesg.delete();
-            }, 15000);
-          });
+          );
 
           musQueue[msg.channel.guild.id].push({
             url: url,
@@ -185,7 +181,7 @@ exports.run = function (msg) {
               .setFooter('', '')
               .setImage("")
               .setThumbnail(info.thumbnail_url)
-              .setTimestamp()
+              .setTimestamp('')
               .setURL('');
 
             msg.channel.sendEmbed(
@@ -227,7 +223,7 @@ function play(song, msg, cmd) {
     .setFooter('', '')
     .setImage("")
     .setThumbnail("")
-    .setTimestamp()
+    .setTimestamp('')
     .setURL('');
 
   if (song == undefined || musQueue[msg.guild.id][1] === undefined) return msg.channel.sendEmbed(queueCompleted, '', { disableEveryone: true }).then(() => {
@@ -262,7 +258,7 @@ function play(song, msg, cmd) {
       .setFooter('', '')
       .setImage("")
       .setThumbnail("")
-      .setTimestamp()
+      .setTimestamp("")
       .setURL('');
 
     dispatcher.on('start', () => {
@@ -272,11 +268,13 @@ function play(song, msg, cmd) {
       musQueue[msg.channel.guild.id].playing = true;
       musQueue[msg.channel.guild.id].current = song.title;
     });
+
     /*
     dispatcher.on('speaking', (value) => {
 
     });
-  */
+    */
+
     dispatcher.on('end', () => {
       musQueue[msg.channel.guild.id].playing = false;
       musQueue[msg.channel.guild.id].shift();
