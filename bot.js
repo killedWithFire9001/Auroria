@@ -76,9 +76,6 @@ var commands = new Array(
 
 exports.commands = commands;
 
-const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
-exports.config = config;
-
 const auth = JSON.parse(fs.readFileSync('./auth.json', 'utf8'));
 exports.auth = auth;
 
