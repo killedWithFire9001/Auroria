@@ -4,11 +4,16 @@ exports.syntax = "update"
 var main = require("../bot.js");
 var Discord = require("discord.js");
 
+var sys = require('sys')
+var exec = require('child_process').exec;
+
+function puts(error, stdout, stderr) { sys.puts(stdout) }
+
 exports.run = function (msg) {
     if (main.globalAdmin.indexOf(msg.author.id) != -1) {
         msg.channel.sendMessage("Updating!");
-        run_cmd("git pull origin master", [], function(resp) {
-            msg.reply("Done! `" + resp + "`");
+        exec("git pull origin master", function(error, stdout, stderr) {
+            msg.reply("Done. `" + stdout + "`");
         });
         return;
     } else {
@@ -16,14 +21,3 @@ exports.run = function (msg) {
         return;
     }
 }
-
-// Taken from http://stackoverflow.com/questions/14458508/node-js-shell-command-execution
-// Thanks?
-function run_cmd(cmd, args, callBack) {
-    var spawn = require('child_process').spawn;
-    var child = spawn(cmd, args);
-    var resp = "";
-
-    child.stdout.on('data', function (buffer) { resp += buffer.toString() });
-    child.stdout.on('end', function () { callBack(resp) });
-} 
