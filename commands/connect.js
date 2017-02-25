@@ -10,6 +10,7 @@ exports.run = function (msg) {
 
   main.sql.get("SELECT * FROM db WHERE guildID ='" + msg.guild.id + "'")
     .then(row => {
+      var cmd = row.prefix;
       var sender = "";
       if (msg.channel.guild.member(msg.author).nickname == null) {
         sender = msg.author.username;
