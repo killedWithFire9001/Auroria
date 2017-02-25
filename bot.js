@@ -70,6 +70,7 @@ var commands = new Array(
   "stats",
   "blacklist",
   "blacklistcheck",
+  "update",
   "zone"
 )
 
