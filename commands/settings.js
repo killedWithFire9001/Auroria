@@ -15,7 +15,6 @@ exports.run = function(msg) {
   var bot = main.bot;
   var args = msg.content.split(" ");
   var sql = main.sql;
-  const fs = main.fs;
 
   if (!msg.guild.member(msg.author).hasPermission("MANAGE_GUILD")) return msg.reply("You need the Manage Server permission to run this command!");
   if (args[1] == undefined || typeof args[1] == "undefined") return msg.reply("Command List:\n" + cmds.join(", "));

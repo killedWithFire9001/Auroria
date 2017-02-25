@@ -17,7 +17,7 @@ exports.run = function (msg) {
                         return;
                     }
 
-                    m.edit("Done. *(You will need to run the restart command now)* - Response: `" + stdout + "`");
+                    m.edit("Done. *(You will need to run the restart command now)* - Response:\n```" + stdout + "```");
                 });
             })
         return;
