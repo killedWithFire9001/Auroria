@@ -125,17 +125,6 @@ exports.run = function (msg) {
             .setTimestamp()
             .setURL('');
 
-          const queueCompleted = new Discord.RichEmbed()
-            .setTitle('Queue Complete')
-            .setAuthor(bot.user.username, bot.user.avatarURL)
-            .setColor(0x00AE86)
-            .setDescription('\n**Disconnecting from Voice Channel**')
-            .setFooter('', '')
-            .setImage("")
-            .setThumbnail("")
-            .setTimestamp()
-            .setURL('');
-
           msg.channel.sendEmbed(
             songAdded,
             '',
@@ -199,17 +188,6 @@ exports.run = function (msg) {
               .setTimestamp()
               .setURL('');
 
-            const queueCompleted = new Discord.RichEmbed()
-              .setTitle('Queue Complete')
-              .setAuthor(bot.user.username, bot.user.avatarURL)
-              .setColor(0x00AE86)
-              .setDescription('\n**Disconnecting from Voice Channel**')
-              .setFooter('', '')
-              .setImage("")
-              .setThumbnail("")
-              .setTimestamp()
-              .setURL('');
-
             msg.channel.sendEmbed(
               songAdded,
               '',
@@ -243,9 +221,9 @@ function play(song, msg, cmd) {
 
   const queueCompleted = new Discord.RichEmbed()
     .setTitle('Queue Complete')
-    .setAuthor(bot.user.username, bot.user.avatarURL)
+    .setAuthor("", "")
     .setColor(0x00AE86)
-    .setDescription('\nQueue Complete. **Disconnecting from Voice Channel**')
+    .setDescription('\n**Disconnecting from Voice Channel**')
     .setFooter('', '')
     .setImage("")
     .setThumbnail("")
@@ -278,7 +256,7 @@ function play(song, msg, cmd) {
 
     const songPlaying = new Discord.RichEmbed()
       .setTitle('Now playing in ' + bot.voiceConnections.get(msg.guild.id).channel.name)
-      .setAuthor(bot.user.username, bot.user.avatarURL)
+      .setAuthor("", "")
       .setColor(0x00AE86)
       .setDescription(`**Now Playing: [${song.title}](${song.url})** | ${minutes}:${seconds}\nRequested by **${song.requester}**`)
       .setFooter('', '')
