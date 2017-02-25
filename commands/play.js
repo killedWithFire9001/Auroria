@@ -257,7 +257,7 @@ function play(song, msg, cmd) {
       .setDescription(`**Now Playing: [${song.title}](${song.url})** | ${minutes}:${seconds}\nRequested by **${song.requester}**`)
       .setFooter('', '')
       .setImage("")
-      .setThumbnail("")
+      .setThumbnail(info.thumbnail_url)
       .setTimestamp("")
       .setURL('');
 
