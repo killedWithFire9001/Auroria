@@ -180,10 +180,6 @@ bot.on('ready', () => {
     console.log("SQL> DB Table ready!");
   });
 
-  sql.run('CREATE TABLE IF NOT EXISTS tags (guildID TEXT, data BLOB)').then(() => {
-    console.log("SQL> Tags Table ready!");
-  });
-
   sql.run('CREATE TABLE IF NOT EXISTS blacklist (guildID TEXT, reason TEXT, blacklister TEXT)').then(() => {
     console.log("SQL> Blacklist Table ready!");
   });
