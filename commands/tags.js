@@ -14,6 +14,10 @@ exports.run = function (msg) {
 
             sql.get("SELECT * FROM tags WHERE guildID ='" + msg.guild.id + "'")
                 .then(rowT => {
+                    if (!rowT) {
+                        sql.run("INSERT INTO tags VALUES (guildID, data)", [msg.guild.id, null]);
+                    }
+
                     var data = JSON.parse(rowT.data);
 
                     if (data == null || data == undefined || !rowT || rowT.data == null || rowT.data == undefined) return msg.reply("No tags available to view!");
