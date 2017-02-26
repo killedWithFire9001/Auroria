@@ -118,7 +118,7 @@ exports.run = function (msg) {
             .setTitle('-=-=-=-= Song Added -=-=-=-=')
             .setAuthor(sender, msg.author.avatarURL)
             .setColor(0x00AE86)
-            .setDescription(`\nQueued **[${info.title}](${url})** requested by **${sender}**`)
+            .setDescription(`\nQueued **[${info.title}](${url})**.\nRequested by **${sender}**`)
             .setFooter('', '')
             .setImage("")
             .setThumbnail(info.thumbnail_url)
@@ -137,7 +137,6 @@ exports.run = function (msg) {
             requester: sender
           });
           if (musQueue[msg.channel.guild.id].playing) return;
-          let dispatcher;
           play(musQueue[msg.guild.id][1], msg, cmd);
         });
       } else {
@@ -238,7 +237,7 @@ function play(song, msg, cmd) {
   ytdl.getInfo(song.url, (err, info) => {
     const stream = ytdl(song.url, { filter: 'audioonly' });
     const streamOptions = { seek: 0, volume: 1, passes: 2 };
-    dispatcher = msg.guild.voiceConnection.playStream(stream, streamOptions);
+    var dispatcher = msg.guild.voiceConnection.playStream(stream, streamOptions);
 
     if (musQueue[msg.guild.id].volume === undefined) {
       musQueue[msg.guild.id].volume = 1;
