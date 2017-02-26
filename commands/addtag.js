@@ -55,6 +55,8 @@ exports.run = function (msg) {
                                         found = true;
                                         foundI = i;
                                     }
+                                } else {
+                                    found = false;
                                 }
                             }
                         }
