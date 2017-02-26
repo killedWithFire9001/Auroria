@@ -26,43 +26,54 @@ exports.run = function (msg) {
 
                     if (!rowT) {
                         data = {};
-                    } else {
-                        data = JSON.pase(rowT.data);
-                    }
 
-                    console.log(data);
+                        data.push({
+                            name: args[0],
+                            content: msg.content.replace(cmd + "addtag ", "").replace(args[0], "")
+                        });
 
-                    var found = false;
-                    var foundI;
+                        var newData = JSON.stringify(data);
 
-                    for (i = 0; i < data.length; i++) {
-                        if (data[i].name == args[0]) {
-                            found = true;
-                            foundI = i;
-                        }
-                    }
-
-                    if (found) return msg.reply("Oops! That tag already exists! (Found **" + data[foundI].name + "**)");
-
-                    data.push({
-                        name: args[0],
-                        content: msg.content.replace(cmd + "addtag ", "").replace(args[0], "")
-                    });
-
-                    var newData = JSON.stringify(data);
-
-                    if (!rowT) {
                         sql.run("INSERT INTO tags VALUES (?, ?)", [msg.guild.id, newData])
                             .then(rowTT => {
                                 msg.reply('Created tag **' + args[0] + "**.");
                                 return;
                             });
                     } else {
-                        sql.run("REPLACE INTO tags WHERE guildID ='" + msg.guild.id + "' VALUES (?, ?)", [msg.guild.id, newData])
-                            .then(rowTT => {
-                                msg.reply('Created tag **' + args[0] + "**.");
-                                return;
-                            });
+                        data = JSON.pase(rowT.data);
+
+                        var found = false;
+                        var foundI;
+
+                        for (i = 0; i < data.length; i++) {
+                            if (data[i].name == args[0]) {
+                                found = true;
+                                foundI = i;
+                            }
+                        }
+
+                        if (found) return msg.reply("Oops! That tag already exists! (Found **" + data[foundI].name + "**)");
+
+                        data.push({
+                            name: args[0],
+                            content: msg.content.replace(cmd + "addtag ", "").replace(args[0], "")
+                        });
+
+                        var newData = JSON.stringify(data);
+
+                        if (!rowT) {
+                            sql.run("INSERT INTO tags VALUES (?, ?)", [msg.guild.id, newData])
+                                .then(rowTT => {
+                                    msg.reply('Created tag **' + args[0] + "**.");
+                                    return;
+                                });
+                        } else {
+                            sql.run("REPLACE INTO tags WHERE guildID ='" + msg.guild.id + "' VALUES (?, ?)", [msg.guild.id, newData])
+                                .then(rowTT => {
+                                    msg.reply('Created tag **' + args[0] + "**.");
+                                    return;
+                                });
+                        }
                     }
                 });
         });
