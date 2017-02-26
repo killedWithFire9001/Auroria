@@ -47,6 +47,19 @@ exports.run = function (msg) {
 
                         if (typeof data == "null" || typeof data == "undefined" || data.length == 0) {
                             found = false;
+
+                            data.push({
+                                "name": args[0],
+                                "content": msg.content.replace(cmd + "addtag ", "").replace(args[0], "")
+                            });
+
+                            var newData = JSON.stringify(data);
+
+                            sql.run("UPDATE tags SET data ='" + newData + "' WHERE guildID ='" + msg.guild.id + "'")
+                                .then(rowTT => {
+                                    msg.reply('Created tag **' + args[0] + "**.");
+                                    return;
+                                });
                         } else {
                             for (i = 0; i < data.length; i++) {
                                 if (typeof data[i] != "undefined" || typeof data[i] != "null") {
@@ -56,22 +69,22 @@ exports.run = function (msg) {
                                     }
                                 }
                             }
-                        }
 
-                        if (found) return msg.reply("Oops! That tag already exists! (Found **" + data[foundI].name + "**)");
+                            if (found) return msg.reply("Oops! That tag already exists! (Found **" + data[foundI].name + "**)");
 
-                        data.push({
-                            "name": args[0],
-                            "content": msg.content.replace(cmd + "addtag ", "").replace(args[0], "")
-                        });
-
-                        var newData = JSON.stringify(data);
-
-                        sql.run("UPDATE tags SET data ='" + newData + "' WHERE guildID ='" + msg.guild.id + "'")
-                            .then(rowTT => {
-                                msg.reply('Created tag **' + args[0] + "**.");
-                                return;
+                            data.push({
+                                "name": args[0],
+                                "content": msg.content.replace(cmd + "addtag ", "").replace(args[0], "")
                             });
+
+                            var newData = JSON.stringify(data);
+
+                            sql.run("UPDATE tags SET data ='" + newData + "' WHERE guildID ='" + msg.guild.id + "'")
+                                .then(rowTT => {
+                                    msg.reply('Created tag **' + args[0] + "**.");
+                                    return;
+                                });
+                        }
                     }
                 });
         });
