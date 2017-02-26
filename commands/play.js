@@ -27,6 +27,13 @@ exports.run = function (msg) {
           return;
         }
 
+        let sender;
+        if (msg.guild.member(msg.author).nickname == null) {
+          sender = msg.author.username;
+        } else {
+          sender = msg.guild.member(msg.author).nickname;
+        }
+
         const connectedEmbed = new Discord.RichEmbed()
           .setTitle('')
           .setAuthor(sender, msg.author.avatarURL)
