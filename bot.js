@@ -22,57 +22,7 @@ exports.speakerPhoneConnections = speakerPhoneConnections;
 var speakerPhoneSearching = [];
 exports.speakerPhoneSearching = speakerPhoneSearching;
 
-var commands = new Array(
-  "help",
-  "info",
-  "invite",
-  "credits",
-  "serverinfo",
-  "servers",
-  "ping",
-  "uptime",
-  "avatar",
-  "rps",
-  "rolldice",
-  "flipcoin",
-  "cleverbot",
-  "8ball",
-  "urban",
-  "yoda",
-  "lovecalc",
-  "iplookup",
-  "connect",
-  "disconnect",
-  "changestatus",
-  "queue",
-  "remqueue",
-  "play",
-  "yt",
-  "pause",
-  "resume",
-  "skip",
-  "volume",
-  "prune",
-  "kick",
-  "ban",
-  "restart",
-  "reload",
-  "eval",
-  "die",
-  "kittygif",
-  "puppygif",
-  "speakerphone",
-  "clean",
-  "buzzfeed",
-  "cnn",
-  "dailymail",
-  "settings",
-  "stats",
-  "blacklist",
-  "blacklistcheck",
-  "update",
-  "zone"
-)
+var commands = new Array();
 
 exports.commands = commands;
 
@@ -171,10 +121,16 @@ bot.on('ready', () => {
 
   fs.readdir('./commands/', (err, files) => {
       if (err) console.error(err);
-      console.log("Commands> Loading " + files.length + " commands!");
+      var size = files.length + 4; // + 4 for the four commands that are not in their own files and use collectors instead.
+      console.log("Commands> Loading " + size + " commands!");
       files.forEach(f => {
-        console.log(f);
+        commands.push(f.replace(".js", ""));
       });
+
+      commands.push("volume");
+      commands.push("skip");    // These commands
+      commands.push("pause");   // use collectors.
+      commands.push("resume");
     });
 
   console.log('\n\n');
