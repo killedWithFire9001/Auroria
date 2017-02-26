@@ -60,8 +60,8 @@ exports.run = function (msg) {
                         });
 
                         var newData = JSON.stringify(data);
-                        
-                        sql.run("REPLACE INTO tags (guildID, data) VALUES (?, ?)", [msg.guild.id, newData])
+
+                        sql.run("UPDATE tags SET data ='" + newData + "' WHERE guildID ='" + msg.guild.id + "'")
                             .then(rowTT => {
                                 msg.reply('Created tag **' + args[0] + "**.");
                                 return;
