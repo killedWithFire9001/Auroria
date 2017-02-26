@@ -45,10 +45,8 @@ exports.run = function (msg) {
                         var found = false;
                         var foundI;
 
-                        if (!row || row.data == null || typeof row.data == "null" || row.data == undefined || typeof row.data == "undefined") {
-                            found = false;
-                        } else {
-                            for (i = 0; i < data.length; i++) {
+                        for (i = 0; i < data.length; i++) {
+                            if (data[i] !== undefined) {
                                 if (data[i].name == args[0]) {
                                     found = true;
                                     foundI = i;

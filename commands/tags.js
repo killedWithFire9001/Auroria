@@ -12,7 +12,7 @@ exports.run = function (msg) {
         .then(row => {
             let toSend = [];
 
-            if (!row || row.data == null || typeof row.data == "null" || row.data == undefined || typeof row.data == "undefined") {
+            if (!row) {
                 toSend.push("**None!**");
                 msg.reply("All available tags for **" + msg.guild.name + "**:\n" + toSend.join(", "));
                 return;
@@ -20,7 +20,9 @@ exports.run = function (msg) {
                 let data = JSON.parse(row.data);
 
                 for (i = 0; i < data.length; i++) {
-                    toSend.push(data[i].name);
+                    if (data[i] !== undefined) {
+                        toSend.push(data[i].name);
+                    }
                 }
                 msg.reply("All available tags for **" + msg.guild.name + "**:\n" + toSend.join(", "));
             }
