@@ -35,21 +35,16 @@ exports.run = function (msg) {
                     }
 
                     if (!found) return msg.reply("Oops! That tag doesn't exist!");
-
-                    console.log('BEFORE: ');
-                    console.log(data[foundI]);
-                    console.log(data);
                     delete data[foundI];
 
                     var newData = JSON.stringify(data);
-                    console.log('AFTER: ');
-                    console.log(newData[foundI]);
-                    console.log(newData);
+
+                    if (newData == null) {
+                        newData = [];
+                    }
 
                     sql.run("REPLACE INTO tags (guildID, data) VALUES (?, ?)", [msg.guild.id, newData])
                         .then(rowTT => {
-                            console.log("New row: " + rowTT);
-                            console.log('New data: ' + newData);
                             msg.reply('Removed tag **' + args[0] + "**.");
                             return;
                         });
