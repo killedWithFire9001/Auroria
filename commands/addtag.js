@@ -40,7 +40,7 @@ exports.run = function (msg) {
                                 return;
                             });
                     } else {
-                        data = JSON.pase(rowT.data);
+                        data = JSON.parse(rowT.data);
 
                         var found = false;
                         var foundI;
