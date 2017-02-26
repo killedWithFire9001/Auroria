@@ -169,6 +169,14 @@ bot.on('ready', () => {
     console.log(`\n\nShard #${bot.shard.id + 1}/${bot.shard.count}  ||| (${bot.guilds.size} servers)`);
   }
 
+  fs.readdir('./commands/', (err, files) => {
+      if (err) console.error(err);
+      console.log("Commands> Loading " + files.length + " commands!");
+      files.forEach(f => {
+        console.log(f);
+      });
+    });
+
   console.log('\n\n');
 
   CBOT.setNick("Auroria-DBOTSession");
