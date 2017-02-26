@@ -22,69 +22,33 @@ exports.run = function (msg) {
 
             sql.get("SELECT * FROM tags WHERE guildID ='" + msg.guild.id + "'")
                 .then(rowT => {
-                    var data;
+                    var data = JSON.parse(rowT.data);
 
-                    if (!rowT) {
-                        data = [];
+                    var found = false;
+                    var foundI;
 
-                        data.push({
-                            name: args[0],
-                            content: msg.content.replace(cmd + "addtag ", "").replace(args[0], "")
-                        });
-
-                        var newData = JSON.stringify(data);
-
-                        sql.run("INSERT INTO tags VALUES (?, ?)", [msg.guild.id, newData])
-                            .then(rowTT => {
-                                msg.reply('Created tag **' + args[0] + "**.");
-                                return;
-                            });
-                    } else {
-                        data = JSON.parse(rowT.data);
-
-                        var found = false;
-                        var foundI;
-
-                        for (i = 0; i < data.length; i++) {
-                            if (data[i] == null || data[i] == undefined || data.length == 0) {
-                                found = false;
-
-                                data.push({
-                                    "name": args[0],
-                                    "content": msg.content.replace(cmd + "addtag ", "").replace(args[0], "")
-                                });
-
-                                var newData = JSON.stringify(data);
-
-                                sql.run("UPDATE tags SET data ='" + newData + "' WHERE guildID ='" + msg.guild.id + "'")
-                                    .then(rowTT => {
-                                        msg.reply('Created tag **' + args[0] + "**.");
-                                        return;
-                                    });
-                                return;
-                            } else {
-                                if (data[i].name == args[0]) {
-                                    found = true;
-                                    foundI = i;
-                                }
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i] != undefined || data[i].name != null) {
+                            if (data[i].name == args[0]) {
+                                found = true;
+                                foundI = i;
                             }
                         }
-
-                        if (found) return msg.reply("Oops! That tag already exists! (Found **" + data[foundI].name + "**)");
-
-                        data.push({
-                            "name": args[0],
-                            "content": msg.content.replace(cmd + "addtag ", "").replace(args[0], "")
-                        });
-
-                        var newData = JSON.stringify(data);
-
-                        sql.run("UPDATE tags SET data ='" + newData + "' WHERE guildID ='" + msg.guild.id + "'")
-                            .then(rowTT => {
-                                msg.reply('Created tag **' + args[0] + "**.");
-                                return;
-                            });
                     }
+
+                    if (found) return msg.reply('That tag already exists!');
+
+                    data.push({
+                        "name": args[0],
+                        "content": msg.content.replace(args[0] + " ", "")
+                    });
+
+                    var newData = JSON.stringify(data);
+
+                    sql.run("UPDATE tags SET data ='" + newData + "' WHERE guildID ='" + msg.guild.id + "'")
+                        .then(row => {
+                            msg.reply(':ok_hand:');
+                        })
                 });
         });
 }

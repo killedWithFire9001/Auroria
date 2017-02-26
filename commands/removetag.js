@@ -24,39 +24,30 @@ exports.run = function (msg) {
                 .then(rowT => {
                     var data = JSON.parse(rowT.data);
 
+                    if (data == null || data == undefined || !rowT || rowT.data == null || rowT.data == undefined) return msg.reply("No tags available to remove!");
+
                     var found = false;
                     var foundI;
 
-
-                    if (data == null || data == undefined) {
-                        found = false;
-                    } else {
-                        for (i = 0; i < data.length; i++) {
-                            if (data[i] !== undefined || data[i] !== null) {
-                                if (data[i].name == args[0]) {
-                                    found = true;
-                                    foundI = i;
-                                }
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i] != undefined || data[i].name != null) {
+                            if (data[i].name == args[0]) {
+                                found = true;
+                                foundI = i;
                             }
                         }
                     }
 
-                    if (!found) return msg.reply("Oops! That tag doesn't exist!");
+                    if (!found) return msg.reply('That tag does not exist!');
+
                     delete data[foundI];
 
                     var newData = JSON.stringify(data);
 
-                    if (newData == null) {
-                        newData = [];
-                    }
-
                     sql.run("UPDATE tags SET data ='" + newData + "' WHERE guildID ='" + msg.guild.id + "'")
-                        .then(rowTT => {
-                            console.log(rowTT.data);
-
-                            msg.reply('Removed tag **' + args[0] + "**.");
-                            return;
-                        });
+                        .then(row => {
+                            msg.reply(':ok_hand:');
+                        })
                 });
         });
 }
