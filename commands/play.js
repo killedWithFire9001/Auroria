@@ -235,7 +235,7 @@ function play(song, msg, cmd) {
   });
 
   const stream = ytdl(song.url, { filter: 'audioonly' });
-  const streamOptions = { seek: 0, volume: 1 };
+  const streamOptions = { seek: 0, volume: 1, passes: 2 };
   dispatcher = msg.guild.voiceConnection.playStream(stream, streamOptions);
 
   if (musQueue[msg.guild.id].volume === undefined) {
