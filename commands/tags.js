@@ -21,7 +21,7 @@ exports.run = function (msg) {
                     let toSend = [];
 
                     for (i = 0; i < data.length; i++) {
-                        if (data[i] == null || data[i].name == null){
+                        if (data[i].name == null){
                             toSend.push("Nothing!");
                         } else {
                             toSend.push(data[i].name)
