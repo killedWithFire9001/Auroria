@@ -398,12 +398,13 @@ function play(song, msg, cmd) {
         m.delete();
         let volume = m.content.replace(cmd + "volume ", '');
 
-        if (isNaN(volume)) return msg.reply("That is not a number, stupid! :cry:");
+        if (isNaN(volume)) return m.reply("That is not a number, stupid! :cry:");
 
         if (volume > 2 || volume < 0) {
-          msg.reply('Volume must be between 0 and 2! (0% and 100%)');
+          m.reply('Volume must be between 0 and 2! (0% and 100%)');
           return;
         }
+        
         dispatcher.setVolume(volume);
         let volPerc = Math.round(dispatcher.volume * 50);
 
