@@ -14,14 +14,15 @@ exports.run = function (msg) {
 
             if (!row || row.data == null || typeof row.data == "null" || row.data == undefined || typeof row.data == "undefined") {
                 toSend.push("**None!**");
+                msg.reply("All available tags for **" + msg.guild.name + "**:\n" + toSend.join(", "));
+                return;
             } else {
                 let data = JSON.parse(row.data);
 
                 for (i = 0; i < data.length; i++) {
                     toSend.push(data[i].name);
                 }
+                msg.reply("All available tags for **" + msg.guild.name + "**:\n" + toSend.join(", "));
             }
-
-            msg.reply("All available tags for **" + msg.guild.name + "**:\n" + toSend.join(", "));
         });
 }
