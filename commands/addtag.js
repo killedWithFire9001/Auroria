@@ -45,6 +45,8 @@ exports.run = function (msg) {
                         var found = false;
                         var foundI;
 
+                        console.log(typeof data);
+
                         if (typeof data == "null" || typeof data == "undefined" || data.length == 0) {
                             found = false;
 
