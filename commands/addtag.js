@@ -46,7 +46,7 @@ exports.run = function (msg) {
                         var foundI;
 
                         for (i = 0; i < data.length; i++) {
-                            if (data[i] == "null" || data[i] == "undefined" || data.length == 0) {
+                            if (data[i] == null || data[i] == undefined || data.length == 0) {
                                 found = false;
 
                                 data.push({
