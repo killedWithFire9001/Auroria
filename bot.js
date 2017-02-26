@@ -71,7 +71,11 @@ var commands = new Array(
   "blacklist",
   "blacklistcheck",
   "update",
-  "zone"
+  "zone",
+  "tags",     // EXPERIMENTAL
+  "tag",      // EXPERIMENTAL
+  "addtag",   // EXPERIMENTAL
+  "removetag" // EXPERIMENTAL
 )
 
 exports.commands = commands;
@@ -178,6 +182,10 @@ bot.on('ready', () => {
 
   sql.run('CREATE TABLE IF NOT EXISTS db (guildID TEXT, prefix TEXT, joinleave TEXT, joinleaveid TEXT, invites TEXT)').then(() => {
     console.log("SQL> DB Table ready!");
+  });
+
+  sql.run('CREATE TABLE IF NOT EXISTS tags (guildID TEXT, data BLOB)').then(() => {
+    console.log("SQL> Tags Table ready!");
   });
 
   sql.run('CREATE TABLE IF NOT EXISTS blacklist (guildID TEXT, reason TEXT, blacklister TEXT)').then(() => {
