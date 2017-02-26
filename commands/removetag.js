@@ -20,6 +20,11 @@ exports.run = function (msg) {
                 return;
             }
 
+            if (!row || row.data == null || typeof row.data == "null" || row.data == undefined || typeof row.data == "undefined") {
+                msg.reply("No tags on this server!");
+                return;
+            }
+
             sql.get("SELECT * FROM tags WHERE guildID ='" + msg.guild.id + "'")
                 .then(rowT => {
                     var data = JSON.parse(rowT.data);

@@ -19,6 +19,11 @@ exports.run = function (msg) {
                 return;
             }
 
+            if (!row || row.data == null || typeof row.data == "null" || row.data == undefined || typeof row.data == "undefined") {
+                msg.reply("No tags on this server!");
+                return;
+            }
+
             sql.get("SELECT * FROM tags WHERE guildID ='" + msg.guild.id + "'")
                 .then(rowT => {
                     if (!rowT) return msg.reply('There are no tags on this server!');
@@ -30,7 +35,7 @@ exports.run = function (msg) {
                     var found = false;
                     var foundI;
 
-                    for(i = 0; i < data.length; i++) {
+                    for (i = 0; i < data.length; i++) {
                         if (data[i].name == args[0]) {
                             found = true;
                             foundI = i;

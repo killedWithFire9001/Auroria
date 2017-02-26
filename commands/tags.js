@@ -12,7 +12,7 @@ exports.run = function (msg) {
         .then(row => {
             let toSend = [];
 
-            if (!row || !row.data) {
+            if (!row || row.data == null || typeof row.data == "null" || row.data == undefined || typeof row.data == "undefined") {
                 toSend.push("**None!**");
             } else {
                 let data = JSON.parse(row.data);
