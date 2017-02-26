@@ -43,7 +43,7 @@ exports.run = function (msg) {
                         newData = [];
                     }
 
-                    sql.run("REPLACE INTO tags (id, guildID, data) VALUES (?, ?, ?)", [rowT.id, msg.guild.id, newData])
+                    sql.run("UPDATE tags SET data ='" + newData + "' WHERE guildID ='" + msg.guild.id + "'")
                         .then(rowTT => {
                             console.log(rowTT.data);
 
