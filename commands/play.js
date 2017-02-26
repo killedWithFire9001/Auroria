@@ -251,7 +251,7 @@ function play(song, msg, cmd) {
     var minutes = Math.floor(time / 60);
     var seconds = time - minutes * 60;
 
-    if (seconds > 10) {
+    if (seconds < 10) {
       seconds = "0" + seconds;
     }
 
@@ -404,7 +404,7 @@ function play(song, msg, cmd) {
           m.reply('Volume must be between 0 and 2! (0% and 100%)');
           return;
         }
-        
+
         dispatcher.setVolume(volume);
         let volPerc = Math.round(dispatcher.volume * 50);
 
