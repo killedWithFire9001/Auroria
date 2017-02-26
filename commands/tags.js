@@ -19,11 +19,16 @@ exports.run = function (msg) {
             } else {
                 let data = JSON.parse(row.data);
 
-                for (i = 0; i < data.length; i++) {
-                    if (data[i] !== undefined || data[i] !== null) {
-                        toSend.push(data[i].name);
+                if (data == null || data == undefined) {
+                    toSend.push("**None!**");
+                } else {
+                    for (i = 0; i < data.length; i++) {
+                        if (data[i] !== undefined || data[i] !== null) {
+                            toSend.push(data[i].name);
+                        }
                     }
                 }
+
                 msg.reply("All available tags for **" + msg.guild.name + "**:\n" + toSend.join(", "));
             }
         });

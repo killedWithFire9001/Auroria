@@ -25,7 +25,7 @@ exports.run = function (msg) {
 
                     var data = JSON.parse(rowT.data);
 
-                    if (data == undefined) return msg.reply('Data is empty!');
+                    if (data == undefined || data == null) return msg.reply('Data is empty!');
 
                     var found = false;
                     var foundI;
