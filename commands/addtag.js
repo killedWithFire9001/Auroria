@@ -60,11 +60,20 @@ exports.run = function (msg) {
                         });
 
                         var newData = JSON.stringify(data);
-                        sql.run("INSERT INTO tags (guildID, data) VALUES (?, ?)", [msg.guild.id, newData])
-                            .then(rowTT => {
-                                msg.reply('Created tag **' + args[0] + "**.");
-                                return;
-                            });
+
+                        if (!rowT) {
+                            sql.run("REPLACE INTO tags (guildID, data) VALUES (?, ?)", [msg.guild.id, newData])
+                                .then(rowTT => {
+                                    msg.reply('Created tag **' + args[0] + "**.");
+                                    return;
+                                });
+                        } else {
+                            sql.run("REPLACE INTO tags (guildID, data) VALUES (?, ?)", [msg.guild.id, newData])
+                                .then(rowTT => {
+                                    msg.reply('Created tag **' + args[0] + "**.");
+                                    return;
+                                });
+                        }
                     }
                 });
         });
