@@ -40,14 +40,22 @@ exports.run = function (msg) {
                         name: args[0],
                         content: msg.content.replace(cmd + "addtag ", "").replace(args[0], "")
                     });
-                    
+
                     var newData = JSON.stringify(data);
 
-                    sql.run("REPLACE INTO tags WHERE guildID ='" + msg.guild.id + "' VALUES (?, ?)", [msg.guild.id, newData])
-                        .then(rowTT => {
-                            msg.reply('Created tag **' + args[0] + "**.");
-                            return;
-                        });
+                    if (!rowT) {
+                        sql.run("INSERT INTO tags VALUES (?, ?)", [msg.guild.id, newData])
+                            .then(rowTT => {
+                                msg.reply('Created tag **' + args[0] + "**.");
+                                return;
+                            });
+                    } else {
+                        sql.run("REPLACE INTO tags WHERE guildID ='" + msg.guild.id + "' VALUES (?, ?)", [msg.guild.id, newData])
+                            .then(rowTT => {
+                                msg.reply('Created tag **' + args[0] + "**.");
+                                return;
+                            });
+                    }
                 });
         });
 }
