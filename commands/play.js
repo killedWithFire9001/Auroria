@@ -225,7 +225,7 @@ function play(song, msg, cmd) {
     .setThumbnail("")
     .setTimestamp('')
     .setURL('')
-    .addField("-> Note", "Enjoying the music bot? Need help? Join the discord server- **[Here](http://discord.me/auroria)**");w
+    .addField("-> Note", "Enjoying the music bot? Need help? Join the discord server- **[Here](http://discord.me/auroria)**");
 
   if (song == undefined || musQueue[msg.guild.id][1] === undefined) return msg.channel.sendEmbed(queueCompleted, '', { disableEveryone: true }).then(() => {
     musQueue[msg.channel.guild.id].playing = false;
