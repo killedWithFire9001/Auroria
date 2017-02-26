@@ -71,11 +71,7 @@ var commands = new Array(
   "blacklist",
   "blacklistcheck",
   "update",
-  "zone",
-  "tags",     // EXPERIMENTAL
-  "tag",      // EXPERIMENTAL
-  "addtag",   // EXPERIMENTAL
-  "removetag" // EXPERIMENTAL
+  "zone"
 )
 
 exports.commands = commands;
