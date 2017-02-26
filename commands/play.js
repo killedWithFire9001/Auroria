@@ -10,22 +10,24 @@ var musQueue = main.musQueue;
 
 exports.run = function (msg) {
   var cmd;
+  msg.delete();
 
   main.sql.get("SELECT * FROM db WHERE guildID ='" + msg.guild.id + "'")
     .then(row => {
       cmd = row.prefix;
 
-      msg.delete();
-
       if (bot.voiceConnections.get(msg.guild.id) == null || bot.voiceConnections.get(msg.guild.id) == undefined) {
-        let sender = "";
-        if (msg.channel.guild.member(msg.author).nickname == null) {
-          sender = msg.author.username;
-        } else {
-          sender = msg.channel.guild.member(msg.author).nickname;
+        if (bot.voiceConnections.size >= 5) {
+          msg.reply(":musical_note: :no_entry_sign: Error.\nThe bot has reached the maximum amount of Voice Connections (across all connected guilds). Please try again later when a slot might be available!");
+          return;
         }
 
-        const embed = new Discord.RichEmbed()
+        if (!msg.member.voiceChannel) {
+          msg.reply("Please be in a voice channel before running this command so I can connect! *(Or run " + cmd + "connect)*");
+          return;
+        }
+
+        const connectedEmbed = new Discord.RichEmbed()
           .setTitle('')
           .setAuthor(sender, msg.author.avatarURL)
           .setColor(0x00AE86)
@@ -33,16 +35,14 @@ exports.run = function (msg) {
           .setFooter('', '')
           .setImage('')
           .setThumbnail("")
-          .setTimestamp('')
+          .setTimestamp("")
           .setURL('')
-          .addField('\nError:', "I am not in a voice channel. Initialize me first with " + cmd + "connect")
+          .addField('\nStatus:', "Connected to your voice channel!");
 
-        msg.channel.sendEmbed(
-          embed,
-          '',
-          { disableEveryone: true }
-        );
-        return;
+        msg.member.voiceChannel.join()
+          .then(() => {
+            msg.channel.sendEmbed(connectedEmbed, '', { disableEveryone: true });
+          });
       }
 
       const input = msg.content.replace(cmd + 'play ', '');

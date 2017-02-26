@@ -40,7 +40,7 @@ exports.run = function (msg) {
         .setThumbnail("")
         .setTimestamp("")
         .setURL('')
-        .addField('\nStatus:', "Connected to your voice channel!")
+        .addField('\nStatus:', "Connected to your voice channel!");
 
       voiceChannel.join()
         .then(

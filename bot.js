@@ -120,18 +120,18 @@ bot.on('ready', () => {
   }
 
   fs.readdir('./commands/', (err, files) => {
-      if (err) console.error(err);
-      var size = files.length + 4; // + 4 for the four commands that are not in their own files and use collectors instead.
-      console.log("Commands> Loading " + size + " commands!");
-      files.forEach(f => {
-        commands.push(f.replace(".js", ""));
-      });
-
-      commands.push("volume");
-      commands.push("skip");    // These commands
-      commands.push("pause");   // use collectors.
-      commands.push("resume");
+    if (err) console.error(err);
+    var size = files.length + 4; // + 4 for the four commands that are not in their own files and use collectors instead.
+    console.log("Commands> Loading " + size + " commands!");
+    files.forEach(f => {
+      commands.push(f.replace(".js", ""));
     });
+
+    commands.push("volume");
+    commands.push("skip");    // These commands
+    commands.push("pause");   // use collectors.
+    commands.push("resume");
+  });
 
   console.log('\n\n');
 
