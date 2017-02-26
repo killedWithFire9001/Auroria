@@ -20,7 +20,7 @@ exports.run = function (msg) {
                 let data = JSON.parse(row.data);
 
                 for (i = 0; i < data.length; i++) {
-                    if (data[i] !== undefined) {
+                    if (data[i] !== undefined || data[i] !== null) {
                         toSend.push(data[i].name);
                     }
                 }

@@ -28,7 +28,7 @@ exports.run = function (msg) {
                     var foundI;
 
                     for (i = 0; i < data.length; i++) {
-                        if (data[i] !== undefined) {
+                        if (data[i] !== undefined || data[i] !== null) {
                             if (data[i].name == args[0]) {
                                 found = true;
                                 foundI = i;
