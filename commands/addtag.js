@@ -46,9 +46,10 @@ exports.run = function (msg) {
                         var foundI;
 
                         for (i = 0; i < data.length; i++) {
+                            console.log(typeof data[i]);
                             if (typeof data[i] == "null" || typeof data[i] == "undefined" || data.length == 0) {
                                 found = false;
-                                
+
                                 data.push({
                                     "name": args[0],
                                     "content": msg.content.replace(cmd + "addtag ", "").replace(args[0], "")
