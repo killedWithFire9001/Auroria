@@ -40,7 +40,7 @@ exports.run = function (msg) {
 
                     var newData = JSON.stringify(data);
 
-                    sql.run("REPLACE INTO tags WHERE guildID ='" + msg.guild.id + "' VALUES (?, ?)", [msg.guild.id, newData])
+                    sql.run("REPLACE INTO tags (guildID, data) VALUES (?, ?)", [msg.guild.id, newData])
                         .then(rowTT => {
                             msg.reply('Removed tag **' + args[0] + "**.");
                             return;
