@@ -49,6 +49,7 @@ exports.run = function (msg) {
                             found = false;
                         } else {
                             for (i = 0; i < data.length; i++) {
+                                console.log(data[i]);
                                 if (typeof data[i] != "undefined" || typeof data[i] != "null") {
                                     if (data[i].name == args[0]) {
                                         found = true;
