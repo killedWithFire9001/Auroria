@@ -22,7 +22,15 @@ exports.run = function (msg) {
 
             sql.get("SELECT * FROM tags WHERE guildID ='" + msg.guild.id + "'")
                 .then(rowT => {
-                    var data = JSON.parse(rowT.data);
+                    var data;
+
+                    if (!rowT) {
+                        data = {};
+                    } else {
+                        data = JSON.pase(rowT.data);
+                    }
+
+                    console.log(data);
 
                     var found = false;
                     var foundI;
