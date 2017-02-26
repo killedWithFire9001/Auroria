@@ -44,7 +44,7 @@ exports.run = function (msg) {
 
                         var found = false;
                         var foundI;
-                        
+
                         for (i = 0; i < data.length; i++) {
                             if (typeof data[i] == "null" || typeof data[i] == "undefined" || data.length == 0) {
                                 found = false;
@@ -71,7 +71,6 @@ exports.run = function (msg) {
                                 return;
                             });
                     }
-                }
                 });
-});
+        });
 }
