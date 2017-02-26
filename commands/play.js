@@ -224,7 +224,8 @@ function play(song, msg, cmd) {
     .setImage("")
     .setThumbnail("")
     .setTimestamp('')
-    .setURL('');
+    .setURL('')
+    .addField("-> Note", "Enjoying the music bot? Need help? Join the discord server- **[Here](http://discord.me/auroria)**");w
 
   if (song == undefined || musQueue[msg.guild.id][1] === undefined) return msg.channel.sendEmbed(queueCompleted, '', { disableEveryone: true }).then(() => {
     musQueue[msg.channel.guild.id].playing = false;
@@ -249,6 +250,10 @@ function play(song, msg, cmd) {
     var time = info.length_seconds;
     var minutes = Math.floor(time / 60);
     var seconds = time - minutes * 60;
+
+    if (seconds > 10) {
+      seconds = "0" + seconds;
+    }
 
     const songPlaying = new Discord.RichEmbed()
       .setTitle('Now playing in ' + bot.voiceConnections.get(msg.guild.id).channel.name)
@@ -392,13 +397,11 @@ function play(song, msg, cmd) {
 
         m.delete();
         let volume = m.content.replace(cmd + "volume ", '');
-        if (volume > 2) {
-          msg.reply(':musical_note: No. ' + sender + ' just tried to set the volume above 100%.')
-            .then(mesg => {
-              setTimeout(function () {
-                mesg.delete();
-              }, 5000);
-            });
+
+        if (isNaN(volume)) return msg.reply("That is not a number, stupid! :cry:");
+
+        if (volume > 2 || volume < 0) {
+          msg.reply('Volume must be between 0 and 2! (0% and 100%)');
           return;
         }
         dispatcher.setVolume(volume);

@@ -189,8 +189,8 @@ bot.on('ready', () => {
 
   setTimeout(function () {
     console.log("Setting game.");
-    bot.user.setGame("discord.gg/mcVYrPz", "")
-      .then(console.log("Set game to discord.gg/mcVYrPz"));
+    bot.user.setGame("discord.me/auroria", "")
+      .then(console.log("Set game to discord.me/auroria"));
   }, 5000);
 
   setInterval(function () {
