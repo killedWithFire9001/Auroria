@@ -25,7 +25,7 @@ exports.run = function (msg) {
                     var data;
 
                     if (!rowT) {
-                        data = {};
+                        data = [];
 
                         data.push({
                             name: args[0],
@@ -55,8 +55,8 @@ exports.run = function (msg) {
                         if (found) return msg.reply("Oops! That tag already exists! (Found **" + data[foundI].name + "**)");
 
                         data.push({
-                            name: args[0],
-                            content: msg.content.replace(cmd + "addtag ", "").replace(args[0], "")
+                            "name": args[0],
+                            "content": msg.content.replace(cmd + "addtag ", "").replace(args[0], "")
                         });
 
                         var newData = JSON.stringify(data);
