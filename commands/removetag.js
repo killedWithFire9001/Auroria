@@ -48,6 +48,8 @@ exports.run = function (msg) {
 
                     sql.run("REPLACE INTO tags (guildID, data) VALUES (?, ?)", [msg.guild.id, newData])
                         .then(rowTT => {
+                            console.log("New row: " + rowTT);
+                            console.log('New data: ' + newData);
                             msg.reply('Removed tag **' + args[0] + "**.");
                             return;
                         });
