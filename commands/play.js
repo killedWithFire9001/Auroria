@@ -234,18 +234,18 @@ function play(song, msg, cmd) {
     return;
   });
 
-  const stream = ytdl(song.url, { filter: 'audioonly' });
-  const streamOptions = { seek: 0, volume: 1, passes: 2 };
-  dispatcher = msg.guild.voiceConnection.playStream(stream, streamOptions);
-
-  if (musQueue[msg.guild.id].volume === undefined) {
-    musQueue[msg.guild.id].volume = 1;
-    dispatcher.setVolume(1);
-  } else {
-    dispatcher.setVolume(musQueue[msg.guild.id].volume);
-  }
-
   ytdl.getInfo(song.url, (err, info) => {
+    const stream = ytdl(song.url, { filter: 'audioonly' });
+    const streamOptions = { seek: 0, volume: 1, passes: 2 };
+    dispatcher = msg.guild.voiceConnection.playStream(stream, streamOptions);
+
+    if (musQueue[msg.guild.id].volume === undefined) {
+      musQueue[msg.guild.id].volume = 1;
+      dispatcher.setVolume(1);
+    } else {
+      dispatcher.setVolume(musQueue[msg.guild.id].volume);
+    }
+
     var time = info.length_seconds;
     var minutes = Math.floor(time / 60);
     var seconds = time - minutes * 60;
