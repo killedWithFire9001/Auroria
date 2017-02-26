@@ -45,11 +45,11 @@ exports.run = function (msg) {
                         var found = false;
                         var foundI;
 
-                        if (data == null || data == undefined) {
+                        if (typeof data == "null" || typeof data == "undefined") {
                             found = false;
                         } else {
                             for (i = 0; i < data.length; i++) {
-                                if (data[i] !== undefined || data[i] !== null) {
+                                if (typeof data[i] != "undefined" || typeof data[i] != "null") {
                                     if (data[i].name == args[0]) {
                                         found = true;
                                         foundI = i;
