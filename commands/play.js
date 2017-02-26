@@ -349,6 +349,7 @@ function play(song, msg, cmd) {
         m.delete();
         msg.channel.sendEmbed(pauseEm, '', { disableEveryone: true });
         dispatcher.pause();
+        return;
       } else if (m.content.startsWith(cmd + 'resume')) {
         if (m.guild.roles.find("name", "Staff") == null) {
           m.reply('```An error has occured\nReason: Role: Staff does not exist. Contact the server owner and get him/her to create it.```')
@@ -363,6 +364,7 @@ function play(song, msg, cmd) {
         m.delete();
         msg.channel.sendEmbed(resumeEm, '', { disableEveryone: true });
         dispatcher.resume();
+        return;
       } else if (m.content.startsWith(cmd + 'skip')) {
         if (m.guild.roles.find("name", "Staff") == null) {
           m.reply('```An error has occured\nReason: Role: Staff does not exist. Contact the server owner and get him/her to create it.```')
@@ -376,6 +378,7 @@ function play(song, msg, cmd) {
         m.delete();
         msg.channel.sendEmbed(skipEm, '', { disableEveryone: true });
         dispatcher.end();
+        return;
       } else if (m.content.startsWith(cmd + 'volume')) {
         if (m.guild.roles.find("name", "Staff") == null) {
           m.reply('```An error has occured\nReason: Role: Staff does not exist. Contact the server owner and get him/her to create it.```')
@@ -414,6 +417,7 @@ function play(song, msg, cmd) {
 
         msg.channel.sendEmbed(volumeEm, '', { disableEveryone: true });
         musQueue[msg.guild.id].volume = volume;
+        return;
       }
     });
   });
