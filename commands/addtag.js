@@ -45,18 +45,15 @@ exports.run = function (msg) {
                         var found = false;
                         var foundI;
 
-                        if (typeof data == "null" || typeof data == "undefined") {
+                        if (typeof data == "null" || typeof data == "undefined" || data.length == 0) {
                             found = false;
                         } else {
                             for (i = 0; i < data.length; i++) {
-                                console.log(data[i]);
                                 if (typeof data[i] != "undefined" || typeof data[i] != "null") {
                                     if (data[i].name == args[0]) {
                                         found = true;
                                         foundI = i;
                                     }
-                                } else {
-                                    found = false;
                                 }
                             }
                         }
