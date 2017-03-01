@@ -1,20 +1,15 @@
-// Deps
+// generic shit that has to be here.
 var Discord = require("discord.js");
+exports.Discord = Discord;
 var ytdl = require('ytdl-core');
 var opus = require('opusscript');
 var searchYT = require('youtube-search');
-const fs = require("fs")
-const sql = require('sqlite');
-const dBotsAPI = require('discord-bots-api');
-var cleverbot = require("cleverbot.io");
-var unirest = require('unirest');
-
-// Exports
-exports.Discord = Discord;
 exports.searchYT = searchYT;
 exports.ytdl = ytdl;
+const fs = require("fs")
 exports.fs = fs;
 
+const sql = require('sqlite');
 sql.open('./db.sqlite');
 exports.sql = sql;
 
@@ -31,30 +26,19 @@ var commands = new Array();
 
 exports.commands = commands;
 
-try {
-  const auth = JSON.parse(fs.readFileSync('./auth.json', 'utf8'));
-  exports.auth = auth;
-} catch (error) {
-  console.error("Unable to read auth file, exiting.");
-  process.abort(0);
-};
+const auth = JSON.parse(fs.readFileSync('./auth.json', 'utf8'));
+exports.auth = auth;
 
-try {
-  const info = JSON.parse(fs.readFileSync('./info.json', 'utf8'));
-  exports.info = info;
-} catch (error) {
-  console.error("Unable to read info file, exiting.");
-  process.abort(0);
-};
+const info = JSON.parse(fs.readFileSync('./info.json', 'utf8'));
+exports.info = info;
 
-
-
+const dBotsAPI = require('discord-bots-api');
 const dBots = new dBotsAPI(auth["discord-bots-token"]);
 
-
+var cleverbot = require("cleverbot.io");
 var CBOT = new cleverbot(auth["cleverbot-token"], auth["cleverbot-password"]);
 exports.CBOT = CBOT;
-
+var unirest = require('unirest');
 exports.unirest = unirest;
 var bot = new Discord.Client();
 exports.bot = bot;
