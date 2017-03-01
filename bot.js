@@ -1,16 +1,38 @@
+process.on('unhandledRejection', (reason, p) => {
+  unhandledRejections.set(p, reason);
+  console.error('Unhandled Rejection at: Promise', p, 'reason:', reason);
+});
+
+process.on('rejectionHandled', (p) => {
+  unhandledRejections.delete(p);
+});
+
+process.on('uncaughtException', (err) => {
+  console.error("[" + new Date() + "] Uncaught exception Error: \n" + err.stack);
+});
+
+process.on('warning', (warning) => {
+  console.warn(warning.stack);
+});
+
+
 // generic shit that has to be here.
+const unhandledRejections = new Map();
 var Discord = require("discord.js");
-exports.Discord = Discord;
 var ytdl = require('ytdl-core');
 var opus = require('opusscript');
 var searchYT = require('youtube-search');
-exports.searchYT = searchYT;
-exports.ytdl = ytdl;
-const fs = require("fs")
-exports.fs = fs;
-
+const fs = require("fs");
 const sql = require('sqlite');
 sql.open('./db.sqlite');
+const auth = require('./auth.json')
+const info = require('./info.json')
+var post_dBots = false;
+
+exports.Discord = Discord;
+exports.searchYT = searchYT;
+exports.ytdl = ytdl;
+exports.fs = fs;
 exports.sql = sql;
 
 var talkedRecently = [];
@@ -26,14 +48,11 @@ var commands = new Array();
 
 exports.commands = commands;
 
-const auth = JSON.parse(fs.readFileSync('./auth.json', 'utf8'));
-exports.auth = auth;
+if (post_dBots) {
+  const dBotsAPI = require('discord-bots-api');
+  const dBots = new dBotsAPI(auth["discord-bots-token"]);
+};
 
-const info = JSON.parse(fs.readFileSync('./info.json', 'utf8'));
-exports.info = info;
-
-const dBotsAPI = require('discord-bots-api');
-const dBots = new dBotsAPI(auth["discord-bots-token"]);
 
 var cleverbot = require("cleverbot.io");
 var CBOT = new cleverbot(auth["cleverbot-token"], auth["cleverbot-password"]);
@@ -113,11 +132,16 @@ exports.rollADice = rollADice;
 
 // Ready
 bot.on('ready', () => {
-  if (bot.shard == null) {
-    console.log(`\n\nNo Shard ||| ${bot.guilds.size} servers`);
+
+  if (bot.shard) {
+    if (bot.shard.count === 0) {
+      console.log(`\n\nNo Shard ||| ${bot.guilds.size} servers`);
+    } else {
+      console.log(`\n\nShard #${bot.shard.id + 1}/${bot.shard.count}  ||| (${bot.guilds.size} servers)`);
+    };
   } else {
-    console.log(`\n\nShard #${bot.shard.id + 1}/${bot.shard.count}  ||| (${bot.guilds.size} servers)`);
-  }
+    console.log(`\n\nNo Shard ||| ${bot.guilds.size} servers`);
+  };
 
   fs.readdir('./commands/', (err, files) => {
     if (err) console.error(err);
@@ -148,8 +172,11 @@ bot.on('ready', () => {
     console.log("SQL> Blacklist Table ready!");
   });
 
-  dBots.postStats(bot.user.id, bot.guilds.size)
-    .then(() => { console.log("Discord Bots> Set server_count to " + bot.guilds.size + ".") });
+  if (post_dBots) {
+    dBots.postStats(bot.user.id, bot.guilds.size)
+      .then(() => { console.log("Discord Bots> Set server_count to " + bot.guilds.size + ".") });
+  };
+
 
   setTimeout(function () {
     console.log("Setting game.");
@@ -266,8 +293,10 @@ bot.on("guildCreate", guild => {
     }
   }, 2500);
 
-  dBots.postStats(bot.user.id, bot.guilds.size)
-    .then(() => { console.log("Discord Bots> Set server_count to " + bot.guilds.size + ".") });
+  if (post_dBots) {
+    dBots.postStats(bot.user.id, bot.guilds.size)
+      .then(() => { console.log("Discord Bots> Set server_count to " + bot.guilds.size + ".") });
+  };
 
   console.log("JOIN >>> I have just joined " + guild.name + "!");
   if (guild.members.size >= 50 && guild.members.size < 100) {
@@ -319,8 +348,10 @@ bot.on("guildDelete", guild => {
     return;
   }
 
-  dBots.postStats(bot.user.id, bot.guilds.size)
-    .then(() => { console.log("Discord Bots> Set server_count to " + bot.guilds.size + ".") });
+  if (post_dBots) {
+    dBots.postStats(bot.user.id, bot.guilds.size)
+      .then(() => { console.log("Discord Bots> Set server_count to " + bot.guilds.size + ".") });
+  };
 
   if (guild.id == "110373943822540800") {
     return

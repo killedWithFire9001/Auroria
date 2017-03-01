@@ -1,0 +1,1 @@
+pm2 start bot.js --log /home/xrubyy/bot/testAuroria/Auroria/logs/botLogs.log
